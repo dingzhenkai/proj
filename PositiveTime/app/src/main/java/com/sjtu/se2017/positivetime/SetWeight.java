@@ -3,11 +3,15 @@ package com.sjtu.se2017.positivetime;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.content.pm.PackageManager;
+import com.sjtu.se2017.positivetime.model.AppInfo;
 
 import java.util.List;
 
@@ -15,58 +19,62 @@ public class SetWeight extends Activity {
 
     private ListView listView;
     private Context context;
-    private AppInfoDao infoDao;
-    private List<String> adapterDatas;
+    private AppInfoDao appInfoDao;
+    private List<AppInfo> adapterDatas;
     private AppAdapter adapter;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.weight_set);
-        updateData();
-        initListView();
-    }
 
-    private void updateData() {
-        infoDao = new AppInfoDao();
-        adapterDatas = infoDao.getAllApps(context);
-    }
+        appInfoDao = new AppInfoDao();
+        try {
+            adapterDatas = appInfoDao.getAllApps(context);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
-    private void initListView() {
-        setTitle("");
         listView = (ListView) findViewById(R.id.AppInfoList);
-        adapter = new AppAdapter();
+        adapter = new AppAdapter(adapterDatas,context);
         listView.setAdapter(adapter);
     }
 
     private class AppAdapter extends BaseAdapter {
+        private List<AppInfo> appInfos;
+        private LayoutInflater inflater;
+        public AppAdapter() {}
+
+        public AppAdapter(List<AppInfo> appInfos,Context context) {
+            this.appInfos = appInfos;
+            this.inflater=LayoutInflater.from(context);
+        }
         @Override
         public int getCount() {
-            return adapterDatas.size();
+            return appInfos.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return appInfos.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = new TextView(context);
-            }
-            TextView textView = (TextView) convertView;
-            textView.setPadding(8, 8, 8, 8);
-            textView.setTextSize(18);
-            textView.setText(adapterDatas.get(position));
-            return textView;
+            AppInfo appInfo = adapterDatas.get(position);
+            convertView = inflater.inflate(R.layout.listitem, null);
+            ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
+            TextView app_name = (TextView) convertView.findViewById(R.id.app_name);
+            app_icon.setImageDrawable(appInfo.getImage());
+            app_name.setText(appInfo.getAppName());
+            return convertView;
         }
     }
 }
