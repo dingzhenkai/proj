@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.content.pm.PackageManager;
 import com.sjtu.se2017.positivetime.model.AppInfo;
@@ -68,10 +69,30 @@ public class SetWeight extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            AppInfo appInfo = adapterDatas.get(position);
+            final AppInfo appInfo = adapterDatas.get(position);
             convertView = inflater.inflate(R.layout.listitem, null);
             ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
             TextView app_name = (TextView) convertView.findViewById(R.id.app_name);
+            //通过滑动条设置weight
+            final TextView app_weight_textview = (TextView) convertView.findViewById(R.id.app_weight_textview);
+            SeekBar app_weight_seekbar = (SeekBar) convertView.findViewById(R.id.app_weight_seekbar);
+            app_weight_textview.setText(""+app_weight_seekbar.getProgress());
+            app_weight_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                    app_weight_textview.setText(""+i);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    appInfo.setWeight(seekBar.getProgress());
+                }
+            });
+
             app_icon.setImageDrawable(appInfo.getImage());
             app_name.setText(appInfo.getAppName());
             return convertView;
