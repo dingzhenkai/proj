@@ -1,8 +1,11 @@
 package com.sjtu.se2017.positivetime;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.content.pm.PackageManager;
+
+import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.AppInfo;
 
 import java.util.List;
@@ -23,6 +28,7 @@ public class SetWeight extends Activity {
     private AppInfoDao appInfoDao;
     private List<AppInfo> adapterDatas;
     private AppAdapter adapter;
+    private SQLiteDatabase db;
 
 
     @Override
@@ -30,17 +36,24 @@ public class SetWeight extends Activity {
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.weight_set);
-
+        //show all apps
         appInfoDao = new AppInfoDao();
         try {
             adapterDatas = appInfoDao.getAllApps(context);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
         listView = (ListView) findViewById(R.id.AppInfoList);
         adapter = new AppAdapter(adapterDatas,context);
         listView.setAdapter(adapter);
+
+        //open database
+        db = context.openOrCreateDatabase("app_info",0,null);
+        String createTable = "CREATE TABLE IF NOT EXISTS "+
+                "info"+
+                "(label VARCHAR(32) PRIMARY KEY,"+
+                "weight INT)";
+        db.execSQL(createTable);
     }
 
     private class AppAdapter extends BaseAdapter {
@@ -73,10 +86,16 @@ public class SetWeight extends Activity {
             convertView = inflater.inflate(R.layout.listitem, null);
             ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
             TextView app_name = (TextView) convertView.findViewById(R.id.app_name);
+            app_icon.setImageDrawable(appInfo.getImage());
+            app_name.setText(appInfo.getAppName());
             //通过滑动条设置weight
             final TextView app_weight_textview = (TextView) convertView.findViewById(R.id.app_weight_textview);
             SeekBar app_weight_seekbar = (SeekBar) convertView.findViewById(R.id.app_weight_seekbar);
+            //init seekbar
+            appInfo.checkWeight(db);
+            app_weight_seekbar.setProgress(appInfo.getWeight());
             app_weight_textview.setText(""+app_weight_seekbar.getProgress());
+
             app_weight_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -90,11 +109,11 @@ public class SetWeight extends Activity {
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     appInfo.setWeight(seekBar.getProgress());
+                    appInfo.updateData(db);
+                    //should close when activity changes
+                    //db.close();
                 }
             });
-
-            app_icon.setImageDrawable(appInfo.getImage());
-            app_name.setText(appInfo.getAppName());
             return convertView;
         }
     }

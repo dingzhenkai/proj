@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime;
+package com.sjtu.se2017.positivetime.dao;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -11,7 +11,9 @@ import java.util.List;
 import com.sjtu.se2017.positivetime.model.AppInfo;
 
 public class AppInfoDao {
-
+	/*
+	 *get all apps installed
+	 */
 	public List<AppInfo> getAllApps(Context context)throws PackageManager.NameNotFoundException{
 		List<AppInfo> appInfos  = new ArrayList<AppInfo>();
 		PackageManager packageManager = context.getPackageManager();
