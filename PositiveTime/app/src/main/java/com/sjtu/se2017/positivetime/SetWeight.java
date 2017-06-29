@@ -118,5 +118,4 @@ public class SetWeight extends AppCompatActivity {
             return convertView;
         }
     }
-
 }
