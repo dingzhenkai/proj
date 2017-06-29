@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.sjtu.se2017.positivetime.model.AppInfo;
 
 import java.util.List;
 
-public class SetWeight extends Activity {
+public class SetWeight extends AppCompatActivity {
 
     private ListView listView;
     private Context context;
@@ -117,4 +118,5 @@ public class SetWeight extends Activity {
             return convertView;
         }
     }
+
 }
