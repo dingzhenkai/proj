@@ -13,7 +13,7 @@
         android:theme="@style/NotitleTheme"
         android:name="com.sjtu.se2017.positivetime.ATapplicaion">//this line defines a global application
         <activity
-            android:name=".MainActivity"
+            android:name=".AddLockActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +24,15 @@
         <activity android:name=".PiePolylineChartActivity" />
         <activity android:name=".BarChartActivity"></activity>
         <activity android:name=".SetWeight"></activity>
+        <activity
+            android:name=".LockActivity"
+            android:launchMode="singleInstance" >
+        </activity>
+
+        <service
+            android:name=".WatchDogService"
+            android:process=":watchDog" >
+        </service>
     </application>
 
 </manifest>

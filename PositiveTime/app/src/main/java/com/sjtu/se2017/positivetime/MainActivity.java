@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if(!isStatAccessPermissionSet(MainActivity.this)) {
                         startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));   //查看是否为应用设置了权限
-                        Toast toast=Toast.makeText(getApplicationContext(), "请开启应用统计的使用权限", Toast.LENGTH_SHORT);    //显示toast信息
+                        Toast toast=Toast.makeText(getApplicationContext(), "请开启PositiveTime的使用权限", Toast.LENGTH_SHORT);    //显示toast信息
                         toast.show();
                     }
                 } catch (PackageManager.NameNotFoundException e) {

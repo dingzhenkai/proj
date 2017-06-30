@@ -96,7 +96,7 @@ public class StatisticsInfo {
             long now = calendar.getTimeInMillis();
             long begintime = getBeginTime();
             if(style == DAY)
-                this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, begintime, now);
+                this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, begintime, now);
             else if(style == WEEK)
                 this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY,begintime, now);
             else if(style == MONTH)
