@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.sjtu.se2017.positivetime.model.ATapplicaion;
+
 public class MainActivity extends AppCompatActivity {
     private Context context;
 

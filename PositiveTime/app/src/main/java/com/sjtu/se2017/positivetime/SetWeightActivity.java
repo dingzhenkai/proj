@@ -1,12 +1,10 @@
 package com.sjtu.se2017.positivetime;
 
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +17,11 @@ import android.content.pm.PackageManager;
 
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.AppInfo;
+import com.sjtu.se2017.positivetime.service.WatchDogService;
 
 import java.util.List;
 
-public class SetWeight extends AppCompatActivity {
+public class SetWeightActivity extends AppCompatActivity {
 
     private ListView listView;
     private Context context;
@@ -49,12 +48,15 @@ public class SetWeight extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         //open database
-        db = context.openOrCreateDatabase("app_info",0,null);
+        /*db = context.openOrCreateDatabase("app_info",0,null);
         String createTable = "CREATE TABLE IF NOT EXISTS "+
                 "info"+
                 "(label VARCHAR(32) PRIMARY KEY,"+
                 "weight INT)";
-        db.execSQL(createTable);
+        db.execSQL(createTable);*/
+
+        Intent intent = new Intent(this, WatchDogService.class);
+        startService(intent);
     }
 
     private class AppAdapter extends BaseAdapter {
@@ -83,6 +85,7 @@ public class SetWeight extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            appInfoDao = new AppInfoDao(context);
             final AppInfo appInfo = adapterDatas.get(position);
             convertView = inflater.inflate(R.layout.listitem, null);
             ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
@@ -93,7 +96,7 @@ public class SetWeight extends AppCompatActivity {
             final TextView app_weight_textview = (TextView) convertView.findViewById(R.id.app_weight_textview);
             SeekBar app_weight_seekbar = (SeekBar) convertView.findViewById(R.id.app_weight_seekbar);
             //init seekbar
-            appInfo.checkWeight(db);
+            appInfo.setWeight(appInfoDao.checkweight(appInfo.getAppName()));
             app_weight_seekbar.setProgress(appInfo.getWeight());
             app_weight_textview.setText(""+app_weight_seekbar.getProgress());
 
@@ -110,7 +113,7 @@ public class SetWeight extends AppCompatActivity {
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     appInfo.setWeight(seekBar.getProgress());
-                    appInfo.updateData(db);
+                    appInfoDao.insertOrUpdate(appInfo.getAppName(),appInfo.getWeight());
                     //should close when activity changes
                     //db.close();
                 }

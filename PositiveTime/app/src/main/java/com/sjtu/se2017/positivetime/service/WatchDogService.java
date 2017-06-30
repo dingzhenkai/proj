@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime;
+package com.sjtu.se2017.positivetime.service;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -9,8 +9,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.SystemClock;
+
+import com.sjtu.se2017.positivetime.LockActivity;
+import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 
 import java.util.List;
 import java.util.SortedMap;
@@ -18,16 +24,16 @@ import java.util.TreeMap;
 
 public class WatchDogService extends IntentService {
 	private static final boolean DEBUG = false;
-	private static final String COM_DUCK_HUSBAND_UNCHECKED = "com.duck.husband.UNCHECKED";
+	private static final String APPINFO_UNCHECKED = "appinfo.UNCHECKED";
 	private Context context;
-	private WatchDogDao watchDogDao;
+	private AppInfoDao appInfoDao;
 	private String unCheckedPackageName;
 	private UnCheckedReceiver receiver;
 
 	public WatchDogService() {
 		super("abcde");
 		context = this;
-		watchDogDao = new WatchDogDao(context);
+		appInfoDao = new AppInfoDao(context);
 	}
 
 	@Override
@@ -35,7 +41,7 @@ public class WatchDogService extends IntentService {
 		super.onCreate();
 		receiver = new UnCheckedReceiver();
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(COM_DUCK_HUSBAND_UNCHECKED);
+		filter.addAction(APPINFO_UNCHECKED);
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		registerReceiver(receiver, filter);
 	}
@@ -63,10 +69,19 @@ public class WatchDogService extends IntentService {
 				packageName = runningTasks.get(0).topActivity
 						.getPackageName();
 			}
-			// 获取最近打开的App包名
-			boolean b = watchDogDao.query(packageName);
-			if (b) {
-				// 说明是加锁的程序
+			// 获取最近打开的App label
+			PackageManager packageManager = context.getPackageManager();
+			ApplicationInfo applicationInfo = new ApplicationInfo();
+			try{
+				applicationInfo = packageManager.getApplicationInfo(packageName, 0);
+			}catch (PackageManager.NameNotFoundException e) {
+				e.printStackTrace();
+			}
+			String appName = (String) packageManager.getApplicationLabel(applicationInfo);
+			Cursor b = appInfoDao.query(appName);
+
+			if (appInfoDao.checkweight(appName) < 50) {
+				// 说明是娱乐类程序
 				if (packageName.equals(unCheckedPackageName)) {
 				} else {
 					Intent intent2 = new Intent(context, LockActivity.class);
@@ -98,7 +113,7 @@ public class WatchDogService extends IntentService {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent != null) {
-				if (intent.getAction().equals(COM_DUCK_HUSBAND_UNCHECKED)) {
+				if (intent.getAction().equals(APPINFO_UNCHECKED)) {
 					unCheckedPackageName = intent.getStringExtra("packageName");
 					System.out.println("unCheckedPackageName: "
 							+ unCheckedPackageName);

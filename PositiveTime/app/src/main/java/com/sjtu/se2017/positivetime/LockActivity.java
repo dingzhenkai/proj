@@ -12,46 +12,13 @@ import android.widget.Toast;
 
 public class LockActivity extends Activity {
 
-	private static final String COM_DUCK_HUSBAND_UNCHECKED = "com.duck.husband.UNCHECKED";
-	private EditText etPwd;
 	private Context context;
-	private String packageName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
 		setContentView(R.layout.lock_ui);
-		packageName = getIntent().getStringExtra("packageName");
-		etPwd = (EditText) findViewById(R.id.et_pwd);
-		etPwd.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				if (hasFocus) {
-					// //显示软键盘//
-					imm.showSoftInputFromInputMethod(v.getWindowToken(), 0);
-				} else {
-					// 隐藏软键盘
-					//
-					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-				}
-
-			}
-		});
-	}
-
-	public void open(View view) {
-		String text = etPwd.getText().toString().trim();
-		if (text.equalsIgnoreCase("123")) {
-			Intent intent = new Intent(COM_DUCK_HUSBAND_UNCHECKED);
-			intent.putExtra("packageName", packageName);
-			sendBroadcast(intent);
-			finish();
-		} else {
-			vtoast("密码不对");
-		}
 	}
 
 	@Override
@@ -88,7 +55,4 @@ public class LockActivity extends Activity {
 		super.onDestroy();
 	}
 
-	protected void vtoast(String text) {
-		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-	}
 }

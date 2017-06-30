@@ -11,9 +11,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/NotitleTheme"
-        android:name="com.sjtu.se2017.positivetime.ATapplicaion">//this line defines a global application
+        android:name="com.sjtu.se2017.positivetime.model.ATapplicaion">//this line defines a global application
         <activity
-            android:name=".AddLockActivity"
+            android:name=".SetWeightActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,14 +23,14 @@
         <activity android:name=".AppStatisticsList" />
         <activity android:name=".PiePolylineChartActivity" />
         <activity android:name=".BarChartActivity"></activity>
-        <activity android:name=".SetWeight"></activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".LockActivity"
             android:launchMode="singleInstance" >
         </activity>
 
         <service
-            android:name=".WatchDogService"
+            android:name=".service.WatchDogService"
             android:process=":watchDog" >
         </service>
     </application>
