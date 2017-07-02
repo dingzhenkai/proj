@@ -6,3 +6,5 @@
      2、设置权重的ui美化
 6.30 1、实现程序锁 将娱乐类app锁住
      2、实现悬浮窗，和它的优先级。
+7.2  1、supervised learning学习，python scikit-learn，pandas，numpy等相关库学习。
+     2、登陆/注册客户端实现，客户端暂不能连接上服务器
