@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sjtu.se2017.positivetime.MainActivity">
+
+
+
+    <Button
+        android:id="@+id/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:padding="18dp"
+        android:text="welcome" />
+
+    <Button
+        android:id="@+id/viewdata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:padding="18dp"
+        android:text="查看数据" />
+    <Button
+        android:id="@+id/setweight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewdata"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:padding="18dp"
+        android:text="设置权重" />
+    <Button
+        android:id="@+id/openwindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setweight"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:padding="18dp"
+        android:text="开启悬浮窗" />
+</RelativeLayout>
