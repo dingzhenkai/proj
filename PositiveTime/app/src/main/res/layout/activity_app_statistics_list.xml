@@ -4,7 +4,7 @@
     android:id="@+id/activity_app_statistics_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sjtu.se2017.positivetime.AppStatisticsList">
+    tools:context=".view.activity.AppStatisticsList">
 
     <LinearLayout
         android:layout_width="match_parent"

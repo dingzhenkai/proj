@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime;
+package com.sjtu.se2017.positivetime.view.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,9 +28,10 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.sjtu.se2017.positivetime.Chart.DemoBase;
-import com.sjtu.se2017.positivetime.Statistics.AppInformation;
-import com.sjtu.se2017.positivetime.Statistics.StatisticsInfo;
+import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.Chart.DemoBase;
+import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
+import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
 
 import java.util.ArrayList;
 

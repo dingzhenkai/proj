@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime;
+package com.sjtu.se2017.positivetime.model.application;
 
 import android.app.Application;
 
@@ -7,13 +7,13 @@ import android.app.Application;
  */
 
 public class ATapplicaion extends Application {
-    private int AT;
+    private long AT;
 
-    public int getAT(){
+    public long getAT(){
         return AT;
     }
 
-    public void setAT(int AT){
+    public void setAT(long AT){
         this.AT = AT;
     }
 

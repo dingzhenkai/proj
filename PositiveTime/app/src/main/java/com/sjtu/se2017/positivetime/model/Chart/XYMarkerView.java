@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime.Chart;
+package com.sjtu.se2017.positivetime.model.Chart;
 
 import android.content.Context;
 import android.widget.TextView;

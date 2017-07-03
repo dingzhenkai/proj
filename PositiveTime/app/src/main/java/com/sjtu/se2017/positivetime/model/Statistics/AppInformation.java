@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime.Statistics;
+package com.sjtu.se2017.positivetime.model.Statistics;
 
 import android.app.usage.UsageStats;
 import android.content.Context;

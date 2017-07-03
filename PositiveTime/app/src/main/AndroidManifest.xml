@@ -3,6 +3,8 @@
     package="com.sjtu.se2017.positivetime">
 
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -11,19 +13,36 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/NotitleTheme"
-        android:name="com.sjtu.se2017.positivetime.ATapplicaion">//this line defines a global application
+        android:name=".model.application.ATapplicaion">//this line defines a global application
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppStatisticsList" />
-        <activity android:name=".PiePolylineChartActivity" />
-        <activity android:name=".BarChartActivity"></activity>
-        <activity android:name=".SetWeight"></activity>
+        <activity android:name=".view.activity.AppStatisticsList" />
+        <activity android:name=".view.activity.PiePolylineChartActivity" />
+        <activity android:name=".view.activity.BarChartActivity"/>
+        <activity android:name=".view.activity.SetWeightActivity"/>
+        <activity android:name=".view.activity.Viewauth" />
+        <activity android:name=".view.activity.FloatingWindow" />
+        <activity
+            android:name=".view.activity.LockActivity"
+            android:launchMode="singleInstance" >
+        </activity>
+
+        <service
+            android:name=".service.WatchDogService"
+            android:process=":watchDog" >
+        </service>
+        <service android:name=".service.FloatWindowService" />
+        <receiver android:name=".model.application.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

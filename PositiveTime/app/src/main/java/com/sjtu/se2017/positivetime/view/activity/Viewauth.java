@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime;
+package com.sjtu.se2017.positivetime.view.activity;
 
 import android.annotation.TargetApi;
 import android.app.AppOpsManager;
@@ -14,20 +14,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
+
+
+public class Viewauth extends AppCompatActivity {
     private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.viewauth);
         Button button = (Button) findViewById(R.id.OpenButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    if(!isStatAccessPermissionSet(MainActivity.this)) {
+                    if(!isStatAccessPermissionSet(Viewauth.this)) {
                         startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));   //查看是否为应用设置了权限
                         Toast toast=Toast.makeText(getApplicationContext(), "请开启应用统计的使用权限", Toast.LENGTH_SHORT);    //显示toast信息
                         toast.show();
@@ -38,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ATapplicaion aTapplicaion = (ATapplicaion)getApplication();
-        int AT = aTapplicaion.getAT();
     }
 
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         try {
             if((isStatAccessPermissionSet(this))){
-                Intent intent3 = new Intent(MainActivity.this, AppStatisticsList.class);
+                Intent intent3 = new Intent(Viewauth.this, AppStatisticsList.class);
                 startActivity(intent3);
                 finish();
             }

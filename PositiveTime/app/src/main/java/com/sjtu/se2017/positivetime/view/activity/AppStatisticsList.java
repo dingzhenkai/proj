@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime;
+package com.sjtu.se2017.positivetime.view.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,8 +14,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.sjtu.se2017.positivetime.Statistics.AppInformation;
-import com.sjtu.se2017.positivetime.Statistics.StatisticsInfo;
+import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
+import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
