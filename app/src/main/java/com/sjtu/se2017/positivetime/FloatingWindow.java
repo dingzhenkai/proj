@@ -10,13 +10,11 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.sjtu.se2017.positivetime.application.Constants;
-import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 import com.sjtu.se2017.positivetime.util.PreferenceUtil;
 
@@ -90,57 +88,7 @@ public class FloatingWindow extends AppCompatActivity implements Constants{
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_boot:
-                item.setChecked(!item.isChecked());
-                preUtil.saveBoolean(SP_BOOT, item.isChecked());
-                break;
-            case R.id.action_bg:
-                item.setChecked(!item.isChecked());
-                if (item.isChecked()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        MyWindowManager.getInstance().setViewBg(getDrawable(R.drawable.trans_bg));
-                    } else {
-                        MyWindowManager.getInstance().setViewBg(getResources().getDrawable(R.drawable.trans_bg));
-                    }
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        MyWindowManager.getInstance().setViewBg(getDrawable(R.drawable.float_bg));
-                    } else {
-                        MyWindowManager.getInstance().setViewBg(getResources().getDrawable(R.drawable.float_bg));
-                    }
-                }
-                preUtil.saveBoolean(SP_BG, item.isChecked());
-                recreate();
-                break;
-            case R.id.action_loc:
-                if (MyWindowManager.getInstance().isWindowShowing()) {
-                    item.setChecked(!item.isChecked());
-                    MyWindowManager.getInstance().fixWindow(FloatingWindow.this, item.isChecked());
-                    preUtil.saveBoolean(SP_LOC, item.isChecked());
-                    if (item.isChecked()) {
-                        preUtil.saveInt(SP_X, MyWindowManager.getInstance().getWindowX());
-                        preUtil.saveInt(SP_Y, MyWindowManager.getInstance().getWindowY());
-                    }
-                } else {
-                    Toast.makeText(this, R.string.string_setting_fix, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.action_donate:
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(MY_ALIPAY_URL));
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
