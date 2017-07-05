@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.view.activity.LockActivity;
@@ -31,6 +32,7 @@ public class WatchDogService extends IntentService {
 	private String unCheckedPackageName;
 	private UnCheckedReceiver receiver;
 	private String topPackageName;
+	Boolean ifHandle;
 
 	public WatchDogService() {
 		super("abcde");
@@ -46,9 +48,10 @@ public class WatchDogService extends IntentService {
 		filter.addAction(APPINFO_UNCHECKED);
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		registerReceiver(receiver, filter);
+		ifHandle = true;
 	}
 
-	private void getTopPackageName(){
+	private void getTopPackageName() {
 		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			UsageStatsManager usm = (UsageStatsManager) this.getSystemService(Context.USAGE_STATS_SERVICE);
 			long time = System.currentTimeMillis();
@@ -69,28 +72,28 @@ public class WatchDogService extends IntentService {
 					.getPackageName();
 		}
 	}
+
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		while (true) {
-				topPackageName = "packagenamenull";
-				getTopPackageName();
-				String appName = appInfoDao.pkNameToLabel(context, topPackageName);
-
-				if (appInfoDao.checkweight(appName) < 50) {
-					// 说明是娱乐类程序
-					if (topPackageName.equals(unCheckedPackageName)) {
-					} else {
-						Intent intent2 = new Intent(context, LockActivity.class);
-						intent2.putExtra("packageName", topPackageName);// TODO：这一行不加，就没有办法去临时取消保护了！！！
-						intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						startActivity(intent2);
-					}
+		while (ifHandle) {
+			topPackageName = "packagenamenull";
+			getTopPackageName();
+			String appName = appInfoDao.pkNameToLabel(context, topPackageName);
+			if (appInfoDao.checkweight(appName) < 50 ) {
+				// 说明是娱乐类程序
+				if (topPackageName.equals(unCheckedPackageName)) {
 				} else {
+					Intent intent2 = new Intent(context, LockActivity.class);
+					intent2.putExtra("packageName", topPackageName);// TODO：这一行不加，就没有办法去临时取消保护了！！！
+					intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent2);
 				}
-				if (DEBUG) {
-					System.out.println("packageName 0:" + topPackageName);
-				}
-				SystemClock.sleep(300);
+			} else {
+			}
+			if (DEBUG) {
+				System.out.println("packageName 0:" + topPackageName);
+			}
+			SystemClock.sleep(300);
 
 		}
 	}
@@ -98,6 +101,7 @@ public class WatchDogService extends IntentService {
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
+		ifHandle = false;
 		super.onDestroy();
 		if (receiver != null) {
 			unregisterReceiver(receiver);
@@ -119,10 +123,5 @@ public class WatchDogService extends IntentService {
 				}
 			}
 		}
-	}
-
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		return START_STICKY;
 	}
 }

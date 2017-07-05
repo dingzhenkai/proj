@@ -222,7 +222,7 @@ public class MyWindowManager implements Constants {
         wlanRecvSum = tempWlanRx;
         wlanSendSum = tempWlanTx;*/
         //String tmp = String.valueOf(AT);
-        ATapplicaion aTapplicaion = (ATapplicaion)context.getApplicationContext();
+        ATapplicaion aTapplicaion = ATapplicaion.getInstance();
         long AT = aTapplicaion.getAT();
         AT = AT/1000;
         AT = AT/100;

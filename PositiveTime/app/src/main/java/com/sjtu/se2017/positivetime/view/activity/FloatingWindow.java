@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.model.application.Constants;
 import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
@@ -63,12 +64,14 @@ public class FloatingWindow extends AppCompatActivity implements Constants{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(FloatingWindow.this,
-                        FloatWindowService.class);
-                stopService(intent);
+                //Intent intent = new Intent(FloatingWindow.this,
+                 //       FloatWindowService.class);
+                //stopService(intent);
+                MyWindowManager.getInstance().removeAllWindow(getApplicationContext());
             }
 
         });
+        Log.v("activity", ATapplicaion.getInstance().getAT()+"");
     }
 
     @Override

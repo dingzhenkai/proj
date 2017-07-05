@@ -7,23 +7,50 @@ import android.app.Application;
  */
 
 public class ATapplicaion extends Application {
-    private long AT;
+    static private long PTime;
+    static private long NTime;
+    private static ATapplicaion instance;
+
+    public void setPTime(long PTime){
+        this.PTime = PTime;
+    }
+
+    public void setNTime(long NTime){
+        this.NTime = NTime;
+    }
+
+    public long getPTime(){
+        return PTime;
+    }
+
+    public long getNTime(){
+        return NTime;
+    }
 
     public long getAT(){
-        return AT;
+        return PTime-NTime;
     }
 
-    public void setAT(long AT){
-        this.AT = AT;
+    public float getPWeight(){
+        return PTime/(PTime+NTime);
     }
 
-    @Override
-    public void onCreate(){
-        super.onCreate();
+    public float getNWeight(){
+        return NTime/(PTime+NTime);
+    }
+
+    static public ATapplicaion getInstance() {
+        return instance;
     }
 
     @Override
     public void onTerminate(){
         super.onTerminate();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
     }
 }

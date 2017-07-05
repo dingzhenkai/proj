@@ -46,15 +46,7 @@ public class SetWeightActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.AppInfoList);
         adapter = new AppAdapter(adapterDatas,context);
         listView.setAdapter(adapter);
-        //open database
-        /*db = context.openOrCreateDatabase("app_info",0,null);
-        String createTable = "CREATE TABLE IF NOT EXISTS "+
-                "info"+
-                "(label VARCHAR(32) PRIMARY KEY,"+
-                "weight INT)";
-        db.execSQL(createTable);*/
-        Intent intent = new Intent(this, WatchDogService.class);
-        startService(intent);
+
     }
 
     private class AppAdapter extends BaseAdapter {

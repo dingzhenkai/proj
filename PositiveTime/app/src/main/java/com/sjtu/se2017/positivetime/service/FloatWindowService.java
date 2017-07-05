@@ -1,11 +1,13 @@
 package com.sjtu.se2017.positivetime.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
@@ -58,24 +60,31 @@ public class FloatWindowService extends Service implements Constants {
         private String tmp;
         private int weight;
         private long usetime;
-        private long AT;
+        long PTime;
+        long NTime;
 
         @Override
         public void run() {
 
-            AT = 0;
             this.style = StatisticsInfo.DAY;
             StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(),this.style);
             Tmplist = statisticsInfo.getShowList();
             int size = Tmplist.size();
+            PTime = 0;
+            NTime = 0;
             for(int i=0;i<size;i++){
                 label = Tmplist.get(i).getLabel();
                 usetime = Tmplist.get(i).getUsedTimebyDay();
                 weight = appInfoDao.checkweight(label);
-                AT += (weight-50)*usetime;
+                if(weight > 50){
+                    PTime += (weight-50)*usetime;
+                } else {
+                    NTime += (50-weight)*usetime;
+                }
             }
-            ATapplicaion aTapplicaion = (ATapplicaion)getApplication();
-            aTapplicaion.setAT(AT);
+            ATapplicaion aTapplicaion = ATapplicaion.getInstance();
+            aTapplicaion.setPTime(PTime);
+            aTapplicaion.setNTime(NTime);
 
 
             //int offset = c.getColumnIndex("weight");
@@ -99,6 +108,13 @@ public class FloatWindowService extends Service implements Constants {
                         MyWindowManager.getInstance().updateViewData(getApplicationContext());
                     }
                 });
+            }
+
+            Intent intent = new Intent(FloatWindowService.this, WatchDogService.class);
+            if(aTapplicaion.getAT() < 0){
+                startService(intent);
+            }else{
+                stopService(intent);
             }
         }
     }

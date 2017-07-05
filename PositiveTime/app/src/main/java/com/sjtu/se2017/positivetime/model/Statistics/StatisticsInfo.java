@@ -150,14 +150,14 @@ public class StatisticsInfo {
             long begintime;
             begintime = getBeginTime();
 
-            if(result.get(i).getFirstTimeStamp() > begintime) {
+            //if(result.get(i).getFirstTimeStamp() > begintime) {
                 int num = FoundUsageStats(Mergeresult, result.get(i));
                 if (num >= 0) {
                     UsageStats u = Mergeresult.get(num);
                     u.add(result.get(i));
                     Mergeresult.set(num, u);
                 } else Mergeresult.add(result.get(i));
-            }
+            //}
         }
         return Mergeresult;
     }

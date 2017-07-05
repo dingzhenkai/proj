@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by GuoJinyu on 2015/11/16.
- */
 public class PreferenceUtil {
 
     private static PreferenceUtil singleton;
