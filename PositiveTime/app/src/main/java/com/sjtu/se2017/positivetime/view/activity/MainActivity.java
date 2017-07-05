@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,14 +30,12 @@ import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.ContentAdapter;
 import com.sjtu.se2017.positivetime.model.ContentModel;
 import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
-import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
+import com.sjtu.se2017.positivetime.service.UpdateUIService;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.sjtu.se2017.positivetime.model.application.Constants.OVERLAY_PERMISSION_REQ_CODE;
 
 public class MainActivity extends FragmentActivity {
     private Button openwindow;
@@ -73,6 +69,11 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         //getActionBar().hide();
 
+        PView = (TextView) findViewById(R.id.PView) ;
+        NView = (TextView) findViewById(R.id.NView) ;
+        ATapplicaion aTapplicaion = ATapplicaion.getInstance();
+        aTapplicaion.setPView(PView);
+        aTapplicaion.setNView(NView);
         // open floatwindowservice  get floatwindow permission
         Intent intent = new Intent(this, FloatWindowService.class);
         startService(intent);
@@ -87,42 +88,7 @@ public class MainActivity extends FragmentActivity {
             e.printStackTrace();
         }
 
-        ptime=0;
-        ntime=0;
-        totaltime=0;
 
-        this.style = StatisticsInfo.DAY;
-        StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(),this.style);
-        Tmplist = statisticsInfo.getShowList();
-        int size = Tmplist.size();
-        for(int i=0;i<size;i++){
-            label = Tmplist.get(i).getLabel();
-            usetime = Tmplist.get(i).getUsedTimebyDay();
-            weight = appInfoDao.checkweight(label);
-            AT += (weight-50)*usetime;
-            ptime += usetime*(weight/100.0);
-        }
-        totaltime = statisticsInfo.getTotalTime();
-        ntime = totaltime - ptime;
-        PView = (TextView) findViewById(R.id.PView);
-        NView = (TextView) findViewById(R.id.NView);
-        ATapplicaion aTapplicaion = (ATapplicaion)getApplication();
-
-        float pweight;
-        float nweight;
-        if(totaltime == 0){
-            pweight = 1/2;
-            nweight = 1/2;
-        }else {
-            pweight = ptime / totaltime;
-            nweight = ntime / totaltime;
-        }
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, pweight );
-        PView.setLayoutParams(param);
-        param = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, nweight );
-        NView.setLayoutParams(param);
 
         leftMenu = (ImageView) findViewById(R.id.leftmenu);
         rightMenu = (ImageView) findViewById(R.id.rightmenu);
@@ -185,6 +151,9 @@ public class MainActivity extends FragmentActivity {
                 drawerLayout.closeDrawer(Gravity.RIGHT);
             }
         });
+
+        startService(new Intent(this, UpdateUIService.class));
+
 
     }
 

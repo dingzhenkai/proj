@@ -30,7 +30,6 @@
         <activity android:name=".view.activity.Viewauth" />
         <activity android:name=".view.activity.FloatingWindow" />
         <activity android:name=".view.activity.LoginActivity" />
-        <activity android:name=".view.activity.SignupActivity" />
 
         <activity
             android:name=".view.activity.LockActivity"
@@ -42,6 +41,7 @@
             android:process=":watchDog" >
         </service>
         <service android:name=".service.FloatWindowService" />
+        <service android:name=".service.UpdateUIService" />
         <receiver android:name=".model.application.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

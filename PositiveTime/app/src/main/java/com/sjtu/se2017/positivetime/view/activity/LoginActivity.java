@@ -1,36 +1,85 @@
 package com.sjtu.se2017.positivetime.view.activity;
-
-import android.content.Intent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.InputStream;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import butterknife.Bind;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 import butterknife.ButterKnife;
+import butterknife.Bind;
 import com.sjtu.se2017.positivetime.R;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-
+    private final static String DES = "DES";
+    private final static String KEY = "12345678";
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.link_signup) TextView _signupLink;
 
+    public static byte[] encrypt(byte[] src, byte[] key) throws Exception {
+        // DES算法要求有一个可信任的随机数源
+        SecureRandom sr = new SecureRandom();
+
+        // 从原始密匙数据创建DESKeySpec对象
+        DESKeySpec dks = new DESKeySpec(key);
+
+        // 创建一个密匙工厂，然后用它把DESKeySpec转换成一个SecretKey对象
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES);
+        SecretKey securekey = keyFactory.generateSecret(dks);
+
+        // Cipher对象实际完成加密操作
+        Cipher cipher = Cipher.getInstance(DES);
+
+        // 用密匙初始化Cipher对象
+        cipher.init(Cipher.ENCRYPT_MODE, securekey, sr);
+
+        // 执行加密操作
+        return cipher.doFinal(src);
+    }
+
+    public final static String encrypt(String password, String key) {
+
+        try {
+            return byte2String(encrypt(password.getBytes(), key.getBytes()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String byte2String(byte[] b) {
+        String hs="";
+        String stmp="";
+        for(int n=0;n<b.length;n++){
+            stmp=(java.lang.Integer.toHexString(b[n]&0XFF));
+            if(stmp.length() == 1)
+                hs+=hs+"0"+stmp;
+            else
+                hs=hs+stmp;
+        }
+        return hs.toUpperCase();
+    }
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -49,7 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                         try{
                             String email = _emailText.getText().toString();
                             String password = _passwordText.getText().toString();
-                            String urlStr = "http://192.168.1.198:8080/login?username="+email+"&password="+password;
+                            String encryptEmail = encrypt(email,KEY);
+                            String encryptPassword = encrypt(password,KEY);
+                            String urlStr = "http://10.0.2.2:8080/login?username="+encryptEmail+"&password="+encryptPassword;
                             url = new URL(urlStr);
                             urlCon= (HttpURLConnection) url.openConnection();
                             urlCon.setRequestMethod("GET");
@@ -70,11 +121,11 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 }else{
                                     // wrong password
-                                    System.out.println("wrong password");
+                                    Toast.makeText(getApplicationContext(), "wrong password", Toast.LENGTH_SHORT).show();    //显示toast信息
                                 }
                             }else{
                                 //http connection failure
-                                System.out.println("http connection failure");
+                                Toast.makeText(getApplicationContext(), "http connection failure", Toast.LENGTH_SHORT).show();    //显示toast信息
                             }
                         }catch (IOException e){
                             //illegal url form
