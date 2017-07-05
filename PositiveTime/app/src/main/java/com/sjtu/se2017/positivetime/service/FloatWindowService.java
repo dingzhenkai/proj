@@ -5,16 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
 import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.model.application.Constants;
 import com.sjtu.se2017.positivetime.controller.MyWindowManager;
+import com.sjtu.se2017.positivetime.view.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -34,6 +40,15 @@ public class FloatWindowService extends Service implements Constants {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getApplicationContext())) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.permission_alert), Toast.LENGTH_LONG).show();
+            Intent permissionIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivity(new Intent(this,MainActivity.class));
+            startActivity(permissionIntent);
+            Toast toast=Toast.makeText(getApplicationContext(), "此权限用于打开悬浮窗", Toast.LENGTH_SHORT);    //显示toast信息
+            toast.show();
+        }
         if (timer == null) {
             timer = new Timer();
             timer.scheduleAtFixedRate(new RefreshTask(), 0L, (long) TIME_SPAN);

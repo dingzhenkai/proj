@@ -48,14 +48,7 @@ public class FloatingWindow extends AppCompatActivity implements Constants{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getApplicationContext())) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.permission_alert), Toast.LENGTH_LONG).show();
-                    Intent permissionIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:" + getPackageName()));
-                    startActivityForResult(permissionIntent, OVERLAY_PERMISSION_REQ_CODE);
-                } else {
-                    startService(intent);
-                }
+                startService(intent);
             }
         });
         btnClose = (Button) findViewById(R.id.buttonClose);

@@ -1,8 +1,16 @@
 package com.sjtu.se2017.positivetime.view.activity;
 
 
+import android.annotation.TargetApi;
+import android.app.AppOpsManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
@@ -29,6 +38,8 @@ import com.sjtu.se2017.positivetime.service.FloatWindowService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sjtu.se2017.positivetime.model.application.Constants.OVERLAY_PERMISSION_REQ_CODE;
 
 public class MainActivity extends FragmentActivity {
     private Button openwindow;
@@ -60,9 +71,22 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //      getActionBar().hide();
+        //getActionBar().hide();
 
-        startService(new Intent(this, FloatWindowService.class));
+        // open floatwindowservice  get floatwindow permission
+        Intent intent = new Intent(this, FloatWindowService.class);
+        startService(intent);
+        //get usage_stats permission
+        try {
+            if(!isStatAccessPermissionSet(this)) {
+                startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));   //查看是否为应用设置了权限
+                Toast toast=Toast.makeText(getApplicationContext(), "此权限用于计算各app使用时间", Toast.LENGTH_SHORT);    //显示toast信息
+                toast.show();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         ptime=0;
         ntime=0;
         totaltime=0;
@@ -84,9 +108,15 @@ public class MainActivity extends FragmentActivity {
         NView = (TextView) findViewById(R.id.NView);
         ATapplicaion aTapplicaion = (ATapplicaion)getApplication();
 
-
-        float pweight = ptime / totaltime ;
-        float nweight = ntime / totaltime ;
+        float pweight;
+        float nweight;
+        if(totaltime == 0){
+            pweight = 1/2;
+            nweight = 1/2;
+        }else {
+            pweight = ptime / totaltime;
+            nweight = ntime / totaltime;
+        }
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, pweight );
         PView.setLayoutParams(param);
@@ -118,7 +148,7 @@ public class MainActivity extends FragmentActivity {
                                     int position, long id) {
                 switch ((int) id) {
                     case 1:
-                        Intent intent = new Intent(MainActivity.this, Viewauth.class);
+                        Intent intent = new Intent(MainActivity.this, AppStatisticsList.class);
                         startActivity(intent);
                         break;
                     case 2:
@@ -188,5 +218,15 @@ public class MainActivity extends FragmentActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean isStatAccessPermissionSet(Context c) throws PackageManager.NameNotFoundException {
+        PackageManager pm = c.getPackageManager();
+        ApplicationInfo info = pm.getApplicationInfo(c.getPackageName(),0);
+        AppOpsManager aom = (AppOpsManager) c.getSystemService(Context.APP_OPS_SERVICE);
+        aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,info.uid,info.packageName);
+        return aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,info.uid,info.packageName)
+                == AppOpsManager.MODE_ALLOWED;
     }
 }
