@@ -27,7 +27,6 @@
         <activity android:name=".view.activity.PiePolylineChartActivity" />
         <activity android:name=".view.activity.BarChartActivity"/>
         <activity android:name=".view.activity.SetWeightActivity"/>
-        <activity android:name=".view.activity.Viewauth" />
         <activity android:name=".view.activity.FloatingWindow" />
         <activity android:name=".view.activity.LoginActivity" />
 

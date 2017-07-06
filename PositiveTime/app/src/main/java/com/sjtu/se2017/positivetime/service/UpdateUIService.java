@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import com.sjtu.se2017.positivetime.model.application.Constants;
-import com.sjtu.se2017.positivetime.controller.UpdateUI;
+import com.sjtu.se2017.positivetime.view.activity.MainActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,11 +55,9 @@ public class UpdateUIService extends Service implements Constants {
                 @Override
                 public void run() {
 
-                    UpdateUI.getInstance().Update();
+                    MainActivity.getInstance().Update();
                 }
             });
-
-
         }
     }
 }

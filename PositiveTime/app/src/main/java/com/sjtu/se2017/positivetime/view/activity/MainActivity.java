@@ -14,12 +14,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,42 +40,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
-    private Button openwindow;
-    private Button viewdata;
-    private Button setweight;
     private DrawerLayout drawerLayout;
     private RelativeLayout rightLayout;
     private List<ContentModel> list;
     private ContentAdapter adapter;
-    private ImageView leftMenu, rightMenu;
     private ListView listView;
     private FragmentManager fm;
-    private TextView PView;
-    private TextView NView;
-    private long ptime;
-    private long ntime;
-    private long totaltime;
-    private int style;
-    private ArrayList<AppInformation> Tmplist;
-    private String label;
-    private String tmp;
-    private int weight;
-    private long usetime;
-    private long AT;
+    private TextView PView,NView;
+    RelativeLayout Playout,Nlayout;
+    private long ptime,ntime;
     private AppInfoDao appInfoDao = new AppInfoDao(this);
+    private static MainActivity instance;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //init parameters
+        initData();
         //getActionBar().hide();
 
-        PView = (TextView) findViewById(R.id.PView) ;
-        NView = (TextView) findViewById(R.id.NView) ;
-        ATapplicaion aTapplicaion = ATapplicaion.getInstance();
-        aTapplicaion.setPView(PView);
-        aTapplicaion.setNView(NView);
+
         // open floatwindowservice  get floatwindow permission
         Intent intent = new Intent(this, FloatWindowService.class);
         startService(intent);
@@ -89,24 +77,8 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-
-        leftMenu = (ImageView) findViewById(R.id.leftmenu);
-        rightMenu = (ImageView) findViewById(R.id.rightmenu);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
-        rightLayout = (RelativeLayout) findViewById(R.id.right);
-        listView = (ListView) findViewById(R.id.left_listview);
-        fm = getSupportFragmentManager();
-
-        initData();
         adapter = new ContentAdapter(this, list);
         listView.setAdapter(adapter);
-        leftMenu.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.LEFT);
-            }
-        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -137,13 +109,6 @@ public class MainActivity extends FragmentActivity {
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
-        rightMenu.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.RIGHT);
-            }
-        });
         rightLayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -153,18 +118,24 @@ public class MainActivity extends FragmentActivity {
         });
 
         startService(new Intent(this, UpdateUIService.class));
-
-
     }
 
     private void initData() {
         list = new ArrayList<ContentModel>();
-
         list.add(new ContentModel(R.mipmap.doctoradvice2, "查看数据", 1));
         list.add(new ContentModel(R.mipmap.infusion_selected, "设置权重", 2));
         list.add(new ContentModel(R.mipmap.doctoradvice2, "悬浮窗", 3));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "登录/注册", 4));
 
+        instance = this;
+        PView = (TextView)findViewById(R.id.PView);
+        NView = (TextView)findViewById(R.id.NView);
+        Playout = (RelativeLayout)findViewById(R.id.Playout);
+        Nlayout = (RelativeLayout)findViewById(R.id.Nlayout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        rightLayout = (RelativeLayout) findViewById(R.id.right);
+        listView = (ListView) findViewById(R.id.left_listview);
+        fm = getSupportFragmentManager();
     }
 
     @Override
@@ -197,5 +168,46 @@ public class MainActivity extends FragmentActivity {
         aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,info.uid,info.packageName);
         return aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,info.uid,info.packageName)
                 == AppOpsManager.MODE_ALLOWED;
+    }
+
+    public void Update() {
+        ATapplicaion aTapplicaion = ATapplicaion.getInstance();
+        ptime = aTapplicaion.getPTime();
+        ntime = aTapplicaion.getNTime();
+
+        //创建一个线程
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        long total = ptime + ntime ;
+                        float tmp = total;
+                        float pweight,nweight;
+                        if(total == 0) {
+                            pweight = (float)1/2;
+                            nweight = (float)1/2;
+                        } else{
+                            pweight = ptime / tmp ;
+                            nweight = ntime / tmp ;
+                        }
+                        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, nweight );
+                        Playout.setLayoutParams(param);
+                        PView.setText(pweight+"");
+                        param = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, pweight );
+                        Nlayout.setLayoutParams(param);
+                        NView.setText(nweight+"");
+                    }
+                });
+            }
+        }).start();
+    }
+
+    public static MainActivity getInstance(){
+        return instance;
     }
 }

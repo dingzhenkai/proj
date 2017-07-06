@@ -10,13 +10,7 @@ import android.widget.TextView;
 public class ATapplicaion extends Application {
     static private long PTime;
     static private long NTime;
-    private TextView PView;
-    private TextView NView;
     private static ATapplicaion instance;
-
-    public void setPView(TextView P) { this.PView = P; }
-
-    public void setNView(TextView N) { this.NView = N; }
 
     public void setPTime(long PTime){
         this.PTime = PTime;
@@ -33,10 +27,6 @@ public class ATapplicaion extends Application {
     public long getNTime(){
         return NTime;
     }
-
-    public TextView getPView() { return PView; }
-
-    public TextView getNView() { return NView; }
 
     public long getAT(){
         return PTime-NTime;
