@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
+    Context context;
     private DrawerLayout drawerLayout;
     private RelativeLayout rightLayout;
     private List<ContentModel> list;
@@ -47,7 +48,8 @@ public class MainActivity extends FragmentActivity {
     private ListView listView;
     private FragmentManager fm;
     private TextView PView,NView;
-    RelativeLayout Playout,Nlayout;
+    private RelativeLayout Playout,Nlayout;
+    private Button PButton,NButton;
     private long ptime,ntime;
     private AppInfoDao appInfoDao = new AppInfoDao(this);
     private static MainActivity instance;
@@ -110,17 +112,22 @@ public class MainActivity extends FragmentActivity {
             }
         });
         rightLayout.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawer(Gravity.RIGHT);
             }
         });
-
+        PButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, TomatosActivity.class));
+            }
+        });
         startService(new Intent(this, UpdateUIService.class));
     }
 
     private void initData() {
+        context = this;
         list = new ArrayList<ContentModel>();
         list.add(new ContentModel(R.mipmap.doctoradvice2, "查看数据", 1));
         list.add(new ContentModel(R.mipmap.infusion_selected, "设置权重", 2));
@@ -130,6 +137,8 @@ public class MainActivity extends FragmentActivity {
         instance = this;
         PView = (TextView)findViewById(R.id.PView);
         NView = (TextView)findViewById(R.id.NView);
+        PButton = (Button)findViewById(R.id.PButton);
+        NButton = (Button)findViewById(R.id.NButton);
         Playout = (RelativeLayout)findViewById(R.id.Playout);
         Nlayout = (RelativeLayout)findViewById(R.id.Nlayout);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);

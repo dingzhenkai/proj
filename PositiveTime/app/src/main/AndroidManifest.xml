@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/NotitleTheme"
         android:name=".model.application.ATapplicaion">//this line defines a global application
+
         <activity
             android:name=".view.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
@@ -29,6 +30,7 @@
         <activity android:name=".view.activity.SetWeightActivity"/>
         <activity android:name=".view.activity.FloatingWindow" />
         <activity android:name=".view.activity.LoginActivity" />
+        <activity android:name=".view.activity.TomatosActivity" />
 
         <activity
             android:name=".view.activity.LockActivity"

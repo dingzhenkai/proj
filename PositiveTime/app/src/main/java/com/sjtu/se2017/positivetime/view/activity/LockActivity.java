@@ -40,15 +40,4 @@ public class LockActivity extends Activity {
 		super.onDestroy();
 	}
 
-    /*
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode == KeyEvent.KEYCODE_BACK ){
-            Toast.makeText(this,"sdfsd",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, LockActivity.class));
-        }
-        if (keyCode == KeyEvent.KEYCODE_HOME){}
-        return super.onKeyDown(keyCode, event);
-    }*/
 }

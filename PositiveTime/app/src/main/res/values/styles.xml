@@ -30,4 +30,11 @@
     <style name="AppThemeDark" parent="ThemeOverlay.AppCompat.Dark">
         <!-- Customize your theme here. -->
     </style>
+    <style name="ActionButton">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:contentDescription">@null</item>
+    </style>
 </resources>

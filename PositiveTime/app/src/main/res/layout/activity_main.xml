@@ -36,10 +36,11 @@
                     android:layout_centerHorizontal="true"/>
 
                 <Button
+                    android:id="@+id/NButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="开始工作"/>
+                    android:text="放松一下"/>
 
             </RelativeLayout>
 
@@ -59,10 +60,11 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"/>
                 <Button
+                    android:id="@+id/PButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="放松一下"/>
+                    android:text="开始工作"/>
             </RelativeLayout>
 
         </LinearLayout>

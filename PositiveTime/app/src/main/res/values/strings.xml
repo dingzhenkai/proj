@@ -11,4 +11,5 @@
     <string name="permission_alert">"6.0系统上需要开启此权限才能正常显示悬浮窗！"</string>
     <string name="permission_result">"要么开权限，要么就卸载！"</string>
     <string name="string_setting_fix">请先开启悬浮窗再进行设置</string>
+    <string name="text_description">People like to get Swag Points.</string>
 </resources>
