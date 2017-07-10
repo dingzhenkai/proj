@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity {
     private FragmentManager fm;
     private TextView PView,NView;
     private RelativeLayout Playout,Nlayout;
-    private Button PButton;
+    private Button PButton,NButton;
     private long ptime,ntime;
     private AppInfoDao appInfoDao = new AppInfoDao(this);
     private static MainActivity instance;
@@ -121,7 +121,17 @@ public class MainActivity extends FragmentActivity {
         PButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TomatosActivity.class));
+                Intent intent = new Intent(MainActivity.this,TomatosActivity.class);
+                intent.putExtra("mode",getResources().getString(R.string.start_working));
+                startActivity(intent);
+            }
+        });
+        NButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,TomatosActivity.class);
+                intent.putExtra("mode",getResources().getString(R.string.start_relaxing));
+                startActivity(intent);
             }
         });
         startService(new Intent(this, UpdateUIService.class));
@@ -139,7 +149,7 @@ public class MainActivity extends FragmentActivity {
         PView = (TextView)findViewById(R.id.PView);
         NView = (TextView)findViewById(R.id.NView);
         PButton = (Button)findViewById(R.id.PButton);
-        //NButton = (Button)findViewById(R.id.NButton);
+        NButton = (Button)findViewById(R.id.NButton);
         Playout = (RelativeLayout)findViewById(R.id.Playout);
         Nlayout = (RelativeLayout)findViewById(R.id.Nlayout);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);

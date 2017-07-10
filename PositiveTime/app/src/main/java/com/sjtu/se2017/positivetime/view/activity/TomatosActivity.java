@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,7 @@ public class TomatosActivity extends Activity {
     private TextView tvTimer;
     SwagPoints swagPoints;
     Button button;
-    Boolean ifLock;
+    String mode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,16 +40,20 @@ public class TomatosActivity extends Activity {
         swagPoints = (SwagPoints)findViewById(R.id.seekbar_point);
         tvTimer = (TextView) findViewById(R.id.tvTimer);
         button = (Button)findViewById(R.id.button);
-        button.setText("start");
-        ifLock = false;
+        mode = getIntent().getStringExtra("mode");
+        button.setText(mode);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (button.getText() == "start") {
+                if(button.getText() == "finish"){
+                    finish();
+                    stopService(new Intent(TomatosActivity.this, WatchDogService.class));
+                    startService(new Intent(TomatosActivity.this, UpdateUIService.class));
+                } else {
+                    swagPoints.setVisibility(View.INVISIBLE);
                     button.setEnabled(false);
                     button.setText("finish");
-                    swagPoints.setVisibility(View.INVISIBLE);
                     countDownTimer = new CountDownTimer(swagPoints.getPoints() * 1000 * 60, 1000) {
 
                         @Override
@@ -61,20 +66,25 @@ public class TomatosActivity extends Activity {
 
                         @Override
                         public void onFinish() {
-                            tvTimer.setText("Great Job!");
-                            button.setEnabled(true);
                             ATapplicaion aTapplicaion = ATapplicaion.getInstance();
-                            aTapplicaion.setPTime(aTapplicaion.getPTime()+swagPoints.getPoints()*1000*60*100);//100是权重
+                            if (mode.equals(getResources().getString(R.string.start_working))) {
+                                tvTimer.setText("Great Job!");
+                                aTapplicaion.setPTime(aTapplicaion.getPTime() + swagPoints.getPoints() * 1000 * 60 * 100);//100是权重
+                            }else if(mode.equals(getResources().getString(R.string.start_relaxing))){
+                                tvTimer.setText("Relax Enough!");
+                                aTapplicaion.setNTime(aTapplicaion.getNTime() + swagPoints.getPoints() * 1000 * 60 * 100);//100是权重
+                            }
+                            button.setEnabled(true);
                         }
                     };
                     countDownTimer.start();
-                    startService(new Intent(TomatosActivity.this, WatchDogService.class));
-                    stopService(new Intent(TomatosActivity.this, UpdateUIService.class));//防止再关闭watchdogservice
-                    ifLock = true;
-                }else if(button.getText() == "finish"){
-                    finish();
-                    stopService(new Intent(TomatosActivity.this, WatchDogService.class));
-                    startService(new Intent(TomatosActivity.this, UpdateUIService.class));
+                    //java 字符串比较相等要用equals！！！
+                    if (mode.equals(getResources().getString(R.string.start_working))){
+                        stopService(new Intent(TomatosActivity.this, UpdateUIService.class));//防止再关闭watchdogservice
+                        startService(new Intent(TomatosActivity.this, WatchDogService.class));
+                    } else if(mode.equals(getResources().getString(R.string.start_relaxing))){
+
+                    }
                 }
             }
         });
