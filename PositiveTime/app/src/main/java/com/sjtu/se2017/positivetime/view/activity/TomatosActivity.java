@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.dualcores.swagpoints.SwagPoints;
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,31 +36,39 @@ public class TomatosActivity extends Activity {
         swagPoints = (SwagPoints)findViewById(R.id.seekbar_point);
         tvTimer = (TextView) findViewById(R.id.tvTimer);
         button = (Button)findViewById(R.id.button);
+        button.setText("start");
         ifLock = false;
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button.setEnabled(false);
-                button.setText("finish");
-                swagPoints.setVisibility(View.INVISIBLE);
-                countDownTimer = new CountDownTimer(swagPoints.getPoints()*1000*60, 1000) {
+                if (button.getText() == "start") {
+                    button.setEnabled(false);
+                    button.setText("finish");
+                    swagPoints.setVisibility(View.INVISIBLE);
+                    countDownTimer = new CountDownTimer(swagPoints.getPoints() * 1000 * 60, 1000) {
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                        Date date = new Date(millisUntilFinished);
-                        String dateStr = simpleDateFormat.format(date);
-                        tvTimer.setText(dateStr);
-                    }
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                            Date date = new Date(millisUntilFinished);
+                            String dateStr = simpleDateFormat.format(date);
+                            tvTimer.setText(dateStr);
+                        }
 
-                    @Override
-                    public void onFinish() {
-                        button.setEnabled(true);
-                    }
-                };
-                countDownTimer.start();
-                ifLock = true;
+                        @Override
+                        public void onFinish() {
+                            tvTimer.setText("00:00:00");
+                            button.setEnabled(true);
+                            ATapplicaion aTapplicaion = ATapplicaion.getInstance();
+                            aTapplicaion.setPTime(aTapplicaion.getPTime()+swagPoints.getPoints()*1000*60*100);//100是权重
+                        }
+                    };
+                    countDownTimer.start();
+                    ifLock = true;
+                }else if(button.getText() == "finish"){
+                    finish();
+                }
             }
         });
     }
