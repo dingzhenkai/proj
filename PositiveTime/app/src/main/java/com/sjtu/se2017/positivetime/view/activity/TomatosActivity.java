@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.dualcores.swagpoints.SwagPoints;
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
+import com.sjtu.se2017.positivetime.service.FloatWindowService;
+import com.sjtu.se2017.positivetime.service.UpdateUIService;
+import com.sjtu.se2017.positivetime.service.WatchDogService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,16 +61,20 @@ public class TomatosActivity extends Activity {
 
                         @Override
                         public void onFinish() {
-                            tvTimer.setText("00:00:00");
+                            tvTimer.setText("Great Job!");
                             button.setEnabled(true);
                             ATapplicaion aTapplicaion = ATapplicaion.getInstance();
                             aTapplicaion.setPTime(aTapplicaion.getPTime()+swagPoints.getPoints()*1000*60*100);//100是权重
                         }
                     };
                     countDownTimer.start();
+                    startService(new Intent(TomatosActivity.this, WatchDogService.class));
+                    stopService(new Intent(TomatosActivity.this, UpdateUIService.class));//防止再关闭watchdogservice
                     ifLock = true;
                 }else if(button.getText() == "finish"){
                     finish();
+                    stopService(new Intent(TomatosActivity.this, WatchDogService.class));
+                    startService(new Intent(TomatosActivity.this, UpdateUIService.class));
                 }
             }
         });
@@ -84,7 +91,7 @@ public class TomatosActivity extends Activity {
         // TODO Auto-generated method stub
         super.onDestroy();
     }
-
+/*
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
@@ -96,4 +103,9 @@ public class TomatosActivity extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
+    @Override
+    public void onBackPressed() {
+        // Disable going back to the MainActivity
+        moveTaskToBack(true);
+    }*/
 }

@@ -16,7 +16,7 @@ import java.util.TimerTask;
  * Created by bonjour on 17-7-5.
  */
 
-public class UpdateUIService extends Service implements Constants {
+public class WatchDogControlService extends Service implements Constants {
 
     private Handler handler = new Handler();
     private Timer timer;
@@ -30,7 +30,7 @@ public class UpdateUIService extends Service implements Constants {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (timer == null) {
             timer = new Timer();
-            timer.scheduleAtFixedRate(new RefreshTask(), 0L, 10*1000);
+            timer.scheduleAtFixedRate(new RefreshTask(), 0L, (long) TIME_SPAN);
         }
         //int result = super.onStartCommand(intent, flags, startId);
         //return result;
@@ -47,24 +47,10 @@ public class UpdateUIService extends Service implements Constants {
 
 
     class RefreshTask extends TimerTask {
-
-
         @Override
         public void run() {
-
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-
-                    MainActivity.getInstance().Update();
-                }
-            });
-            Intent intent = new Intent(UpdateUIService.this, WatchDogService.class);
-            if(ATapplicaion.getInstance().getAT() < 0){
-                startService(intent);
-            }else{
-                stopService(intent);
-            }
+            Intent intent = new Intent(WatchDogControlService.this, WatchDogService.class);
+            startService(intent);
         }
     }
 }

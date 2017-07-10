@@ -125,12 +125,6 @@ public class FloatWindowService extends Service implements Constants {
                 });
             }
 
-            Intent intent = new Intent(FloatWindowService.this, WatchDogService.class);
-            if(aTapplicaion.getAT() < 0){
-                startService(intent);
-            }else{
-                stopService(intent);
-            }
         }
     }
 

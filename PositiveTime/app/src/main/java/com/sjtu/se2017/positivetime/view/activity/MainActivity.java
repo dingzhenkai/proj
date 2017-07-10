@@ -35,6 +35,7 @@ import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 import com.sjtu.se2017.positivetime.service.UpdateUIService;
+import com.sjtu.se2017.positivetime.service.WatchDogControlService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,8 @@ public class MainActivity extends FragmentActivity {
 
 
         // open floatwindowservice  get floatwindow permission
-        Intent intent = new Intent(this, FloatWindowService.class);
-        startService(intent);
+        startService(new Intent(this, FloatWindowService.class));
+        //startService(new Intent(this, WatchDogControlService.class));
         //get usage_stats permission
         try {
             if(!isStatAccessPermissionSet(this)) {

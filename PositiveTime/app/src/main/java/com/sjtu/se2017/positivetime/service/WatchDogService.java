@@ -32,7 +32,7 @@ public class WatchDogService extends IntentService {
 	private String unCheckedPackageName;
 	private UnCheckedReceiver receiver;
 	private String topPackageName;
-	Boolean ifHandle;
+	Boolean ifHandle;//是否启用service
 
 	public WatchDogService() {
 		super("abcde");

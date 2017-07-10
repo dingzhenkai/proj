@@ -93,9 +93,9 @@ public class AppInfoDao {
 		for (PackageInfo packageInfo : packageInfos) {
 			String packageName = packageInfo.packageName;
 			//只显示第三方app
-            //if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags)!=0) {
-              // continue;
-            //}
+            if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags)!=0) {
+               continue;
+            }
 			Log.v("demo",packageName+":"+Integer.toHexString(packageInfo.applicationInfo.flags));
 			AppInfo appInfo = new AppInfo();
 			ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, 0);
