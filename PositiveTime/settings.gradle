@@ -1,1 +1,1 @@
-include ':app', ':library-swagpoints'
+include ':app', ':library-swagpoints', ':library-bubbleseekbar'

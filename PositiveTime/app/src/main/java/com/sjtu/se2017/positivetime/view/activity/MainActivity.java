@@ -49,6 +49,7 @@ public class MainActivity extends FragmentActivity {
     private ListView listView;
     private FragmentManager fm;
     private TextView PView,NView;
+    private ImageView user_pic;
     private RelativeLayout Playout,Nlayout;
     private Button PButton,NButton;
     private long ptime,ntime;
@@ -101,7 +102,7 @@ public class MainActivity extends FragmentActivity {
                         startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent = new Intent(MainActivity.this, PlanActivity.class);
                         startActivity(intent);
                         break;
 
@@ -110,6 +111,13 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+        user_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
         });
         rightLayout.setOnClickListener(new View.OnClickListener() {
@@ -143,11 +151,12 @@ public class MainActivity extends FragmentActivity {
         list.add(new ContentModel(R.mipmap.doctoradvice2, "查看数据", 1));
         list.add(new ContentModel(R.mipmap.infusion_selected, "设置权重", 2));
         list.add(new ContentModel(R.mipmap.doctoradvice2, "悬浮窗", 3));
-        list.add(new ContentModel(R.mipmap.mypatient_selected, "登录/注册", 4));
+        list.add(new ContentModel(R.mipmap.mypatient_selected, "计划", 4));
 
         instance = this;
         PView = (TextView)findViewById(R.id.PView);
         NView = (TextView)findViewById(R.id.NView);
+        user_pic = (ImageView)findViewById(R.id.user_pic);
         PButton = (Button)findViewById(R.id.PButton);
         NButton = (Button)findViewById(R.id.NButton);
         Playout = (RelativeLayout)findViewById(R.id.Playout);

@@ -18,9 +18,12 @@ import android.content.pm.PackageManager;
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.AppInfo;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.service.WatchDogService;
+import com.xw.repo.BubbleSeekBar;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SetWeightActivity extends AppCompatActivity {
 
@@ -83,26 +86,15 @@ public class SetWeightActivity extends AppCompatActivity {
             app_icon.setImageDrawable(appInfo.getImage());
             app_name.setText(appInfo.getAppName());
             //通过滑动条设置weight
-            final TextView app_weight_textview = (TextView) convertView.findViewById(R.id.app_weight_textview);
-            SeekBar app_weight_seekbar = (SeekBar) convertView.findViewById(R.id.app_weight_seekbar);
+            BubbleSeekBar app_weight_seekbar = (BubbleSeekBar) convertView.findViewById(R.id.app_weight_seekbar);
             //init seekbar
             appInfo.setWeight(appInfoDao.checkweight(appInfo.getAppName()));
             app_weight_seekbar.setProgress(appInfo.getWeight());
-            app_weight_textview.setText(""+app_weight_seekbar.getProgress());
 
-            app_weight_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            app_weight_seekbar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
                 @Override
-                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    app_weight_textview.setText(""+i);
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    appInfo.setWeight(seekBar.getProgress());
+                public void getProgressOnActionUp(int progress, float progressFloat) {
+                    appInfo.setWeight(progress);
                     appInfoDao.insertOrUpdate(appInfo.getAppName(),appInfo.getWeight());
                     //should close when activity changes
                     //db.close();

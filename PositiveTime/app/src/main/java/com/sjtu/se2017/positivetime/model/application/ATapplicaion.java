@@ -10,7 +10,25 @@ import android.widget.TextView;
 public class ATapplicaion extends Application {
     static private long PTime;
     static private long NTime;
+    static private int PTotalWeight;
+    static private int NTotalWeight;
     private static ATapplicaion instance;
+
+    public static int getPTotalWeight() {
+        return PTotalWeight;
+    }
+
+    public static void setPTotalWeight(int PTotalWeight) {
+        ATapplicaion.PTotalWeight = PTotalWeight;
+    }
+
+    public static int getNTotalWeight() {
+        return NTotalWeight;
+    }
+
+    public static void setNTotalWeight(int NTotalWeight) {
+        ATapplicaion.NTotalWeight = NTotalWeight;
+    }
 
     public void setPTime(long PTime){
         this.PTime = PTime;

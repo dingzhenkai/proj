@@ -31,6 +31,7 @@
         <activity android:name=".view.activity.FloatingWindow" />
         <activity android:name=".view.activity.LoginActivity" />
         <activity android:name=".view.activity.TomatosActivity" />
+        <activity android:name=".view.activity.PlanActivity" />
 
         <activity
             android:name=".view.activity.LockActivity"
