@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -105,7 +106,10 @@ public class MainActivity extends FragmentActivity {
                         intent = new Intent(MainActivity.this, PlanActivity.class);
                         startActivity(intent);
                         break;
-
+                    case 5:
+                        intent = new Intent(MainActivity.this, AppActivity.class);
+                        startActivity(intent);
+                        break;
                     default:
                         break;
                 }
@@ -152,6 +156,7 @@ public class MainActivity extends FragmentActivity {
         list.add(new ContentModel(R.mipmap.infusion_selected, "设置权重", 2));
         list.add(new ContentModel(R.mipmap.doctoradvice2, "悬浮窗", 3));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "计划", 4));
+        list.add(new ContentModel(R.mipmap.mypatient_selected, "app搜索", 5));
 
         instance = this;
         PView = (TextView)findViewById(R.id.PView);
