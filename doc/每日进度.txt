@@ -19,4 +19,4 @@
 	  2、替换seekbar 采用第三方库bubbleseekbar
 	  3、app search 界面
       丁：1. 配置分享到qq，qzone，微信，weibo
-      
+      秦：继续写服务器端，学习tensorflow
