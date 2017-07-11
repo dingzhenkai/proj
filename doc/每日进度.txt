@@ -15,3 +15,6 @@
      4、客户端已能连到服务器
 7.7  1、数据库设计
       2、“开始学习”
+7.11  张：1、“制定计划”功能：设置total pweight　nweight
+	  2、替换seekbar 采用第三方库bubbleseekbar
+	  3、app search 界面
