@@ -39,5 +39,7 @@ dependencies {
     compile 'com.dualcores.swagpoints:swagpoints:1.0.2'
     compile 'com.xw.repo:bubbleseekbar:3.4'
     compile 'com.github.mancj:MaterialSearchBar:0.7'
+    compile 'com.github.ome450901:SimpleRatingBar:1.2'
+    compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
     testCompile 'junit:junit:4.12'
 }

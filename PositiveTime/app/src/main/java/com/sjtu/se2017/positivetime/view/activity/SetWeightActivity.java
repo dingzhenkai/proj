@@ -1,8 +1,6 @@
 package com.sjtu.se2017.positivetime.view.activity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -11,19 +9,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.content.pm.PackageManager;
 
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.AppInfo;
-import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
-import com.sjtu.se2017.positivetime.service.WatchDogService;
 import com.xw.repo.BubbleSeekBar;
 
 import java.util.List;
-import java.util.Locale;
 
 public class SetWeightActivity extends AppCompatActivity {
 
@@ -80,7 +74,7 @@ public class SetWeightActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             appInfoDao = new AppInfoDao(context);
             final AppInfo appInfo = adapterDatas.get(position);
-            convertView = inflater.inflate(R.layout.listitem, null);
+            convertView = inflater.inflate(R.layout.appinfo_listitem, null);
             ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
             TextView app_name = (TextView) convertView.findViewById(R.id.app_name);
             app_icon.setImageDrawable(appInfo.getImage());
