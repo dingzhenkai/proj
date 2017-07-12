@@ -10,7 +10,7 @@ public class AppSearchInfo {
     private Drawable image;
     private String appName;
     private String packageName;
-    private int weight;
+    private float weight;
     private int installNum;
     private int categoryId;
 
@@ -38,7 +38,7 @@ public class AppSearchInfo {
         this.packageName = packageName;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 

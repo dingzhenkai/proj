@@ -20,6 +20,8 @@ import com.sjtu.se2017.positivetime.model.AppSearchInfo;
 
 import java.util.List;
 
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+
 /**
  * Created by Administrator on 2017/7/7.
  */
@@ -88,6 +90,12 @@ public class AppActivity extends Activity{
     private class AppAdapter extends BaseAdapter {
         private List<AppSearchInfo> appSearchInfos;
         private LayoutInflater inflater;
+        ImageView app_icon;
+        TextView app_name;
+        TextView installNum;
+        TextView category;
+        TextView weight;
+        MaterialRatingBar materialRatingBar;
         public AppAdapter() {}
 
         public AppAdapter(List<AppSearchInfo> appSearchInfos,Context context) {
@@ -113,17 +121,19 @@ public class AppActivity extends Activity{
         public View getView(int position, View convertView, ViewGroup parent) {
             final AppSearchInfo appSearchInfo = adapterDatas.get(position);
             convertView = inflater.inflate(R.layout.appsearchinfo_listitem, null);
-            ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
-            TextView app_name = (TextView) convertView.findViewById(R.id.app_name);
-            TextView installNum = (TextView) convertView.findViewById(R.id.installNum);
-            TextView category = (TextView) convertView.findViewById(R.id.category);
-            TextView weight = (TextView) convertView.findViewById(R.id.weight);
+            app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
+            app_name = (TextView) convertView.findViewById(R.id.app_name);
+            installNum = (TextView) convertView.findViewById(R.id.installNum);
+            category = (TextView) convertView.findViewById(R.id.category);
+            weight = (TextView) convertView.findViewById(R.id.weight);
+            materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.materialRatingBar);
 
             app_icon.setImageDrawable(appSearchInfo.getImage());
             app_name.setText(appSearchInfo.getAppName());
             installNum.setText(appSearchInfo.getInstallNum());
-            category.setText(appSearchInfo.getCategoryId()+"");
-            weight.setText(appSearchInfo.getWeight());
+            category.setText(appSearchInfo.getCategoryId()+"category");
+            weight.setText(appSearchInfo.getWeight()+"");
+            materialRatingBar.setRating(appSearchInfo.getWeight());
 
             return convertView;
         }

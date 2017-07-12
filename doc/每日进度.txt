@@ -1,4 +1,4 @@
-分享到配置分享6.27 1、简单地列出了手机中所有已安装app
+﻿分享到配置分享6.27 1、简单地列出了手机中所有已安装app
      2、简易的为登录/注册准备的后端
 6.28 1、实现通过seekbar设置权重 数据持久化
      2、显示app使用数据（饼状图、柱状图）
@@ -20,3 +20,5 @@
 	  3、app search 界面
       丁：1. 配置分享到qq，qzone，微信，weibo
       秦：继续写服务器端，学习tensorflow
+7.12  张：1、设置total pweight nweight持久化
+	  2、app search ui完成 采用第三方库 materialratingbar
