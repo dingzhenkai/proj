@@ -24,6 +24,7 @@ public class PlanActivity extends Activity {
         setContentView(R.layout.activity_plan);
 
         final BubbleSeekBar bubbleSeekBar = (BubbleSeekBar) findViewById(R.id.bubbleSeekBar);
+        bubbleSeekBar.setProgress((float)ATapplicaion.getInstance().getNTotalWeight());
         bubbleSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
             @Override
             public void getProgressOnFinally(int progress, float progressFloat) {

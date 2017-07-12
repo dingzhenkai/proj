@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class AppActivity extends Activity{
     Context context;
     MaterialSearchBar materialSearchBar;
     List<AppSearchInfo> adapterDatas;
+    ListView listView;
     private AppAdapter adapter;
 
     @Override
@@ -45,6 +47,10 @@ public class AppActivity extends Activity{
             public void onSearchConfirmed(CharSequence text) {
                 search(text.toString());
                 //startSearch(text.toString(), true, null, true);
+
+                listView = (ListView) findViewById(R.id.AppSearchInfoList);
+                adapter = new AppActivity.AppAdapter(adapterDatas,context);
+                listView.setAdapter(adapter);
             }
 
             @Override
@@ -106,11 +112,18 @@ public class AppActivity extends Activity{
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final AppSearchInfo appSearchInfo = adapterDatas.get(position);
-            convertView = inflater.inflate(R.layout.appinfo_listitem, null);
+            convertView = inflater.inflate(R.layout.appsearchinfo_listitem, null);
             ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
             TextView app_name = (TextView) convertView.findViewById(R.id.app_name);
+            TextView installNum = (TextView) convertView.findViewById(R.id.installNum);
+            TextView category = (TextView) convertView.findViewById(R.id.category);
+            TextView weight = (TextView) convertView.findViewById(R.id.weight);
+
             app_icon.setImageDrawable(appSearchInfo.getImage());
             app_name.setText(appSearchInfo.getAppName());
+            installNum.setText(appSearchInfo.getInstallNum());
+            category.setText(appSearchInfo.getCategoryId()+"");
+            weight.setText(appSearchInfo.getWeight());
 
             return convertView;
         }
