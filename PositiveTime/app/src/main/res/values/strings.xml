@@ -13,4 +13,5 @@
     <string name="string_setting_fix">请先开启悬浮窗再进行设置</string>
     <string name="start_working">start working</string>
     <string name="start_relaxing">start relaxing</string>
+    <string name="NTotalWeight">NTotalWeight</string>
 </resources>

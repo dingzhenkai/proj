@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.SeekBar;
 
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.xw.repo.BubbleSeekBar;
 
@@ -17,11 +18,13 @@ import java.util.Locale;
  */
 
 public class PlanActivity extends Activity {
+    AppInfoDao appInfoDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan);
+        appInfoDao = new AppInfoDao(this);
 
         final BubbleSeekBar bubbleSeekBar = (BubbleSeekBar) findViewById(R.id.bubbleSeekBar);
         bubbleSeekBar.setProgress((float)ATapplicaion.getInstance().getNTotalWeight());
@@ -31,6 +34,7 @@ public class PlanActivity extends Activity {
                 String s = String.format(Locale.CHINA, "onFinally int:%d, float:%.1f", progress, progressFloat);
                 ATapplicaion.getInstance().setPTotalWeight(100-progress);
                 ATapplicaion.getInstance().setNTotalWeight(progress);
+                appInfoDao.insertOrUpdate("NTotalWeight",progress);
                 //Log.v("test",ATapplicaion.getInstance().getNTotalWeight()+"");
             }
         });

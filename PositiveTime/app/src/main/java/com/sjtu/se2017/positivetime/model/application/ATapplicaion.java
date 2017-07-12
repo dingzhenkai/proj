@@ -50,7 +50,7 @@ public class ATapplicaion extends Application {
     }
 
     public long getAT(){
-        return PTime-NTime;
+        return PTime*NTotalWeight - NTime*PTotalWeight;
     }
 
     public float getPWeight(){

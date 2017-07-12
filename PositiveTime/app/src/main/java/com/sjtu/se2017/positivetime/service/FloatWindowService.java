@@ -100,6 +100,9 @@ public class FloatWindowService extends Service implements Constants {
             ATapplicaion aTapplicaion = ATapplicaion.getInstance();
             aTapplicaion.setPTime(PTime);
             aTapplicaion.setNTime(NTime);
+            int nTotalWeight = appInfoDao.checkweight(getResources().getString(R.string.NTotalWeight));
+            aTapplicaion.setNTotalWeight(nTotalWeight);
+            aTapplicaion.setPTotalWeight(100-nTotalWeight);
 
 
             //int offset = c.getColumnIndex("weight");
