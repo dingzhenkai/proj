@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp">
         <ImageView
-            android:id="@+id/app_icon"
+            android:id="@+id/avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
@@ -18,30 +16,20 @@
             />
 
         <TextView
-            android:id="@+id/app_name"
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:singleLine="true"
             android:text="name"
-            android:layout_alignTop="@id/app_icon"
-            android:layout_toEndOf="@id/app_icon"/>
+            android:layout_alignTop="@id/avatar"
+            android:layout_toEndOf="@id/avatar"/>
 
-        <com.xw.repo.BubbleSeekBar
-            android:id="@+id/app_weight_seekbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            app:bsb_second_track_color="@color/cornflowerblue"
-            app:bsb_section_count="5"
-            app:bsb_show_section_mark="true"
-            app:bsb_show_section_text="true"
-            app:bsb_show_thumb_text="true"
-            app:bsb_thumb_text_size="12sp"
-            app:bsb_touch_to_seek="true"
-            android:layout_below="@id/app_name"
-            android:layout_toEndOf="@id/app_icon"/>
-
+            android:id="@+id/achievements"
+            android:layout_alignBottom="@id/avatar"
+            android:layout_toEndOf="@id/avatar" />
     </RelativeLayout>
 </LinearLayout>

@@ -11,26 +11,35 @@ import android.widget.TextView;
  */
 
 public class ATapplicaion extends Application {
+    static private String email;
     static private long PTime;
     static private long NTime;
     static private int PTotalWeight;
     static private int NTotalWeight;
     private static ATapplicaion instance;
 
-    public static int getPTotalWeight() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getPTotalWeight() {
         return PTotalWeight;
     }
 
-    public static void setPTotalWeight(int PTotalWeight) {
-        ATapplicaion.PTotalWeight = PTotalWeight;
+    public void setPTotalWeight(int PTotalWeight) {
+        this.PTotalWeight = PTotalWeight;
     }
 
-    public static int getNTotalWeight() {
+    public int getNTotalWeight() {
         return NTotalWeight;
     }
 
-    public static void setNTotalWeight(int NTotalWeight) {
-        ATapplicaion.NTotalWeight = NTotalWeight;
+    public void setNTotalWeight(int NTotalWeight) {
+        this.NTotalWeight = NTotalWeight;
     }
 
     public void setPTime(long PTime){

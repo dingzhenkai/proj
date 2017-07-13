@@ -24,6 +24,7 @@ import javax.crypto.spec.DESKeySpec;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -118,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String result = buffer.toString();
                                 if(result.equals("1")){
                                     //success,add some code here to jump to somewhere else
+                                    ATapplicaion.getInstance().setEmail(email);
                                     finish();
                                 }else{
                                     // wrong password
