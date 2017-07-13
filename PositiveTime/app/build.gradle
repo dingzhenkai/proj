@@ -41,5 +41,7 @@ dependencies {
     compile 'com.github.mancj:MaterialSearchBar:0.7'
     compile 'com.github.ome450901:SimpleRatingBar:1.2'
     compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
+    compile 'net.sf.json-lib:json-lib:2.4:jdk15'
+    compile 'com.google.code.gson:gson:2.2.+'
     testCompile 'junit:junit:4.12'
 }
