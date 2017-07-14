@@ -101,7 +101,7 @@ public class SignupActivity extends AppCompatActivity {
                             String password = _passwordText.getText().toString();
                             String encryptEmail = encrypt(email,KEY);
                             String encryptPassword = encrypt(password,KEY);
-                            String urlStr = "http://10.0.2.2:8080/insert_user?username="+encryptEmail+"&password="+encryptPassword;
+                            String urlStr = "http://10.200.4.206:8080/user/insert_user?email="+encryptEmail+"&password="+encryptPassword;
                             url = new URL(urlStr);
                             urlCon= (HttpURLConnection) url.openConnection();
                             urlCon.setRequestMethod("GET");
@@ -119,7 +119,6 @@ public class SignupActivity extends AppCompatActivity {
                                 String result = buffer.toString();
                                 if(result.equals("1")){
                                     //success,add some code here to jump to somewhere else
-
                                 }else{
                                     // exsiting username
                                     Toast.makeText(getApplicationContext(), "exsiting username", Toast.LENGTH_SHORT).show();    //显示toast信息

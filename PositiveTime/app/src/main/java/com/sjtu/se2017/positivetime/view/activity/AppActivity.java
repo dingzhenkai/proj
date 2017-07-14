@@ -3,9 +3,15 @@ package com.sjtu.se2017.positivetime.view.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,25 +22,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.AppInfo;
 import com.sjtu.se2017.positivetime.model.AppSearchInfo;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.OutputStream;
+import java.io.BufferedWriter;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -54,6 +66,8 @@ public class AppActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
         context = this;
+        adapterDatas = new ArrayList<AppSearchInfo>();
+
         materialSearchBar = (MaterialSearchBar)findViewById(R.id.materialSearchBar);
         materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
             @Override
@@ -163,7 +177,7 @@ public class AppActivity extends Activity{
         @Override
         protected String doInBackground(String... params) {
 
-            String urlStr = "http://10.0.2.2:8080/appinfo/search";
+            String urlStr = "http://10.200.4.206:8080/appinfo/search";
             HttpURLConnection urlConnection = null;
             URL url = null;
             try {
@@ -205,7 +219,6 @@ public class AppActivity extends Activity{
                     int size = array.size();
 
                     Gson gson = new Gson();
-                    adapterDatas = new ArrayList<>();
                     for(int k = 0;k < size;k++){
                         JSONObject tmp = JSONObject.fromObject(array.get(k));
                         AppSearchInfo m = new AppSearchInfo();
@@ -216,6 +229,7 @@ public class AppActivity extends Activity{
                         m.setWeight(tmp.getDouble("weight")); //旧版里weight是int新版里你应该改了
                         m.setImage(null);
                         adapterDatas.add(m);
+                        Log.v("done",m.getAppName());
                     }
                     Log.v("done","end");
                 } else {

@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                             String password = _passwordText.getText().toString();
                             String encryptEmail = encrypt(email,KEY);
                             String encryptPassword = encrypt(password,KEY);
-                            String urlStr = "http://10.0.2.2:8080/login?username="+encryptEmail+"&password="+encryptPassword;
+                            String urlStr = "http://10.200.4.206:8080/user/login?email="+encryptEmail+"&password="+encryptPassword;
                             url = new URL(urlStr);
                             urlCon= (HttpURLConnection) url.openConnection();
                             urlCon.setRequestMethod("GET");

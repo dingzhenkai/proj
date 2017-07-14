@@ -14,9 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.AppSearchInfo;
 import com.sjtu.se2017.positivetime.model.UserSearchInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -38,7 +40,13 @@ public class UserActivity extends Activity {
         setContentView(R.layout.activity_user);
         context = this;
 
+        adapterDatas = new ArrayList<UserSearchInfo>();
+
         findSimilarusers(ATapplicaion.getInstance().getEmail());
+
+        listView = (ListView) findViewById(R.id.UserSearchInfoList);
+        adapter = new UserActivity.AppAdapter(adapterDatas,context);
+        listView.setAdapter(adapter);
     }
 
     @Override

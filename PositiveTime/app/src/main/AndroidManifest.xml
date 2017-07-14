@@ -30,6 +30,7 @@
         <activity android:name=".view.activity.SetWeightActivity"/>
         <activity android:name=".view.activity.FloatingWindow" />
         <activity android:name=".view.activity.LoginActivity" />
+        <activity android:name=".view.activity.SignupActivity" />
         <activity android:name=".view.activity.TomatosActivity" />
         <activity android:name=".view.activity.PlanActivity" />
         <activity android:name=".view.activity.AppActivity" />
