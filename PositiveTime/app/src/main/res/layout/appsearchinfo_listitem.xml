@@ -43,13 +43,6 @@
             android:layout_marginStart="325dp"
             android:id="@+id/category" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/weight"
-            android:layout_alignBottom="@id/app_icon"
-            android:layout_toEndOf="@id/app_icon" />
-
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
             android:id="@+id/materialRatingBar"
             android:layout_width="wrap_content"
@@ -59,5 +52,12 @@
             android:layout_toEndOf="@id/app_icon"
             android:maxHeight="24dp"
             android:isIndicator="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weight"
+            android:layout_toEndOf="@id/materialRatingBar"
+            android:layout_marginTop="42dp"/>
     </RelativeLayout>
 </LinearLayout>

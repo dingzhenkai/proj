@@ -67,6 +67,19 @@ public class AppActivity extends Activity{
         setContentView(R.layout.activity_app);
         context = this;
         adapterDatas = new ArrayList<AppSearchInfo>();
+/*
+        AppSearchInfo m = new AppSearchInfo();
+        m.setAppName("app");
+        m.setPackageName("sdfsd");
+        m.setCategoryId(12);
+        m.setInstallNum(13);
+        m.setWeight(12); //旧版里weight是int新版里你应该改了
+        m.setImage(null);
+        adapterDatas.add(m);
+*/
+        listView = (ListView) findViewById(R.id.AppSearchInfoList);
+        adapter = new AppActivity.AppAdapter(adapterDatas,context);
+        listView.setAdapter(adapter);
 
         materialSearchBar = (MaterialSearchBar)findViewById(R.id.materialSearchBar);
         materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
@@ -79,10 +92,6 @@ public class AppActivity extends Activity{
             public void onSearchConfirmed(CharSequence text) {
                 search(text.toString());
                 //startSearch(text.toString(), true, null, true);
-
-                listView = (ListView) findViewById(R.id.AppSearchInfoList);
-                adapter = new AppActivity.AppAdapter(adapterDatas,context);
-                listView.setAdapter(adapter);
             }
 
             @Override
@@ -137,12 +146,12 @@ public class AppActivity extends Activity{
         }
         @Override
         public int getCount() {
-            return appSearchInfos.size();
+            return adapterDatas.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return appSearchInfos.get(position);
+            return adapterDatas.get(position);
         }
 
         @Override
@@ -163,11 +172,11 @@ public class AppActivity extends Activity{
 
             app_icon.setImageDrawable(appSearchInfo.getImage());
             app_name.setText(appSearchInfo.getAppName());
-            installNum.setText(appSearchInfo.getInstallNum());
+            installNum.setText(appSearchInfo.getInstallNum()+"");
             category.setText(appSearchInfo.getCategoryId()+"category");
             weight.setText(appSearchInfo.getWeight()+"");
-            materialRatingBar.setRating((float)appSearchInfo.getWeight());
-
+            materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
+            Log.v("aaa","aaa");
             return convertView;
         }
     }
@@ -177,6 +186,8 @@ public class AppActivity extends Activity{
         @Override
         protected String doInBackground(String... params) {
 
+            adapterDatas = new ArrayList<AppSearchInfo>();
+            String returnStr = "";
             String urlStr = "http://10.200.4.206:8080/appinfo/search";
             HttpURLConnection urlConnection = null;
             URL url = null;
@@ -217,32 +228,49 @@ public class AppActivity extends Activity{
                     String t = buffer.toString();
                     JSONArray array = JSONArray.fromObject(t);
                     int size = array.size();
-
                     Gson gson = new Gson();
-                    for(int k = 0;k < size;k++){
-                        JSONObject tmp = JSONObject.fromObject(array.get(k));
-                        AppSearchInfo m = new AppSearchInfo();
-                        m.setAppName(tmp.getString("appName"));
-                        m.setPackageName(tmp.getString("packageName"));
-                        m.setCategoryId(tmp.getInt("category"));
-                        m.setInstallNum(tmp.getInt("installNum"));
-                        m.setWeight(tmp.getDouble("weight")); //旧版里weight是int新版里你应该改了
-                        m.setImage(null);
-                        adapterDatas.add(m);
-                        Log.v("done",m.getAppName());
+                    if(size != 0) {
+                        for (int k = 0; k < size; k++) {
+                            JSONObject tmp = JSONObject.fromObject(array.get(k));
+                            AppSearchInfo m = new AppSearchInfo();
+                            m.setAppName(tmp.getString("appName"));
+                            m.setPackageName(tmp.getString("packageName"));
+                            m.setCategoryId(tmp.getInt("category"));
+                            m.setInstallNum(tmp.getInt("installNum"));
+                            m.setWeight(tmp.getInt("weight"));
+                            m.setImage(null);
+                            adapterDatas.add(m);
+                            //Log.v("done",m.getAppName());
+                        }
+                        Log.v("done", "end");
+                        returnStr = "success";
+                    } else {
+                        returnStr = "no result";
                     }
-                    Log.v("done","end");
                 } else {
                     // connection failure
+                    returnStr = "connection failure";
                 }
             } catch (Exception e) {
                 // exception
             } finally {
                 urlConnection.disconnect();//使用完关闭TCP连接，释放资源
             }
-            return null;
+            return returnStr;
+        }
 
-
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equals("success")) {
+                Log.v("search", adapterDatas.size() + "");
+                for (int i = 0; i < adapterDatas.size(); i++) {
+                    Log.v("search", adapterDatas.get(i).getAppName());
+                }
+                adapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
