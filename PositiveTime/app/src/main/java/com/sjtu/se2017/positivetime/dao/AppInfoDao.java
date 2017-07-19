@@ -26,6 +26,20 @@ public class AppInfoDao {
 	public AppInfoDao(){
 
 	}
+
+	/**
+	 * 查询数据库有没有对应的数据
+	 */
+	public Cursor  query(String appName){
+		db = openHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select * from info where label=?",
+				new String[] { appName });
+		if(cursor!=null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+
 	/*
 	 * 插入一条数据，如果数据已经存在，就更新
 	 */
@@ -42,19 +56,6 @@ public class AppInfoDao {
 			db.update("info",cv,"label=?",new String[]{appName});
 		}
 		db.close();
-	}
-
-	/**
-	 * 查询数据库有没有对应的数据
-	 */
-	public Cursor  query(String appName){
-		db = openHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select * from info where label=?",
-				new String[] { appName });
-		if(cursor!=null){
-			cursor.moveToFirst();
-		}
-		return cursor;
 	}
 
 	public int checkweight(String appName){

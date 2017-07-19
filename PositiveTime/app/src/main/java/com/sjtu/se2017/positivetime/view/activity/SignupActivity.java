@@ -66,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
                             String email = _emailText.getText().toString();
                             String password = _passwordText.getText().toString();
                             String encryptPassword = encryptSHA(password);
-                            String urlStr = "http://139.196.88.202:8080/user/insert_user?email="+email+"&password="+password;
+                            String urlStr = getResources().getString(R.string.ipAddress)+"/user/insert_user?email="+email+"&password="+password;
                             url = new URL(urlStr);
                             urlCon= (HttpURLConnection) url.openConnection();
                             urlCon.setRequestMethod("GET");

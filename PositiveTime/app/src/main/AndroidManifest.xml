@@ -36,6 +36,7 @@
         <activity android:name=".view.activity.AppActivity" />
         <activity android:name=".view.activity.UserActivity" />
         <activity android:name=".view.activity.UserDetailActivity" />
+        <activity android:name=".view.activity.LineChartActivity" />
 
         <activity
             android:name=".view.activity.LockActivity"

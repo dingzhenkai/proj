@@ -188,7 +188,7 @@ public class AppActivity extends Activity{
 
             adapterDatas = new ArrayList<AppSearchInfo>();
             String returnStr = "";
-            String urlStr = "http://192.168.1.206:8080/appinfo/search";
+            String urlStr = getResources().getString(R.string.ipAddress)+"/appinfo/search";
             HttpURLConnection urlConnection = null;
             URL url = null;
             try {

@@ -147,7 +147,7 @@ public class UserActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             String returnStr = "";
-            String urlStr = "http://192.168.1.206:8080/user/similarUser";
+            String urlStr = getResources().getString(R.string.ipAddress)+"/user/similarUser";
             HttpURLConnection urlConnection = null;
             URL url = null;
             try {

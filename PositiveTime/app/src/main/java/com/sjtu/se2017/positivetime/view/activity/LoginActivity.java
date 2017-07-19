@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                             String email = _emailText.getText().toString();
                             String password = _passwordText.getText().toString();
                             String encryptPassword = encryptSHA(password);
-                            String urlStr = "http://192.168.1.206:8080/user/login?email="+email+"&password="+password;
+                            String urlStr = getResources().getString(R.string.ipAddress)+"/user/login?email="+email+"&password="+password;
                             url = new URL(urlStr);
                             urlCon= (HttpURLConnection) url.openConnection();
                             urlCon.setRequestMethod("GET");

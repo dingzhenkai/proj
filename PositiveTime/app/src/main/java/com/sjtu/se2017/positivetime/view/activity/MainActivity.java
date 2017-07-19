@@ -114,6 +114,10 @@ public class MainActivity extends FragmentActivity {
                         intent = new Intent(MainActivity.this, UserActivity.class);
                         startActivity(intent);
                         break;
+                    case 7:
+                        intent = new Intent(MainActivity.this, LineChartActivity.class);
+                        startActivity(intent);
+                        break;
                     default:
                         break;
                 }
@@ -162,6 +166,7 @@ public class MainActivity extends FragmentActivity {
         list.add(new ContentModel(R.mipmap.mypatient_selected, "计划", 4));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "app搜索", 5));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "相似用户", 6));
+        list.add(new ContentModel(R.mipmap.mypatient_selected, "AT折线图", 7));
 
         instance = this;
         PView = (TextView)findViewById(R.id.PView);
