@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PositiveTime.iml" filepath="$PROJECT_DIR$/PositiveTime.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-JNChart/library-JNChart.iml" filepath="$PROJECT_DIR$/library-JNChart/library-JNChart.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-MaterialRatingBar/library-MaterialRatingBar.iml" filepath="$PROJECT_DIR$/library-MaterialRatingBar/library-MaterialRatingBar.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-bubbleseekbar/library-bubbleseekbar.iml" filepath="$PROJECT_DIR$/library-bubbleseekbar/library-bubbleseekbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-materialsearchbar/library-materialsearchbar.iml" filepath="$PROJECT_DIR$/library-materialsearchbar/library-materialsearchbar.iml" />

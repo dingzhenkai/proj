@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.TextView;
 
+import com.sjtu.se2017.positivetime.service.util.Utils;
+
 /**
  * Created by Administrator on 2017/6/29.
  */
@@ -83,6 +85,7 @@ public class ATapplicaion extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        Utils.init(this);
     }
 
     public static boolean isNetworkAvailable(Context context) {

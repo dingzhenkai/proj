@@ -25,7 +25,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.sjtu.se2017.positivetime.R;
 
@@ -33,12 +33,12 @@ public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     public static final String KEY_SHA = "SHA";
 
-    @Bind(R.id.input_email) EditText _emailText;
+    @BindView(R.id.input_email) EditText _emailText;
 
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
-    @Bind(R.id.btn_signup) Button _signupButton;
-    @Bind(R.id.link_login) TextView _loginLink;
+    @BindView(R.id.input_password) EditText _passwordText;
+    @BindView(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
+    @BindView(R.id.btn_signup) Button _signupButton;
+    @BindView(R.id.link_login) TextView _loginLink;
     public static String encryptSHA(String data) throws Exception {
         byte[] input = data.getBytes();
         MessageDigest sha = MessageDigest.getInstance(KEY_SHA);
@@ -66,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
                             String email = _emailText.getText().toString();
                             String password = _passwordText.getText().toString();
                             String encryptPassword = encryptSHA(password);
-                            String urlStr = "http://10.200.4.206:8080/user/insert_user?email="+email+"&password="+password;
+                            String urlStr = "http://139.196.88.202:8080/user/insert_user?email="+email+"&password="+password;
                             url = new URL(urlStr);
                             urlCon= (HttpURLConnection) url.openConnection();
                             urlCon.setRequestMethod("GET");

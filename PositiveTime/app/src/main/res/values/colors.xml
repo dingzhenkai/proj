@@ -172,4 +172,9 @@
     <color name="colorText">@android:color/white</color>
     <color name="colorProgress">#58D4DE</color>
     <color name="colorAction">#FF6484</color>
+
+    <!--mobile demo module -->
+    <color name="tab_item_bg">#333333</color>
+    <color name="tab_checked">@color/colorPrimary</color>
+    <color name="tab_unchecked">#757575</color>
 </resources>

@@ -3,9 +3,11 @@ package com.sjtu.se2017.positivetime.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.model.AppSearchInfo;
 import com.sjtu.se2017.positivetime.model.UserSearchInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
+import com.sjtu.se2017.positivetime.service.UpdateUIService;
+import com.sjtu.se2017.positivetime.service.WatchDogService;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -34,7 +38,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -59,8 +65,8 @@ public class UserActivity extends Activity {
         adapterDatas = new ArrayList<UserSearchInfo>();
 
 
-        findSimilarusers("222"+"@"+"qq.com");
-        //findSimilarusers(ATapplicaion.getInstance().getEmail());
+        //findSimilarusers("222"+"@"+"qq.com");
+        findSimilarusers(ATapplicaion.getInstance().getEmail());
 
         listView = (ListView) findViewById(R.id.UserSearchInfoList);
         adapter = new UserActivity.AppAdapter(adapterDatas,context);
@@ -114,16 +120,24 @@ public class UserActivity extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final UserSearchInfo userSearchInfos = adapterDatas.get(position);
+            final UserSearchInfo userSearchInfo = adapterDatas.get(position);
             convertView = inflater.inflate(R.layout.usersearchinfo_listitem, null);
             avatar = (ImageView) convertView.findViewById(R.id.avatar);
             username = (TextView) convertView.findViewById(R.id.username);
             achievements = (TextView) convertView.findViewById(R.id.achievements);
 
-            avatar.setImageDrawable(userSearchInfos.getAvatar());
-            username.setText(userSearchInfos.getUsername());
+            avatar.setImageDrawable(userSearchInfo.getAvatar());
+            username.setText(userSearchInfo.getUsername());
             //achievements.setText(userSearchInfos.achievementsToString());
             achievements.setText("achievements");
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(UserActivity.this,UserDetailActivity.class);
+                    intent.putExtra("email",userSearchInfo.getEmail());
+                    startActivity(intent);
+                }
+            });
             return convertView;
         }
     }
@@ -133,7 +147,7 @@ public class UserActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             String returnStr = "";
-            String urlStr = "http://10.200.4.206:8080/user/similarUser";
+            String urlStr = "http://192.168.1.206:8080/user/similarUser";
             HttpURLConnection urlConnection = null;
             URL url = null;
             try {

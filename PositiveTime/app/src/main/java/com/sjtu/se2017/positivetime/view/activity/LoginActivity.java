@@ -24,7 +24,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import butterknife.ButterKnife;
-import butterknife.Bind;
+import butterknife.BindView;
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
@@ -32,10 +32,10 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     public static final String KEY_SHA = "SHA";
-    @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.btn_login) Button _loginButton;
-    @Bind(R.id.link_signup) TextView _signupLink;
+    @BindView(R.id.input_email) EditText _emailText;
+    @BindView(R.id.input_password) EditText _passwordText;
+    @BindView(R.id.btn_login) Button _loginButton;
+    @BindView(R.id.link_signup) TextView _signupLink;
 
     public static String encryptSHA(String data) throws Exception {
         byte[] input = data.getBytes();
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                             String email = _emailText.getText().toString();
                             String password = _passwordText.getText().toString();
                             String encryptPassword = encryptSHA(password);
-                            String urlStr = "http://10.200.4.206:8080/user/login?email="+email+"&password="+password;
+                            String urlStr = "http://192.168.1.206:8080/user/login?email="+email+"&password="+password;
                             url = new URL(urlStr);
                             urlCon= (HttpURLConnection) url.openConnection();
                             urlCon.setRequestMethod("GET");

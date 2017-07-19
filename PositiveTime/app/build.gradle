@@ -35,13 +35,19 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.0.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.dualcores.swagpoints:swagpoints:1.0.2'
-    compile 'com.xw.repo:bubbleseekbar:3.4'
-    compile 'com.github.mancj:MaterialSearchBar:0.7'
-    compile 'com.github.ome450901:SimpleRatingBar:1.2'
-    compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
+    //compile 'com.jakewharton:butterknife:7.0.1'
     compile 'net.sf.json-lib:json-lib:2.4:jdk15'
     compile 'com.google.code.gson:gson:2.2.+'
     testCompile 'junit:junit:4.12'
+    compile project(':library-JNChart')
+    compile project(':library-bubbleseekbar')
+    compile project(':library-MaterialRatingBar')
+    compile project(':library-materialsearchbar')
+    compile project(':library-swagpoints')
+    //mobile demo module
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.android.support:design:25.2.0'
+    //圆心ImageView
+    compile 'de.hdodenhof:circleimageview:1.3.0'
 }
