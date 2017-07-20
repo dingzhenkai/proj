@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -15,7 +14,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,11 +30,10 @@ import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.ContentAdapter;
 import com.sjtu.se2017.positivetime.model.ContentModel;
-import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
+import com.sjtu.se2017.positivetime.model.share.share.Print.PrintActivity;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 import com.sjtu.se2017.positivetime.service.UpdateUIService;
-import com.sjtu.se2017.positivetime.service.WatchDogControlService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +115,10 @@ public class MainActivity extends FragmentActivity {
                         intent = new Intent(MainActivity.this, LineChartActivity.class);
                         startActivity(intent);
                         break;
+                    case 8:
+                        intent = new Intent(MainActivity.this, PrintActivity.class);
+                        startActivity(intent);
+                        break;
                     default:
                         break;
                 }
@@ -167,6 +168,7 @@ public class MainActivity extends FragmentActivity {
         list.add(new ContentModel(R.mipmap.mypatient_selected, "app搜索", 5));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "相似用户", 6));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "AT折线图", 7));
+        list.add(new ContentModel(R.mipmap.mypatient_selected, "分享", 8));
 
         instance = this;
         PView = (TextView)findViewById(R.id.PView);

@@ -2,6 +2,7 @@ package com.sjtu.se2017.positivetime.model.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.TextView;
@@ -109,9 +110,24 @@ public class ATapplicaion extends Application {
         }
         return false;
     }
-
+    //用于叠加计算AT
     static private ArrayList<AppInformation> PreList;
     public void setPreList(ArrayList<AppInformation> PreList) { this.PreList = PreList; }
 
     public ArrayList<AppInformation> getPreList() { return PreList; }
+    //用于截图分享
+    private Bitmap mScreenCaptureBitmap;
+    private Bitmap pic;
+    public void setPic(Bitmap pic){
+        this.pic = pic;
+    }
+    public Bitmap getPic(){
+        return pic;
+    }
+    public Bitmap getmScreenCaptureBitmap() {
+        return mScreenCaptureBitmap;
+    }
+    public void setmScreenCaptureBitmap(Bitmap mScreenCaptureBitmap) {
+        this.mScreenCaptureBitmap = mScreenCaptureBitmap;
+    }
 }

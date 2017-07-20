@@ -15,4 +15,21 @@
     <string name="start_relaxing">start relaxing</string>
     <string name="NTotalWeight">NTotalWeight</string>
     <string name="ipAddress">http://139.196.88.202:8080</string>
+<!--share-->
+    <string name="show_share_dialog">显示分享界面</string>
+    <string name="share_qq">调用QQ分享</string>
+    <string name="share_weixin">调用微信分享</string>
+    <string name="share_wxcircle">调用朋友圈分享</string>
+    <string name="share_weibo">调用微博分享</string>
+    <string name="share_qzone">调用QZone分享</string>
+    <string name="share_bigimage">分享大图</string>
+    <!-- Weibo -->
+    <string name="sina_weibo_key">your weibo key</string>
+    <string name="sina_weibo_redirecturi">your weibo redirecturi</string>
+
+    <!-- Weixin -->
+    <string name="weixin_key">your weixin key</string>
+
+    <!-- QQ -->
+    <string name="tencent_qq_appid">1106195981</string>
 </resources>
