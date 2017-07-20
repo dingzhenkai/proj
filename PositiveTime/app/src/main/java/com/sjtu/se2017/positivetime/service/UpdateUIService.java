@@ -30,7 +30,7 @@ public class UpdateUIService extends Service implements Constants {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (timer == null) {
             timer = new Timer();
-            timer.scheduleAtFixedRate(new RefreshTask(), 0L, 10*1000);
+            timer.scheduleAtFixedRate(new RefreshTask(), 0L, (long)TIME_SPAN);
         }
         //int result = super.onStartCommand(intent, flags, startId);
         //return result;

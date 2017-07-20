@@ -6,7 +6,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.TextView;
 
+import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
 import com.sjtu.se2017.positivetime.service.util.Utils;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/6/29.
@@ -61,7 +64,7 @@ public class ATapplicaion extends Application {
     }
 
     public long getAT(){
-        return PTime*NTotalWeight - NTime*PTotalWeight;
+        return (PTime*PTotalWeight - NTime*NTotalWeight)/100;
     }
 
     public float getPWeight(){
@@ -106,4 +109,9 @@ public class ATapplicaion extends Application {
         }
         return false;
     }
+
+    static private ArrayList<AppInformation> PreList;
+    public void setPreList(ArrayList<AppInformation> PreList) { this.PreList = PreList; }
+
+    public ArrayList<AppInformation> getPreList() { return PreList; }
 }

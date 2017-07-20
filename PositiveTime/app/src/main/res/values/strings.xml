@@ -14,5 +14,5 @@
     <string name="start_working">start working</string>
     <string name="start_relaxing">start relaxing</string>
     <string name="NTotalWeight">NTotalWeight</string>
-    <string name="ipAddress">http://192.168.1.206:8080</string>
+    <string name="ipAddress">http://139.196.88.202:8080</string>
 </resources>

@@ -2,7 +2,8 @@ package com.sjtu.se2017.positivetime.model.application;
 
 public interface Constants {
     // 默认static final
-    double TIME_SPAN = 2000d;
+    //double TIME_SPAN = 2000d;
+    double TIME_SPAN = 5000d;
     long CHANGE_DELAY = 300;
     int SMALL_WINDOW_TYPE = 0;
     int BIG_WINDOW_TYPE = 1;

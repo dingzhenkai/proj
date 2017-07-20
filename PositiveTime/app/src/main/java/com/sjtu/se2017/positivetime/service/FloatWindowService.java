@@ -70,7 +70,7 @@ public class FloatWindowService extends Service implements Constants {
     class RefreshTask extends TimerTask {
         private int style;
         private long totalTime;
-        private ArrayList<AppInformation> Tmplist;
+        private ArrayList<AppInformation> Tmplist, PreList;
         private String label;
         private String tmp;
         private int weight;
@@ -78,57 +78,92 @@ public class FloatWindowService extends Service implements Constants {
         long PTime;
         long NTime;
 
+        public long getPreUsetimeBylabel(ArrayList<AppInformation> Prelist, String nowlabel) {
+            int size = Prelist.size();
+            for (int i = 0; i < size; i++) {
+                if (Prelist.get(i).getLabel() == nowlabel) return Prelist.get(i).getUsedTimebyDay();
+            }
+            return 0;
+
+        }
+
         @Override
         public void run() {
 
-            this.style = StatisticsInfo.DAY;
-            StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(),this.style);
-            Tmplist = statisticsInfo.getShowList();
-            int size = Tmplist.size();
-            PTime = 0;
-            NTime = 0;
-            for(int i=0;i<size;i++){
-                label = Tmplist.get(i).getLabel();
-                usetime = Tmplist.get(i).getUsedTimebyDay();
-                weight = appInfoDao.checkweight(label);
-                if(weight > 50){
-                    PTime += (weight-50)*usetime;
-                } else {
-                    NTime += (50-weight)*usetime;
-                }
-            }
             ATapplicaion aTapplicaion = ATapplicaion.getInstance();
-            aTapplicaion.setPTime(PTime);
-            aTapplicaion.setNTime(NTime);
-            int nTotalWeight = appInfoDao.checkweight(getResources().getString(R.string.NTotalWeight));
-            aTapplicaion.setNTotalWeight(nTotalWeight);
-            aTapplicaion.setPTotalWeight(100-nTotalWeight);
-
-
-            //int offset = c.getColumnIndex("weight");
-            //num = c.getInt(offset)
-
-            // 当前没有悬浮窗显示，则创建悬浮窗。
-            if (!MyWindowManager.getInstance().isWindowShowing()) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        MyWindowManager.getInstance().initData();
-                        MyWindowManager.getInstance().createWindow(getApplicationContext());
+            PTime = aTapplicaion.getPTime();
+            NTime = aTapplicaion.getNTime();
+            PreList = aTapplicaion.getPreList();
+            Long total = PTime + NTime;
+            if (total == 0) {//当天第一次打开会将之前的使用时间数据直接拿来计算
+                this.style = StatisticsInfo.DAY;
+                StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(), this.style);
+                Tmplist = statisticsInfo.getShowList();
+                int size = Tmplist.size();
+                PTime = 0;
+                NTime = 0;
+                for (int i = 0; i < size; i++) {
+                    label = Tmplist.get(i).getLabel();
+                    usetime = Tmplist.get(i).getUsedTimebyDay();
+                    weight = appInfoDao.checkweight(label);
+                    if (weight > 50) {
+                        PTime += (weight - 50) * usetime;
+                    } else {
+                        NTime += (50 - weight) * usetime;
                     }
-                });
-            }
-            // 当前有悬浮窗显示，则更新内存数据。
-            else {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        MyWindowManager.getInstance().updateViewData(getApplicationContext());
+                }
+                aTapplicaion.setPTime(PTime);
+                aTapplicaion.setNTime(NTime);
+                aTapplicaion.setPreList(Tmplist);
+            } else {
+                this.style = StatisticsInfo.DAY;
+                StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(), this.style);
+                Tmplist = statisticsInfo.getShowList();
+
+                int size = Tmplist.size();
+                for (int i = 0; i < size; i++) {
+                    label = Tmplist.get(i).getLabel();
+                    usetime = (Tmplist.get(i).getUsedTimebyDay() - getPreUsetimeBylabel(PreList, label));
+                    weight = appInfoDao.checkweight(label);
+                    if (weight > 50) {
+                        PTime += (weight - 50) * usetime;
+                    } else {
+                        NTime += (50 - weight) * usetime;
                     }
-                });
+
+                }
+                aTapplicaion.setPTime(PTime);
+                aTapplicaion.setNTime(NTime);
+                aTapplicaion.setPreList(Tmplist);
+
+                int nTotalWeight = appInfoDao.checkweight(getResources().getString(R.string.NTotalWeight));
+                aTapplicaion.setNTotalWeight(nTotalWeight);
+                aTapplicaion.setPTotalWeight(100 - nTotalWeight);
             }
 
+                //int offset = c.getColumnIndex("weight");
+                //num = c.getInt(offset)
+
+                // 当前没有悬浮窗显示，则创建悬浮窗。
+                if (!MyWindowManager.getInstance().isWindowShowing()) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            MyWindowManager.getInstance().initData();
+                            MyWindowManager.getInstance().createWindow(getApplicationContext());
+                        }
+                    });
+                }
+                // 当前有悬浮窗显示，则更新内存数据。
+                else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            MyWindowManager.getInstance().updateViewData(getApplicationContext());
+                        }
+                    });
+                }
+
+            }
         }
-    }
-
 }
