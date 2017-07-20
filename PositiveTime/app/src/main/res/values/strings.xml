@@ -32,4 +32,5 @@
 
     <!-- QQ -->
     <string name="tencent_qq_appid">1106195981</string>
+    <string name="tencentplusqq_appid">tencent1106195981</string>
 </resources>
