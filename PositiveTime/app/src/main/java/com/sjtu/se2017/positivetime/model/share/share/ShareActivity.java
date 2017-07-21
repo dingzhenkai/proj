@@ -73,9 +73,9 @@ public class ShareActivity extends AppCompatActivity implements View.OnClickList
         int id = view.getId();
         switch (id) {
             case R.id.share_qq:
-                Bitmap bitmap = ((ATapplicaion) getApplication()).getPic();
-                String filePath = ShareUtil.saveBitmapToSDCard(this, bitmap);
-                testBean.setImgUrl(filePath);
+                //Bitmap bitmap = ((ATapplicaion) getApplication()).getPic();
+                //String filePath = ShareUtil.saveBitmapToSDCard(this, bitmap);
+                //testBean.setImgUrl(filePath);
                 ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_QQ, testBean, ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_qzone:

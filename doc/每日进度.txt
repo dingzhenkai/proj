@@ -11,17 +11,26 @@
 7.4  1、后端部署到云服务器
 7.5  1、总体逻辑完善
      2、登录注册加密
-     3、主界面
-     4、客户端已能连到服务器
-7.7  1、数据库设计
-      2、“开始学习”
-7.11  张：1、“制定计划”功能：设置total pweight　nweight
-	  2、替换seekbar 采用第三方库bubbleseekbar
-	  3、app search 界面
-      丁：1. 配置分享到qq，qzone，微信，weibo
-      秦：继续写服务器端，学习tensorflow
-7.12  张：1、设置total pweight nweight持久化
-	  2、app search ui完成 采用第三方库 materialratingbar   
-      秦：实现app模糊搜索功能
-7.13  秦：实现用户聚类
-7.14  秦：将服务器部署到云服务器上
+    3、主界面
+    4、客户端已能连到服务器
+7.7  1、数据库设计
+     2、“开始学习”
+7.10  1、放松一下
+      2、开始学习计入ptime
+7.11  1、“制定计划”功能：设置total pweight　nweight
+      2、替换seekbar 采用第三方库bubbleseekbar
+      3、app search 界面
+      4、配置分享到qq，qzone，微信，weibo
+    5、继续写服务器端，学习tensorflow
+7.12  1、设置total pweight nweight持久化
+      2、app search ui完成 采用第三方库 materialratingbar   
+    3、实现app模糊搜索功能
+7.13  1、实现用户聚类
+7.14  1、查询相似用户
+7.17  1、build错误修复
+      2、分享功能
+7.18  1、userdetail
+7.19  1、集成userdetail
+      2、折线图
+7.20  1、AT计算方式改善
+      2、分享
