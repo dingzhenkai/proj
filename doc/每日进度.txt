@@ -24,3 +24,4 @@
 	  2、app search ui完成 采用第三方库 materialratingbar   
       秦：实现app模糊搜索功能
 7.13  秦：实现用户聚类
+7.14  秦：将服务器部署到云服务器上
