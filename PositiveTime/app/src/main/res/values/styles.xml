@@ -21,6 +21,9 @@
     </style>
 
     <style name="NotitleTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="colorButtonNormal">@color/primary</item>
     </style>
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -52,5 +55,10 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="PButtonStyle" parent="AppTheme">
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="colorButtonNormal">@color/primary_light</item>
     </style>
 </resources>

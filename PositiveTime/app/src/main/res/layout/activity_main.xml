@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.44"
                 android:orientation="vertical"
-                android:background="@color/slategrey">
+                android:background="@color/primary_light">
                 <TextView
                     android:id="@+id/NView"
                     android:layout_width="wrap_content"
@@ -33,14 +33,16 @@
                     android:visibility="visible"
                     tools:text="Positive apps"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/primary"/>
 
                 <Button
                     android:id="@+id/NButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="放松一下"/>
+                    android:text="放松一下"
+                    android:textColor="@color/primary_light"/>
 
             </RelativeLayout>
 
@@ -50,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.57"
                 android:orientation="vertical"
-                android:background="@color/lightsteelblue">
+                android:background="@color/primary">
                 <TextView
                     android:id="@+id/PView"
                     android:layout_width="wrap_content"
@@ -58,13 +60,16 @@
                     android:visibility="visible"
                     tools:text="Negative apps"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/primary_light"/>
                 <Button
                     android:id="@+id/PButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="开始工作"/>
+                    android:text="开始工作"
+                    android:textColor="@color/primary"
+                    android:theme="@style/PButtonStyle"/>
             </RelativeLayout>
 
         </LinearLayout>
