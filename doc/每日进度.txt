@@ -34,3 +34,6 @@
       2、折线图
 7.20  1、AT计算方式改善
       2、分享
+8.8至8.10 张荣城：1、外观
+		  2、material design风格的菜单transition
+		  3、tomatoactivity返回时不销毁

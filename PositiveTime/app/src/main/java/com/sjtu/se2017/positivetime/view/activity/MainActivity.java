@@ -2,6 +2,7 @@ package com.sjtu.se2017.positivetime.view.activity;
 
 
 import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.ContentAdapter;
 import com.sjtu.se2017.positivetime.model.ContentModel;
+import com.sjtu.se2017.positivetime.model.UserSearchInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.model.share.share.Print.PrintActivity;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
@@ -88,6 +91,35 @@ public class MainActivity extends FragmentActivity {
                                     int position, long id) {
                 switch ((int) id) {
                     case 1:
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this, MenuActivity.class);
+                        intent.putExtra("MenuName","statistics");
+                        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this
+                                , Pair.create(view.findViewById(R.id.item_imageview), "share"));
+                        startActivity(intent, transitionActivityOptions.toBundle());
+                        break;
+                    case 2:
+                        intent = new Intent(MainActivity.this, MenuActivity.class);
+                        intent.putExtra("MenuName","account");
+                        transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this
+                                , Pair.create(view.findViewById(R.id.item_imageview), "share"));
+                        startActivity(intent, transitionActivityOptions.toBundle());
+                        break;
+                    case 3:
+                        intent = new Intent(MainActivity.this, MenuActivity.class);
+                        intent.putExtra("MenuName","social");
+                        transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this
+                                , Pair.create(view.findViewById(R.id.item_imageview), "share"));
+                        startActivity(intent, transitionActivityOptions.toBundle());
+                        break;
+                    case 4:
+                        intent = new Intent(MainActivity.this, MenuActivity.class);
+                        intent.putExtra("MenuName","settings");
+                        transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this
+                                , Pair.create(view.findViewById(R.id.item_imageview), "share"));
+                        startActivity(intent, transitionActivityOptions.toBundle());
+                        break;/*
+                    case 1:
                         Intent intent = new Intent(MainActivity.this, AppStatisticsList.class);
                         startActivity(intent);
                         break;
@@ -118,7 +150,7 @@ public class MainActivity extends FragmentActivity {
                     case 8:
                         intent = new Intent(MainActivity.this, PrintActivity.class);
                         startActivity(intent);
-                        break;
+                        break;*/
                     default:
                         break;
                 }
@@ -126,7 +158,7 @@ public class MainActivity extends FragmentActivity {
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
-        user_pic.setOnClickListener(new View.OnClickListener() {
+        /*user_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,LoginActivity.class);
@@ -138,7 +170,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
                 drawerLayout.closeDrawer(Gravity.RIGHT);
             }
-        });
+        });*/
         PButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +193,10 @@ public class MainActivity extends FragmentActivity {
     private void initData() {
         context = this;
         list = new ArrayList<ContentModel>();
+        list.add(new ContentModel(R.drawable.chart, "", 1));
+        list.add(new ContentModel(R.drawable.accounts, "", 2));
+        list.add(new ContentModel(R.drawable.socials, "", 3));
+        list.add(new ContentModel(R.drawable.setting, "", 4));/*
         list.add(new ContentModel(R.mipmap.doctoradvice2, "查看数据", 1));
         list.add(new ContentModel(R.mipmap.infusion_selected, "设置权重", 2));
         list.add(new ContentModel(R.mipmap.doctoradvice2, "悬浮窗", 3));
@@ -168,18 +204,18 @@ public class MainActivity extends FragmentActivity {
         list.add(new ContentModel(R.mipmap.mypatient_selected, "app搜索", 5));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "相似用户", 6));
         list.add(new ContentModel(R.mipmap.mypatient_selected, "AT折线图", 7));
-        list.add(new ContentModel(R.mipmap.mypatient_selected, "分享", 8));
+        list.add(new ContentModel(R.mipmap.mypatient_selected, "分享", 8));*/
 
         instance = this;
         PView = (TextView)findViewById(R.id.PView);
         NView = (TextView)findViewById(R.id.NView);
-        user_pic = (ImageView)findViewById(R.id.user_pic);
+        //user_pic = (ImageView)findViewById(R.id.user_pic);
         PButton = (Button)findViewById(R.id.PButton);
         NButton = (Button)findViewById(R.id.NButton);
         Playout = (RelativeLayout)findViewById(R.id.Playout);
         Nlayout = (RelativeLayout)findViewById(R.id.Nlayout);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
-        rightLayout = (RelativeLayout) findViewById(R.id.right);
+        //rightLayout = (RelativeLayout) findViewById(R.id.right);
         listView = (ListView) findViewById(R.id.left_listview);
         fm = getSupportFragmentManager();
     }

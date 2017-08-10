@@ -47,7 +47,8 @@
             android:value="@string/sina_weibo_key" />
         <activity
             android:name=".view.activity.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -60,12 +61,15 @@
         <activity android:name=".view.activity.FloatingWindow" />
         <activity android:name=".view.activity.LoginActivity" />
         <activity android:name=".view.activity.SignupActivity" />
-        <activity android:name=".view.activity.TomatosActivity" />
+        <activity android:name=".view.activity.TomatosActivity"
+            android:launchMode="singleInstance"/>
         <activity android:name=".view.activity.PlanActivity" />
         <activity android:name=".view.activity.AppActivity" />
         <activity android:name=".view.activity.UserActivity" />
         <activity android:name=".view.activity.UserDetailActivity" />
         <activity android:name=".view.activity.LineChartActivity" />
+        <activity android:name=".view.activity.MenuActivity"
+            android:theme="@style/MenuTheme"/>
 
         <activity
             android:name=".view.activity.LockActivity"

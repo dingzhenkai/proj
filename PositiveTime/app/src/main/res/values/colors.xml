@@ -3,10 +3,11 @@
     <!--<color name="colorPrimary">#676c8a</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>-->
-    <color name="primary">#6495ed</color>
-    <color name="primary_dark">#005bb2</color>
-    <color name="primary_light">#c7e4ff</color>
-    <color name="accent">#448AFF</color>
+    <color name="primary">#212121</color>
+    <color name="primary_dark">#000000</color>
+    <color name="primary_light">#EEEEEE</color>
+    <color name="accent">#FF6D00</color>
+    <color name="accent_dart">#DD2C00</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>

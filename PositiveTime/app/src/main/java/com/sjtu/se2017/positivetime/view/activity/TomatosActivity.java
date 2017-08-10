@@ -112,10 +112,10 @@ public class TomatosActivity extends Activity {
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
     @Override
     public void onBackPressed() {
         // Disable going back to the MainActivity
         moveTaskToBack(true);
-    }*/
+    }
 }
