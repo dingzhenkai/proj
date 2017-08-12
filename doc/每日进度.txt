@@ -37,3 +37,4 @@
 8.8至8.10 张荣城：1、外观
 		  2、material design风格的菜单transition
 		  3、tomatoactivity返回时不销毁
+8.11至8.12 张荣城：1、修复设置权重界面 seekbar气泡移位

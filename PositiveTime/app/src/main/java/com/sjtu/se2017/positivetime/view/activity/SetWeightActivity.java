@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.content.pm.PackageManager;
 
@@ -79,7 +80,7 @@ public class SetWeightActivity extends AppCompatActivity {
             TextView app_name = (TextView) convertView.findViewById(R.id.app_name);
             app_icon.setImageDrawable(appInfo.getImage());
             app_name.setText(appInfo.getAppName());
-            //通过滑动条设置weight
+            /*//通过滑动条设置weight
             BubbleSeekBar app_weight_seekbar = (BubbleSeekBar) convertView.findViewById(R.id.app_weight_seekbar);
             //init seekbar
             appInfo.setWeight(appInfoDao.checkweight(appInfo.getAppName()));
@@ -89,6 +90,32 @@ public class SetWeightActivity extends AppCompatActivity {
                 @Override
                 public void getProgressOnActionUp(int progress, float progressFloat) {
                     appInfo.setWeight(progress);
+                    appInfoDao.insertOrUpdate(appInfo.getAppName(),appInfo.getWeight());
+                    //should close when activity changes
+                    //db.close();
+                }
+            });*/
+            //通过滑动条设置weight
+            final TextView app_weight_textview = (TextView) convertView.findViewById(R.id.app_weight_textview);
+            SeekBar app_weight_seekbar = (SeekBar) convertView.findViewById(R.id.app_weight_seekbar);
+            //init seekbar
+            appInfo.setWeight(appInfoDao.checkweight(appInfo.getAppName()));
+            app_weight_seekbar.setProgress(appInfo.getWeight());
+            app_weight_textview.setText(""+app_weight_seekbar.getProgress());
+
+            app_weight_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                    app_weight_textview.setText(""+i);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    appInfo.setWeight(seekBar.getProgress());
                     appInfoDao.insertOrUpdate(appInfo.getAppName(),appInfo.getWeight());
                     //should close when activity changes
                     //db.close();

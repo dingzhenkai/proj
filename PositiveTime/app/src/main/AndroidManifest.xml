@@ -57,7 +57,8 @@
         <activity android:name=".view.activity.AppStatisticsList" />
         <activity android:name=".view.activity.PiePolylineChartActivity" />
         <activity android:name=".view.activity.BarChartActivity"/>
-        <activity android:name=".view.activity.SetWeightActivity"/>
+        <activity android:name=".view.activity.SetWeightActivity"
+            android:theme="@style/DarkTheme"/>
         <activity android:name=".view.activity.FloatingWindow" />
         <activity android:name=".view.activity.LoginActivity" />
         <activity android:name=".view.activity.SignupActivity" />
@@ -69,7 +70,7 @@
         <activity android:name=".view.activity.UserDetailActivity" />
         <activity android:name=".view.activity.LineChartActivity" />
         <activity android:name=".view.activity.MenuActivity"
-            android:theme="@style/MenuTheme"/>
+            android:theme="@style/DarkTheme"/>
 
         <activity
             android:name=".view.activity.LockActivity"
