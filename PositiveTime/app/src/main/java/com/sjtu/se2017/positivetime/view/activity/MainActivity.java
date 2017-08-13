@@ -14,6 +14,8 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.Menu;
