@@ -14,8 +14,6 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.transition.Explode;
-import android.transition.Slide;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.Menu;
@@ -34,9 +32,7 @@ import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.ContentAdapter;
 import com.sjtu.se2017.positivetime.model.ContentModel;
-import com.sjtu.se2017.positivetime.model.UserSearchInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
-import com.sjtu.se2017.positivetime.model.share.share.Print.PrintActivity;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 import com.sjtu.se2017.positivetime.service.UpdateUIService;
 
@@ -176,16 +172,14 @@ public class MainActivity extends FragmentActivity {
         PButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,TomatosActivity.class);
-                intent.putExtra("mode",getResources().getString(R.string.start_working));
+                Intent intent = new Intent(MainActivity.this,WorkActivity.class);
                 startActivity(intent);
             }
         });
         NButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,TomatosActivity.class);
-                intent.putExtra("mode",getResources().getString(R.string.start_relaxing));
+                Intent intent = new Intent(MainActivity.this,RelaxActivity.class);
                 startActivity(intent);
             }
         });

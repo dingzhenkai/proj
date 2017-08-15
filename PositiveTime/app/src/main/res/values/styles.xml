@@ -57,7 +57,7 @@
         <item name="android:navigationBarColor">@color/primary</item>
         <item name="android:windowBackground">@color/primary</item>
         <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
-        <item name="colorButtonNormal">@color/primary</item>
+        <item name="colorButtonNormal">@color/primary_dark</item>
         <!-- 允许使用transitions -->
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowEnterTransition">@android:transition/explode</item>

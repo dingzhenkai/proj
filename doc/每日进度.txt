@@ -38,3 +38,8 @@
 		  2、material design风格的菜单transition
 		  3、tomatoactivity返回时不销毁
 8.11至8.12 张荣城：1、修复设置权重界面 seekbar气泡移位
+8.13 张荣城：1、activity切换动画
+	     2、color selector切换风格无法实现 最多只能实现几个style间的切换
+8.15 张荣城：1、修复tomatoactivity的bug
+	     2、统一几个activity的外观
+	     3、悬浮窗开关采用switch

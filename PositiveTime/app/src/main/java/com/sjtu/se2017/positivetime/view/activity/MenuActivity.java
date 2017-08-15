@@ -7,20 +7,25 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.model.MenuItem;
 import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
 import com.sjtu.se2017.positivetime.model.UserSearchInfo;
 import com.sjtu.se2017.positivetime.model.share.share.Print.PrintActivity;
+import com.sjtu.se2017.positivetime.service.FloatWindowService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +124,30 @@ public class MenuActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final MenuItem menuItem = adapterDatas.get(position);
-            convertView = inflater.inflate(R.layout.menu_listitem, null);
+            if(menuItem.getMenu_item_name().equals("悬浮窗")){
+                convertView = inflater.inflate(R.layout.menu_listitem_floatingwindow, null);
+                SwitchCompat mySwitch = (SwitchCompat) convertView.findViewById(R.id.CustomSwitchCompat);
+                mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
+                        // TODO Auto-generated method stub
+                        if (isChecked) {
+                            startService(new Intent(MenuActivity.this, FloatWindowService.class));
+                        } else {
+                            MyWindowManager.getInstance().removeAllWindow(getApplicationContext());
+                        }
+                    }
+                });
+            }else {
+                convertView = inflater.inflate(R.layout.menu_listitem, null);
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MenuActivity.this,menuItem.getTargetActivity()));
+                    }
+                });
+            }
             menu_item_icon = (ImageView) convertView.findViewById(R.id.menu_item_icon);
             menu_item_name = (TextView) convertView.findViewById(R.id.menu_item_name);
             layout = (RelativeLayout) convertView.findViewById(R.id.layout);
@@ -127,12 +155,7 @@ public class MenuActivity extends Activity {
             menu_item_icon.setImageResource(menuItem.getMenu_item_icon());
             menu_item_name.setText(menuItem.getMenu_item_name());
             layout.setBackgroundColor(menuItem.getBackgroundcolor());
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                startActivity(new Intent(MenuActivity.this,menuItem.getTargetActivity()));
-                }
-            });
+
             return convertView;
         }
     }
