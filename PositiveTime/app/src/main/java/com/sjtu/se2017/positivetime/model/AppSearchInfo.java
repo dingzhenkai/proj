@@ -12,7 +12,7 @@ public class AppSearchInfo {
     private String packageName;
     private int weight;
     private int installNum;
-    private int categoryId;
+    private String category;
 
     public Drawable getImage() {
         return image;
@@ -54,12 +54,12 @@ public class AppSearchInfo {
         this.installNum = installNum;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 }

@@ -2,16 +2,8 @@ package com.sjtu.se2017.positivetime.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,21 +16,15 @@ import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.sjtu.se2017.positivetime.R;
-import com.sjtu.se2017.positivetime.model.AppInfo;
 import com.sjtu.se2017.positivetime.model.AppSearchInfo;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Objects;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -47,6 +33,7 @@ import java.io.OutputStream;
 import java.io.BufferedWriter;
 import java.net.URLEncoder;
 import com.google.gson.Gson;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -98,7 +85,7 @@ public class AppActivity extends Activity{
             public void onSearchStateChanged(boolean enabled) {
             }
         });
-
+        initAppList(ATapplicaion.getInstance().getEmail());
 /*
         try {
             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -129,6 +116,10 @@ public class AppActivity extends Activity{
         //这里把“查询”那个按钮设为不能点击的状态，下面是我新创一个线程接收数据
     }
 
+    public void initAppList(String email){
+        
+    }
+
     private class AppAdapter extends BaseAdapter {
         private List<AppSearchInfo> appSearchInfos;
         private LayoutInflater inflater;
@@ -136,7 +127,6 @@ public class AppActivity extends Activity{
         TextView app_name;
         TextView installNum;
         TextView category;
-        TextView weight;
         MaterialRatingBar materialRatingBar;
         public AppAdapter() {}
 
@@ -167,14 +157,12 @@ public class AppActivity extends Activity{
             app_name = (TextView) convertView.findViewById(R.id.app_name);
             installNum = (TextView) convertView.findViewById(R.id.installNum);
             category = (TextView) convertView.findViewById(R.id.category);
-            weight = (TextView) convertView.findViewById(R.id.weight);
             materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.materialRatingBar);
 
             app_icon.setImageDrawable(appSearchInfo.getImage());
             app_name.setText(appSearchInfo.getAppName());
-            installNum.setText(appSearchInfo.getInstallNum()+"");
-            category.setText(appSearchInfo.getCategoryId()+"category");
-            weight.setText(appSearchInfo.getWeight()+"");
+            installNum.setText("("+appSearchInfo.getInstallNum()+")");
+            category.setText(appSearchInfo.getCategory());
             materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
             Log.v("aaa","aaa");
             return convertView;
@@ -235,7 +223,7 @@ public class AppActivity extends Activity{
                             AppSearchInfo m = new AppSearchInfo();
                             m.setAppName(tmp.getString("appName"));
                             m.setPackageName(tmp.getString("packageName"));
-                            m.setCategoryId(tmp.getInt("category"));
+                            m.setCategory(tmp.getString("category"));
                             m.setInstallNum(tmp.getInt("installNum"));
                             m.setWeight(tmp.getInt("weight"));
                             m.setImage(null);
