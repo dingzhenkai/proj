@@ -171,14 +171,18 @@ public class AppActivity extends Activity{
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri uri = Uri.parse("market://details?id=" + appSearchInfo.getPackageName());
-                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                     Log.v("aaa","aaa");
-                    try {
-                        context.startActivity(goToMarket);
-
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=" + appSearchInfo.getPackageName())); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
+                    if (intent.resolveActivity(getPackageManager()) != null) { //可以接收
+                        startActivity(intent);
+                    } else { //没有应用市场，我们通过浏览器跳转到Google Play
+                        intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + appSearchInfo.getPackageName()));
+                        if (intent.resolveActivity(getPackageManager()) != null) { //有浏览器
+                            startActivity(intent);
+                        } else { //天哪，这还是智能手机吗？
+                            Toast.makeText(AppActivity.this, "您没安装应用市场，连浏览器也没有", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
