@@ -117,7 +117,7 @@ public class AppActivity extends Activity{
     }
 
     public void initAppList(String email){
-        
+        ((TextView) findViewById(R.id.hint)).setText("以下是根据您的手机使用情况为您推荐的app");
     }
 
     private class AppAdapter extends BaseAdapter {
@@ -256,6 +256,7 @@ public class AppActivity extends Activity{
                     Log.v("search", adapterDatas.get(i).getAppName());
                 }
                 adapter.notifyDataSetChanged();
+                ((TextView) findViewById(R.id.hint)).setText("以下是查询结果");
             } else {
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
             }

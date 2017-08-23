@@ -11,8 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/materialSearchBar" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hint"
+        android:textSize="15sp"
+        android:layout_below="@id/materialSearchBar"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"/>
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/AppSearchInfoList"/>
+        android:id="@+id/AppSearchInfoList"
+        android:layout_below="@id/hint"/>
 </LinearLayout>
