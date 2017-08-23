@@ -1,7 +1,10 @@
 package com.sjtu.se2017.positivetime.view.activity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -164,7 +167,21 @@ public class AppActivity extends Activity{
             installNum.setText("("+appSearchInfo.getInstallNum()+")");
             category.setText(appSearchInfo.getCategory());
             materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
-            Log.v("aaa","aaa");
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri uri = Uri.parse("market://details?id=" + appSearchInfo.getPackageName());
+                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    Log.v("aaa","aaa");
+                    try {
+                        context.startActivity(goToMarket);
+
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             return convertView;
         }
     }
