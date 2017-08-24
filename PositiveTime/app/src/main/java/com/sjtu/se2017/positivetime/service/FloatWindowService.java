@@ -94,27 +94,28 @@ public class FloatWindowService extends Service implements Constants {
             PTime = aTapplicaion.getPTime();
             NTime = aTapplicaion.getNTime();
             PreList = aTapplicaion.getPreList();
-            Long total = PTime + NTime;
-            if (total == 0) {//当天第一次打开会将之前的使用时间数据直接拿来计算
+            if (PreList == null) {//当天第一次打开会将之前的使用时间数据直接拿来计算
                 this.style = StatisticsInfo.DAY;
                 StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(), this.style);
                 Tmplist = statisticsInfo.getShowList();
                 int size = Tmplist.size();
-                PTime = 0;
-                NTime = 0;
-                for (int i = 0; i < size; i++) {
-                    label = Tmplist.get(i).getLabel();
-                    usetime = Tmplist.get(i).getUsedTimebyDay();
-                    weight = appInfoDao.checkweight(label);
-                    if (weight > 50) {
-                        PTime += (weight - 50) * usetime;
-                    } else {
-                        NTime += (50 - weight) * usetime;
-                    }
-                }
-                aTapplicaion.setPTime(PTime);
-                aTapplicaion.setNTime(NTime);
                 aTapplicaion.setPreList(Tmplist);
+                //PTime = 0;
+                //NTime = 0;
+                if(PTime+NTime==0) {
+                    for (int i = 0; i < size; i++) {
+                        label = Tmplist.get(i).getLabel();
+                        usetime = Tmplist.get(i).getUsedTimebyDay();
+                        weight = appInfoDao.checkweight(label);
+                        if (weight > 50) {
+                            PTime += (weight - 50) * usetime;
+                        } else {
+                            NTime += (50 - weight) * usetime;
+                        }
+                    }
+                    aTapplicaion.setPTime(PTime);
+                    aTapplicaion.setNTime(NTime);
+                }
             } else {
                 this.style = StatisticsInfo.DAY;
                 StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(), this.style);

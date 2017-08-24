@@ -2,6 +2,7 @@ package com.sjtu.se2017.positivetime.model.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
  */
 
 public class ATapplicaion extends Application {
+    private static ATapplicaion instance;/*
     static private String email;
     static private long PTime;
     static private long NTime;
     static private int PTotalWeight;
     static private int NTotalWeight;
-    private static ATapplicaion instance;
 
     public String getEmail() {
         return email;
@@ -75,7 +76,73 @@ public class ATapplicaion extends Application {
     public float getNWeight(){
         return NTime/(PTime+NTime);
     }
+    */
+    public String getEmail() {
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getString("email",null);
+    }
 
+    public void setEmail(String email) {
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putString("email",email);
+        editor.commit();
+    }
+
+    public int getPTotalWeight() {
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getInt("PTotalWeight",50);
+    }
+
+    public void setPTotalWeight(int PTotalWeight) {
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putInt("PTotalWeight",PTotalWeight);
+        editor.commit();
+    }
+
+    public int getNTotalWeight() {
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getInt("NTotalWeight",50);
+    }
+
+    public void setNTotalWeight(int NTotalWeight) {
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putInt("NTotalWeight",NTotalWeight);
+        editor.commit();
+    }
+
+    public void setPTime(long PTime){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putLong("PTime",PTime);
+        editor.commit();
+    }
+
+    public void setNTime(long NTime){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putLong("NTime",NTime);
+        editor.commit();
+    }
+
+    public long getPTime(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getLong("PTime",0);
+    }
+
+    public long getNTime(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getLong("NTime",0);
+    }
+
+    public long getAT(){
+        return (getPTime()*getPTotalWeight() - getNTime()*getNTotalWeight())/100;
+    }
+
+    public float getPWeight(){
+        return getPTime()/(getPTime()+getNTime());
+    }
+
+    public float getNWeight(){
+        return getNTime()/(getPTime()+getNTime());
+    }
     static public ATapplicaion getInstance() {
         return instance;
     }
