@@ -34,7 +34,7 @@ public class UserDetailActivity extends BaseActivity {
     @BindView(R.id.main_abl_app_bar)
     AppBarLayout mMainAblAppBar;
     private Button star;
-    private ImageView featureapp;
+    private ImageView featureapp,bubble;
     private TextView totalAT,averageATbyday,averageUTimebyday;
     private String email;
 
@@ -84,6 +84,15 @@ public class UserDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserDetailActivity.this,Featureapp.class);
+                startActivity(intent);
+            }
+        });
+
+        bubble = (ImageView) findViewById(R.id.bubble);
+        bubble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserDetailActivity.this,BubbleActivity.class);
                 startActivity(intent);
             }
         });

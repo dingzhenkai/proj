@@ -11,7 +11,7 @@ import android.widget.SimpleAdapter;
 
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.model.AppInfo;
-import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,10 +21,12 @@ import java.util.Map;
 
 public class Featureapp extends AppCompatActivity {
 
-    private int style;
-    private long totalTime;
-    private int totalTimes;
+    private Drawable Icon;
+    private String label,packageName,email;
     private ArrayList<AppInfo> ShowList;
+
+    ATapplicaion aTapplicaion = ATapplicaion.getInstance();
+
 
 
     @Override
@@ -33,6 +35,7 @@ public class Featureapp extends AppCompatActivity {
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
         //        WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_featureapp);
+        email = aTapplicaion.getEmail();
 
         onResume();
 
@@ -51,9 +54,7 @@ public class Featureapp extends AppCompatActivity {
 
         List<Map<String,Object>> datalist = null;
 
-        StatisticsInfo statisticsInfo = new StatisticsInfo(this,this.style);
-        totalTime = statisticsInfo.getTotalTime();
-        totalTimes = statisticsInfo.getTotalTimes();
+
         datalist = getDataList(ShowList);
 
         ListView listView = (ListView)findViewById(R.id.AppStatisticsList);
@@ -89,10 +90,21 @@ public class Featureapp extends AppCompatActivity {
         int size = ShowList.size();
 
         for(int i=0; i<size; i++) {
-            map = new HashMap<String,Object>();
-            map.put("label",ShowList.get(i).getAppName());
-            map.put("icon",ShowList.get(i).getImage());
-            dataList.add(map);
+           // try {
+                //PackageManager pm = getPackageManager();
+                map = new HashMap<String,Object>();
+                //packageName = ShowList.get(i).getAppName();
+                //ApplicationInfo applicationInfo = pm.getApplicationInfo(packageName, 0);
+                //label = (String)pm.getApplicationLabel(applicationInfo);
+                map.put("label",ShowList.get(i).getAppName());
+                //Icon = pm.getApplicationIcon(ShowList.get(i).getAppName());
+                map.put("icon",ShowList.get(i).getImage());
+                dataList.add(map);
+
+            //} catch (PackageManager.NameNotFoundException  e) {
+            //    e.printStackTrace();
+            //}
+
         }
 
         return dataList;

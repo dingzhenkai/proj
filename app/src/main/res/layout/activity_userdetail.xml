@@ -309,6 +309,7 @@
                     android:textColor="#000"/>
 
                 <ImageView
+                    android:id="@+id/bubble"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/list_item_indicator"/>

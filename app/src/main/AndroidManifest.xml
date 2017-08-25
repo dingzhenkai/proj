@@ -58,6 +58,7 @@
         <activity android:name=".view.activity.PiePolylineChartActivity" />
         <activity android:name=".view.activity.BarChartActivity"/>
         <activity android:name=".view.activity.Featureapp"/>
+        <activity android:name=".view.activity.BubbleActivity"/>
         <activity android:name=".view.activity.SetWeightActivity"
             android:theme="@style/DarkTheme"/>
         <!--<activity android:name=".view.activity.FloatingWindow" />-->
