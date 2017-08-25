@@ -79,6 +79,7 @@ public class WatchDogService extends IntentService {
 			topPackageName = "packagenamenull";
 			getTopPackageName();
 			String appName = appInfoDao.pkNameToLabel(context, topPackageName);
+			//Log.v("appname",appName);此处出现过bug
 			if (appInfoDao.checkweight(appName) < 50 ) {
 				// 说明是娱乐类程序
 				if (topPackageName.equals(unCheckedPackageName)) {

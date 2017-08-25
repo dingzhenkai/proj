@@ -67,7 +67,7 @@ public class MenuActivity extends Activity {
             menu_icon.setImageResource(R.drawable.setting);
             adapterDatas = new ArrayList<MenuItem>();
             adapterDatas.add(new MenuItem(R.drawable.setting,"设置权重", Color.parseColor("#212121"), SetWeightActivity.class));
-            adapterDatas.add(new MenuItem(R.drawable.floating_window,"悬浮窗", Color.parseColor("#212121"), FloatingWindow.class));
+            adapterDatas.add(new MenuItem(R.drawable.floating_window,"悬浮窗", Color.parseColor("#212121"), MenuActivity.class));
             adapterDatas.add(new MenuItem(R.drawable.plan,"计划", Color.parseColor("#212121"), PlanActivity.class));
         }
         listView = (ListView) findViewById(R.id.MenuList);

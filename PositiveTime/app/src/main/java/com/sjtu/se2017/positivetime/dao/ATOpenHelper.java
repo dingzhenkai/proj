@@ -13,7 +13,7 @@ public class ATOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table if not exists "+TABLENAME+"(time INT PRIMARY KEY, AT INT)");
+        db.execSQL("create table if not exists "+TABLENAME+"(day INT, hour INT, AT INT)");
     }
 
     @Override
