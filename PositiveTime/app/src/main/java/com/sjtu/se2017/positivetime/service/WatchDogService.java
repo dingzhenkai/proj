@@ -80,22 +80,23 @@ public class WatchDogService extends IntentService {
 			getTopPackageName();
 			String appName = appInfoDao.pkNameToLabel(context, topPackageName);
 			//Log.v("appname",appName);此处出现过bug
-			if (appInfoDao.checkweight(appName) < 50 ) {
-				// 说明是娱乐类程序
-				if (topPackageName.equals(unCheckedPackageName)) {
+			if(appName!=null) {
+				if (appInfoDao.checkweight(appName) < 50) {
+					// 说明是娱乐类程序
+					if (topPackageName.equals(unCheckedPackageName)) {
+					} else {
+						Intent intent2 = new Intent(context, LockActivity.class);
+						intent2.putExtra("packageName", topPackageName);// TODO：这一行不加，就没有办法去临时取消保护了！！！
+						intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						startActivity(intent2);
+					}
 				} else {
-					Intent intent2 = new Intent(context, LockActivity.class);
-					intent2.putExtra("packageName", topPackageName);// TODO：这一行不加，就没有办法去临时取消保护了！！！
-					intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(intent2);
 				}
-			} else {
+				if (DEBUG) {
+					System.out.println("packageName 0:" + topPackageName);
+				}
+				SystemClock.sleep(300);
 			}
-			if (DEBUG) {
-				System.out.println("packageName 0:" + topPackageName);
-			}
-			SystemClock.sleep(300);
-
 		}
 	}
 
