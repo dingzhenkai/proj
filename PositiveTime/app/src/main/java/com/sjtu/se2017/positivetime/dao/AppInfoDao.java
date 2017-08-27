@@ -76,7 +76,7 @@ public class AppInfoDao {
 		try{
 			applicationInfo = packageManager.getApplicationInfo(packageName, 0);
 		}catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return (String) packageManager.getApplicationLabel(applicationInfo);
 	}
