@@ -46,7 +46,7 @@
             android:name="sina_weibo_key"
             android:value="@string/sina_weibo_key" />
         <activity
-            android:name=".view.activity.UserDetailActivity"
+            android:name=".view.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/MainTheme">
             <intent-filter>
@@ -76,7 +76,7 @@
             android:theme="@style/DarkTheme"/>
         <activity android:name=".view.activity.UserActivity"
             android:theme="@style/DarkTheme"/>
-        <activity android:name=".view.activity.MainActivity" />
+        <activity android:name=".view.activity.UserDetailActivity" />
         <activity android:name=".view.activity.LineChartActivity" />
         <activity android:name=".view.activity.MenuActivity"
             android:theme="@style/DarkTheme"/>

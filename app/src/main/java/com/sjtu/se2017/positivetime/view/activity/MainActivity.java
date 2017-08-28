@@ -172,7 +172,7 @@ public class MainActivity extends FragmentActivity {
         PButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,WorkActivity.class);
+                Intent intent = new Intent(MainActivity.this,UserDetailActivity.class);
                 startActivity(intent);
             }
         });
