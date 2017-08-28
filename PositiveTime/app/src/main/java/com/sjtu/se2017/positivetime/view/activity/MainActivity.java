@@ -261,24 +261,24 @@ public class MainActivity extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        long total = ptime + ntime ;
-                        float tmp = total;
-                        float pweight,nweight;
-                        if(total == 0) {
-                            pweight = (float)1/2;
-                            nweight = (float)1/2;
-                        } else{
-                            pweight = ptime / tmp ;
-                            nweight = ntime / tmp ;
+                        float pweight = ATapplicaion.getInstance().getPWeight();
+                        float nweight = ATapplicaion.getInstance().getNWeight();
+                        PView.setText( (float)(Math.round(pweight*100))/100+"");
+                        NView.setText((float)(Math.round(nweight*100))/100+"");
+                        if(pweight>0.8){
+                            pweight = (float)0.8;
+                            nweight = 1-pweight;
+                        }
+                        if(nweight>0.8){
+                            nweight = (float)0.8;
+                            pweight = 1-nweight;
                         }
                         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, nweight );
                         Playout.setLayoutParams(param);
-                        PView.setText(pweight+"");
                         param = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, pweight );
                         Nlayout.setLayoutParams(param);
-                        NView.setText(nweight+"");
                     }
                 });
             }

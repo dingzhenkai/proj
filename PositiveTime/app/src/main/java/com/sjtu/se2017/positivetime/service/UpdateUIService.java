@@ -92,7 +92,7 @@ public class UpdateUIService extends Service implements Constants {
             int min = cal.get(Calendar.MINUTE);
             if (min == 0) {
                 ATDao atDao = new ATDao(UpdateUIService.this);
-                atDao.insertOrUpdate(day,hour,ATapplicaion.getInstance().getAT());
+                atDao.insertOrUpdate(day,hour,ATapplicaion.getInstance().getAT()/1000);
             }
         }
     };

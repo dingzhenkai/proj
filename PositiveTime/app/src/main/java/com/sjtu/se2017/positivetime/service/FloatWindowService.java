@@ -108,9 +108,9 @@ public class FloatWindowService extends Service implements Constants {
                         usetime = Tmplist.get(i).getUsedTimebyDay();
                         weight = appInfoDao.checkweight(label);
                         if (weight > 50) {
-                            PTime += (weight - 50) * usetime;
+                            PTime += (weight - 50)/50 * usetime;
                         } else {
-                            NTime += (50 - weight) * usetime;
+                            NTime += (50 - weight)/50 * usetime;
                         }
                     }
                     aTapplicaion.setPTime(PTime);
@@ -127,9 +127,9 @@ public class FloatWindowService extends Service implements Constants {
                     usetime = (Tmplist.get(i).getUsedTimebyDay() - getPreUsetimeBylabel(PreList, label));
                     weight = appInfoDao.checkweight(label);
                     if (weight > 50) {
-                        PTime += (weight - 50) * usetime;
+                        PTime += (weight - 50)/50 * usetime;
                     } else {
-                        NTime += (50 - weight) * usetime;
+                        NTime += (50 - weight)/50 * usetime;
                     }
 
                 }
@@ -137,9 +137,9 @@ public class FloatWindowService extends Service implements Constants {
                 aTapplicaion.setNTime(NTime);
                 aTapplicaion.setPreList(Tmplist);
 
-                int nTotalWeight = appInfoDao.checkweight(getResources().getString(R.string.NTotalWeight));
+                /*int nTotalWeight = appInfoDao.checkweight(getResources().getString(R.string.NTotalWeight));
                 aTapplicaion.setNTotalWeight(nTotalWeight);
-                aTapplicaion.setPTotalWeight(100 - nTotalWeight);
+                aTapplicaion.setPTotalWeight(100 - nTotalWeight);*/
             }
 
                 //int offset = c.getColumnIndex("weight");

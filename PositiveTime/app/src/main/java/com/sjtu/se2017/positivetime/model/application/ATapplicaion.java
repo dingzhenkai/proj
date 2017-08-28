@@ -4,8 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.icu.util.Calendar;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
@@ -132,16 +134,43 @@ public class ATapplicaion extends Application {
         return pref.getLong("NTime",0);
     }
 
+    //该值用于每天第一次打开时AT清零
+    public int getDay(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getInt("day",0);
+    }
+
+    public void setDay(int day){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putInt("day",day);
+        editor.commit();
+    }
+
     public long getAT(){
-        return (getPTime()*getPTotalWeight() - getNTime()*getNTotalWeight())/100;
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_YEAR);
+        if(getDay()!=day){
+            setDay(day);
+            Log.v("dayday","dad");
+            setPTime(0);
+            setNTime(0);
+            return 0;
+        } else {
+            return (getPTime() * getPTotalWeight() - getNTime() * getNTotalWeight()) / 100;
+        }
     }
 
     public float getPWeight(){
-        return getPTime()/(getPTime()+getNTime());
+        if(getPTime()+getNTime()==0){
+            return (float)1/2;
+        }else {
+            float total = getPTime() * getPTotalWeight() + getNTime() * getNTotalWeight();
+            return (getPTime() * getPTotalWeight()) / total;
+        }
     }
 
     public float getNWeight(){
-        return getNTime()/(getPTime()+getNTime());
+        return 1-getPWeight();
     }
     static public ATapplicaion getInstance() {
         return instance;

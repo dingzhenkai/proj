@@ -225,7 +225,6 @@ public class MyWindowManager implements Constants {
         ATapplicaion aTapplicaion = ATapplicaion.getInstance();
         long AT = aTapplicaion.getAT();
         AT = AT/1000;
-        AT = AT/100;
         long h = AT/3600;
         long m = (AT-h*3600)/60;
         long s = (AT-h*3600) % 60;

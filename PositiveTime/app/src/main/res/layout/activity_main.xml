@@ -23,7 +23,7 @@
                 android:id="@+id/Nlayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.44"
+                android:layout_weight="0.5"
                 android:orientation="vertical"
                 android:background="@color/primary_light">
                 <TextView
@@ -33,7 +33,8 @@
                     android:visibility="visible"
                     tools:text="Positive apps"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp"/>
 
                 <Button
                     android:id="@+id/NButton"
@@ -48,7 +49,7 @@
                 android:id="@+id/Playout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.57"
+                android:layout_weight="0.5"
                 android:orientation="vertical"
                 android:background="@color/primary">
                 <TextView
@@ -58,7 +59,8 @@
                     android:visibility="visible"
                     tools:text="Negative apps"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp"/>
                 <Button
                     android:id="@+id/PButton"
                     android:layout_width="match_parent"
