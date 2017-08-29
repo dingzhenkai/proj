@@ -1,25 +1,22 @@
 package com.sjtu.se2017.positivetime.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.controller.MyWindowManager;
+import com.sjtu.se2017.positivetime.controller.Upload;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
 import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.model.application.Constants;
-import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.view.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -160,6 +157,7 @@ public class FloatWindowService extends Service implements Constants {
                         @Override
                         public void run() {
                             MyWindowManager.getInstance().updateViewData(getApplicationContext());
+                            Upload.getInstance().doit();
                         }
                     });
                 }

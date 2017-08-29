@@ -7,7 +7,7 @@ package com.sjtu.se2017.positivetime.model;
 public class Appsta {
 
     private String appName;
-    private int time;
+    private long time;
 
 
     public Appsta() {
@@ -24,11 +24,11 @@ public class Appsta {
         this.appName = appName;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 }

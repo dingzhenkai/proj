@@ -40,7 +40,10 @@ public class BubbleActivity extends DemoBase implements OnSeekBarChangeListener,
         OnChartValueSelectedListener  {
 
     private BubbleChart mChart;
+    private String viewemail;
     ArrayList<Appsta> ShowList;
+
+
 
 
     @Override
@@ -50,6 +53,7 @@ public class BubbleActivity extends DemoBase implements OnSeekBarChangeListener,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_bubble);
 
+        viewemail = getIntent().getStringExtra("email");//email是从相似用户列表传输过来的 用户点击了哪个就传输哪个
 
 
 

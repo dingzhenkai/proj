@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.service.util.BarUtils;
 import com.sjtu.se2017.positivetime.view.BaseActivity;
 
@@ -36,7 +37,8 @@ public class UserDetailActivity extends BaseActivity {
     private Button star;
     private ImageView featureapp,bubble;
     private TextView totalAT,averageATbyday,averageUTimebyday;
-    private String email;
+    private String viewemail,myownemail;
+    int total,averageAT,averageUtime;
 
 
     @Override
@@ -58,41 +60,49 @@ public class UserDetailActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
 
-        email = getIntent().getStringExtra("email");//email是从相似用户列表传输过来的 用户点击了哪个就传输哪个
+        ATapplicaion aTapplicaion = ATapplicaion.getInstance();
 
-        totalAT = (TextView) findViewById(R.id.totalAT);
+        viewemail = getIntent().getStringExtra("email");//email是从相似用户列表传输过来的 用户点击了哪个就传输哪个
+        myownemail = aTapplicaion.getEmail(); //myownemail represent who is the user
+
         averageATbyday = (TextView) findViewById(R.id.averageATbyday);
         averageUTimebyday = (TextView) findViewById(R.id.averageUTimebyday);
 
-        ((TextView)findViewById(R.id.email)).setText(email);
-        totalAT.setText("2h");
-        averageATbyday.setText("1h");
-        averageUTimebyday.setText("5h");
+        ((TextView)findViewById(R.id.email)).setText(viewemail);
+
+        averageAT = 12;
+        averageUtime =12;
+
+        averageATbyday.setText(""+averageAT);
+        averageUTimebyday.setText(""+averageUtime);
 
         star = (Button) findViewById(R.id.button);
-        star.setOnClickListener(new View.OnClickListener() {
+        boolean isfollow = true;                                 //check if myownemail follows viewemail
+        if (isfollow){
+            star.setText("已关注");
+        }
+        else{
+            star.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                star.setText("已关注");
-            }
+                @Override
+                public void onClick(View v) {
+                    star.setText("已关注");
+                /*
+                myownemail follows viewmail
+                 */
 
-        });
+                }
 
-        featureapp = (ImageView) findViewById(R.id.featureapp);
-        featureapp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserDetailActivity.this,Featureapp.class);
-                startActivity(intent);
-            }
-        });
+            });
+        }
+
 
         bubble = (ImageView) findViewById(R.id.bubble);
         bubble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserDetailActivity.this,BubbleActivity.class);
+                intent.putExtra("email",viewemail);
                 startActivity(intent);
             }
         });
