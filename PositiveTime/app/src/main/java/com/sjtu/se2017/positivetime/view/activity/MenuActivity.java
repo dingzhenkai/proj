@@ -64,6 +64,7 @@ public class MenuActivity extends Activity {
             adapterDatas = new ArrayList<MenuItem>();
             adapterDatas.add(new MenuItem(R.drawable.apps,"app 搜索", Color.parseColor("#212121"), AppActivity.class));
             adapterDatas.add(new MenuItem(R.drawable.socials,"相似用户", Color.parseColor("#212121"), UserActivity.class));
+            adapterDatas.add(new MenuItem(R.drawable.ranklist,"app排行榜", Color.parseColor("#212121"), RankActivity.class));
         }else if(MenuName.equals("settings")){
             menu_icon.setImageResource(R.drawable.setting);
             adapterDatas = new ArrayList<MenuItem>();

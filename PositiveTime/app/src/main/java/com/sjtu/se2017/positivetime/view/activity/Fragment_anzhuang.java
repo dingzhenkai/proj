@@ -1,12 +1,13 @@
 package com.sjtu.se2017.positivetime.view.activity;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,106 +18,66 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.model.AppSearchInfo;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import java.io.OutputStreamWriter;
-import java.io.OutputStream;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
-import com.google.gson.Gson;
-import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
- * Created by Administrator on 2017/7/7.
+ * Created by Administrator on 2017/8/29.
  */
 
-public class AppActivity extends Activity{
-    Context context;
-    MaterialSearchBar materialSearchBar;
+public class Fragment_anzhuang extends Fragment{
+
     List<AppSearchInfo> adapterDatas;
     ListView listView;
-    private AppAdapter adapter;
-
+    private Fragment_anzhuang.AppAdapter adapter;
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app);
-        context = this;
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment, container, false);
         adapterDatas = new ArrayList<AppSearchInfo>();
-/*
-        AppSearchInfo m = new AppSearchInfo();
-        m.setAppName("app");
-        m.setPackageName("sdfsd");
-        m.setCategoryId(12);
-        m.setInstallNum(13);
-        m.setWeight(12); //旧版里weight是int新版里你应该改了
-        m.setImage(null);
-        adapterDatas.add(m);
-*/
-        listView = (ListView) findViewById(R.id.AppSearchInfoList);
-        adapter = new AppActivity.AppAdapter(adapterDatas,context);
+        listView = (ListView) view.findViewById(R.id.appList);
+        adapter = new Fragment_anzhuang.AppAdapter(adapterDatas,getActivity());
         listView.setAdapter(adapter);
 
-        materialSearchBar = (MaterialSearchBar)findViewById(R.id.materialSearchBar);
-        materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
-            @Override
-            public void onButtonClicked(int buttonCode){
-                //Log.v("test",buttonCode+"");
-            }
-
-            @Override
-            public void onSearchConfirmed(CharSequence text) {
-                search(text.toString());
-                //startSearch(text.toString(), true, null, true);
-            }
-
-            @Override
-            public void onSearchStateChanged(boolean enabled) {
-            }
-        });
-        initAppList(ATapplicaion.getInstance().getEmail());
+        initAppList();
+        return view;
     }
 
-    @Override
-    protected void onStop() {
-        // TODO Auto-generated method stub
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-    }
-
-    public void search(String text){
-        //adapterDatas
-        DownloadTask t = new DownloadTask();
-        t.execute(text,"s");
-        //这里把“查询”那个按钮设为不能点击的状态，下面是我新创一个线程接收数据
-    }
-
-    public void initAppList(String email){
-        DownloadTask t = new DownloadTask();
-        t.execute(email,"r");
-        ((TextView) findViewById(R.id.hint)).setText("以下是根据您的手机使用情况为您推荐的app");
+    public void initAppList(){/*
+        AppSearchInfo m = new AppSearchInfo();
+        m.setAppName("appname");
+        m.setPackageName("packagename");
+        m.setCategory("category");
+        m.setInstallNum(1);
+        m.setWeight(2);
+        m.setImage(getResources().getDrawable(R.drawable.account));
+        adapterDatas.add(m);
+        adapter.notifyDataSetChanged();*/
     }//每次查询或者推荐应该把list清空掉再重新填装吧？
 
-    private class AppAdapter extends BaseAdapter {
+    public class AppAdapter extends BaseAdapter {
         private List<AppSearchInfo> appSearchInfos;
         private LayoutInflater inflater;
         ImageView app_icon;
@@ -148,18 +109,21 @@ public class AppActivity extends Activity{
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final AppSearchInfo appSearchInfo = adapterDatas.get(position);
-            convertView = inflater.inflate(R.layout.appsearchinfo_listitem, null);
+            convertView = inflater.inflate(R.layout.apprankinfo_listitem, null);
             app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
             app_name = (TextView) convertView.findViewById(R.id.app_name);
             installNum = (TextView) convertView.findViewById(R.id.installNum);
             category = (TextView) convertView.findViewById(R.id.category);
             materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.materialRatingBar);
+            TextView rank = (TextView) convertView.findViewById(R.id.rank);
 
             app_icon.setImageDrawable(appSearchInfo.getImage());
             app_name.setText(appSearchInfo.getAppName());
             installNum.setText("("+appSearchInfo.getInstallNum()+")");
             category.setText(appSearchInfo.getCategory());
             materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
+            rank.setText((position+1)+"");
+
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,14 +131,14 @@ public class AppActivity extends Activity{
                     Log.v("aaa","aaa");
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("market://details?id=" + appSearchInfo.getPackageName())); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
-                    if (intent.resolveActivity(getPackageManager()) != null) { //可以接收
+                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) { //可以接收
                         startActivity(intent);
                     } else { //没有应用市场，我们通过浏览器跳转到Google Play
                         intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + appSearchInfo.getPackageName()));
-                        if (intent.resolveActivity(getPackageManager()) != null) { //有浏览器
+                        if (intent.resolveActivity(getActivity().getPackageManager()) != null) { //有浏览器
                             startActivity(intent);
                         } else { //天哪，这还是智能手机吗？
-                            Toast.makeText(AppActivity.this, "您没安装应用市场，连浏览器也没有", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "您没安装应用市场，连浏览器也没有", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -182,7 +146,6 @@ public class AppActivity extends Activity{
             return convertView;
         }
     }
-
     private class DownloadTask extends AsyncTask<String, Object, String> {
 
         @Override
@@ -279,11 +242,9 @@ public class AppActivity extends Activity{
                     Log.v("search", adapterDatas.get(i).getAppName());
                 }
                 adapter.notifyDataSetChanged();
-                ((TextView) findViewById(R.id.hint)).setText("以下是查询结果");
             } else {
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 }
