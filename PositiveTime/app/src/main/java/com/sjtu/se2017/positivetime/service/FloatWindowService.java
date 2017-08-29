@@ -145,6 +145,7 @@ public class FloatWindowService extends Service implements Constants {
                 //int offset = c.getColumnIndex("weight");
                 //num = c.getInt(offset)
 
+            if(ATapplicaion.getInstance().getIfFloatingWindow()) {
                 // 当前没有悬浮窗显示，则创建悬浮窗。
                 if (!MyWindowManager.getInstance().isWindowShowing()) {
                     handler.post(new Runnable() {
@@ -164,7 +165,7 @@ public class FloatWindowService extends Service implements Constants {
                         }
                     });
                 }
-
+            }
             }
         }
 }

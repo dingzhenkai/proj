@@ -172,6 +172,16 @@ public class ATapplicaion extends Application {
     public float getNWeight(){
         return 1-getPWeight();
     }
+
+    public void setIfFloatingWindow(boolean IfFloatingWindow){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putBoolean("IfFloatingWindow",IfFloatingWindow);
+        editor.commit();
+    }
+    public Boolean getIfFloatingWindow(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getBoolean("IfFloatingWindow",true);
+    }
     static public ATapplicaion getInstance() {
         return instance;
     }

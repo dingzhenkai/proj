@@ -65,7 +65,7 @@ public class UpdateUIService extends Service implements Constants {
                 @Override
                 public void run() {
 
-                    MainActivity.getInstance().Update();
+                    if(MainActivity.getInstance()!=null){MainActivity.getInstance().Update();}
                 }
             });
             Intent intent = new Intent(UpdateUIService.this, WatchDogService.class);

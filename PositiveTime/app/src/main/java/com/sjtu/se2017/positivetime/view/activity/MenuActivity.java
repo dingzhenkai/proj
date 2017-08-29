@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.model.MenuItem;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.model.share.share.Print.PrintActivity;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 
@@ -122,15 +123,18 @@ public class MenuActivity extends Activity {
             if(menuItem.getMenu_item_name().equals("悬浮窗")){
                 convertView = inflater.inflate(R.layout.menu_listitem_floatingwindow, null);
                 SwitchCompat mySwitch = (SwitchCompat) convertView.findViewById(R.id.CustomSwitchCompat);
+                mySwitch.setChecked(ATapplicaion.getInstance().getIfFloatingWindow());
                 mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView,
                                                  boolean isChecked) {
                         // TODO Auto-generated method stub
                         if (isChecked) {
+                            ATapplicaion.getInstance().setIfFloatingWindow(true);
                             startService(new Intent(MenuActivity.this, FloatWindowService.class));
                         } else {
                             MyWindowManager.getInstance().removeAllWindow(getApplicationContext());
+                            ATapplicaion.getInstance().setIfFloatingWindow(false);
                         }
                     }
                 });

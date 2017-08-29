@@ -64,7 +64,11 @@ public class MyWindowManager implements Constants {
             } else {
                 setOnTouchListener(windowManager, context, mSmallWindowView, BIG_WINDOW_TYPE);
             }
-            windowManager.addView(mSmallWindowView, windowParams);
+            try{
+                windowManager.addView(mSmallWindowView, windowParams);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         tvSum = (TextView) mSmallWindowView.findViewById(R.id.tvSum);
 
