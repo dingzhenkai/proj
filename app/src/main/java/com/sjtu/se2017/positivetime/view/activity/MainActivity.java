@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.Menu;
@@ -29,14 +30,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.controller.Upload;
+import com.sjtu.se2017.positivetime.dao.ATDao;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.ContentAdapter;
 import com.sjtu.se2017.positivetime.model.ContentModel;
+import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
+import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
+import com.sjtu.se2017.positivetime.model.Uploadinfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 import com.sjtu.se2017.positivetime.service.UpdateUIService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
@@ -54,6 +63,8 @@ public class MainActivity extends FragmentActivity {
     private long ptime,ntime;
     private AppInfoDao appInfoDao = new AppInfoDao(this);
     private static MainActivity instance;
+
+
 
 
     @Override
@@ -172,7 +183,7 @@ public class MainActivity extends FragmentActivity {
         PButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,UserDetailActivity.class);
+                Intent intent = new Intent(MainActivity.this, Upload.class);
                 startActivity(intent);
             }
         });
@@ -184,6 +195,67 @@ public class MainActivity extends FragmentActivity {
             }
         });
         startService(new Intent(this, UpdateUIService.class));
+        Upload();
+
+    }
+
+    public void Upload(){
+        ArrayList<Uploadinfo> Uploadlist;
+        int style;
+        ArrayList<AppInformation> Tmplist;
+        String email,label;
+        ArrayList<Uploadinfo> list;
+        AppInfoDao appInfoDao = new AppInfoDao(this);
+        ATDao atDao = new ATDao(this);
+        long AT;
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, -1 * 24);
+        SimpleDateFormat yes = new SimpleDateFormat("yyyy-MM-dd");
+        String yesterday = yes.format(calendar.getTime());
+        //System.out.println(yesterday+"");
+
+        AT = atDao.checkAT(yesterday);
+
+        StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(),StatisticsInfo.YESTERDAY);
+        Tmplist = statisticsInfo.getShowList();
+        int size = Tmplist.size();
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.
+        Date d = new Date();
+        //System.out.println(d);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateNowStr = sdf.format(d);
+        //System.out.println(dateNowStr);
+
+        ATapplicaion aTapplicaion = ATapplicaion.getInstance();
+
+        email = aTapplicaion.getEmail();
+        Uploadinfo uploadlist = new Uploadinfo();
+
+        PackageManager pm = getPackageManager();
+
+        Uploadlist = new ArrayList<>();
+        for(int i=0;i<size;i++) {
+            uploadlist.setEmail(email);
+            uploadlist.setPackageName(Tmplist.get(i).getPackageName());
+            uploadlist.setDay(dateNowStr);
+            try {
+                ApplicationInfo applicationInfo = pm.getApplicationInfo(Tmplist.get(i).getPackageName(), 0);
+                label = (String)pm.getApplicationLabel(applicationInfo);
+                uploadlist.setAppname(label);
+                uploadlist.setWeight(appInfoDao.checkweight(label));
+
+            } catch (PackageManager.NameNotFoundException  e) {
+                e.printStackTrace();
+            }
+            uploadlist.setFrequency(Tmplist.get(i).getTimes());
+            uploadlist.setDuration((int) Tmplist.get(i).getUsedTimebyDay());
+
+
+            Uploadlist.add(uploadlist);
+            String dedug = dateNowStr + "";
+            Log.e("ryze", dedug);
+        }
     }
 
     private void initData() {

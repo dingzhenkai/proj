@@ -78,6 +78,7 @@
             android:theme="@style/DarkTheme"/>
         <activity android:name=".view.activity.UserDetailActivity" />
         <activity android:name=".view.activity.LineChartActivity" />
+        <activity android:name=".controller.Upload" />
         <activity android:name=".view.activity.MenuActivity"
             android:theme="@style/DarkTheme"/>
 

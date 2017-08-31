@@ -2,18 +2,9 @@ package com.sjtu.se2017.positivetime.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import com.sjtu.se2017.positivetime.dao.AppInfoOpenHelper;
-import com.sjtu.se2017.positivetime.model.AppInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ATDao {
     private ATOpenHelper openHelper;
@@ -26,10 +17,10 @@ public class ATDao {
     /**
      * 查询数据库有没有对应的数据
      */
-    public Cursor  query(int time){
+    public Cursor  query(String time){
         db = openHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from AT where time=?",
-                new String[] { ""+time });
+                new String[] { time });
         if(cursor!=null){
             cursor.moveToFirst();
         }
@@ -39,7 +30,7 @@ public class ATDao {
     /*
      * 插入一条数据，如果数据已经存在，就更新
      */
-    public void insertOrUpdate(int time, int AT) {
+    public void insertOrUpdate(String time, long AT) {
         Cursor cursor = query(time);
 
         ContentValues cv = new ContentValues(2);
@@ -49,12 +40,12 @@ public class ATDao {
             db.insert("AT",null,cv);
         }
         else{
-            db.update("AT",cv,"time=?",new String[]{""+time});
+            db.update("AT",cv,"time=?",new String[]{time});
         }
         db.close();
     }
 
-    public int checkAT(int time){
+    public long checkAT(String time){
         int AT = 0;
         Cursor cursor = query(time);
         if(cursor.getCount()==0){

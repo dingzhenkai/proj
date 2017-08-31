@@ -1,7 +1,5 @@
 package com.sjtu.se2017.positivetime.model;
 
-import java.util.Date;
-
 /**
  * Created by bonjour on 17-7-14.
  */
@@ -10,13 +8,15 @@ public class Uploadinfo {
     //private UsageStats usageStats;
     private String email;
     private String packageName;
-    private Date day;
+    private String day;
     private int frequency;
     //private long UsedTimebyDay;  //milliseconds
     //private Context context;
-    private int weight;
+
 
     private int duration;
+    private int weight;
+    private String appname;
 
     public void setWeight(int weight) { this.weight = weight;}
     public void setEmail(String email){
@@ -25,7 +25,7 @@ public class Uploadinfo {
     public void setPackageName(String packageName){
         this.packageName = packageName;
     }
-    public void setDay(Date day){
+    public void setDay(String day){
         this.day = day;
     }
     public void setFrequency(int frequency){
@@ -34,6 +34,7 @@ public class Uploadinfo {
     public void setDuration(int duration){
         this.duration = duration;
     }
+    public void setAppname(String appname) { this.appname = appname; }
 
     public Uploadinfo(){
 
