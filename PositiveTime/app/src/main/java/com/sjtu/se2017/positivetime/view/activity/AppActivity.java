@@ -251,6 +251,7 @@ public class AppActivity extends Activity{
                             m.setCategory(tmp.getString("category"));
                             m.setInstallNum(tmp.getInt("installNum"));
                             m.setWeight(tmp.getInt("weight"));
+                            m.setMinutes(tmp.getInt("minutes"));
                             m.setImage(null);
                             adapterDatas.add(m);
                             //Log.v("done",m.getAppName());

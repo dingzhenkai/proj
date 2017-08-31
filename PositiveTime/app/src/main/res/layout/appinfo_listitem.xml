@@ -91,5 +91,6 @@
             android:layout_above="@+id/app_weight_seekbar"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp" />
+
     </RelativeLayout>
 </LinearLayout>

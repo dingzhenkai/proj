@@ -75,6 +75,8 @@ public class Fragment_shichang extends Fragment{
         m.setImage(getResources().getDrawable(R.drawable.account));
         adapterDatas.add(m);
         adapter.notifyDataSetChanged();*/
+        DownloadTask t = new DownloadTask();
+        t.execute();
     }//每次查询或者推荐应该把list清空掉再重新填装吧？
 
     private class AppAdapter extends BaseAdapter {
@@ -157,11 +159,9 @@ public class Fragment_shichang extends Fragment{
             adapterDatas = new ArrayList<AppSearchInfo>();
             String returnStr = "";
             String urlStr;
-            if(params[1].equals("s")) {
-                urlStr = getResources().getString(R.string.ipAddress) + "/appinfo/search";
-            }else{
-                urlStr = getResources().getString(R.string.ipAddress) + "/appinfo/recommand";
-            }
+
+            urlStr = getResources().getString(R.string.ipAddress) + "/appinfo/rankByMinutes";
+
             HttpURLConnection urlConnection = null;
             URL url = null;
             try {
@@ -176,21 +176,7 @@ public class Fragment_shichang extends Fragment{
                 urlConnection.setRequestMethod("POST");//设置请求的方式
                 urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");//设置消息的类型
                 urlConnection.connect();// 连接，从上述至此的配置必须要在connect之前完成，实际上它只是建立了一个与服务器的TCP连接
-                JSONObject json = new JSONObject();//创建json对象
 
-                if(params[1].equals("s")) {
-                    json.put("appname", URLEncoder.encode(params[0], "UTF-8"));//使用URLEncoder.encode对特殊和不可见字符进行编码
-                }else{
-                    json.put("email",URLEncoder.encode(params[0],"UTF-8"));//URLEcoder.encode 会把@等符号encode后再decode后得不到原来的符号
-                }
-                String jsonstr = json.toString();//把JSON对象按JSON的编码格式转换为字符串
-                //------------字符流写入数据------------
-                OutputStream out = urlConnection.getOutputStream();//输出流，用来发送请求，http请求实际上直到这个函数里面才正式发送出去
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));//创建字符流对象并用高效缓冲流包装它，便获得最高的效率,发送的是字符串推荐用字符流，其它数据就用字节流
-                bw.write(jsonstr);//把json字符串写入缓冲区中
-                bw.flush();//刷新缓冲区，把数据发送出去，这步很重要
-                out.close();
-                bw.close();//使用完关闭
                 if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {//得到服务端的返回码是否连接成功
                     InputStream in = urlConnection.getInputStream();
                     BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -214,6 +200,7 @@ public class Fragment_shichang extends Fragment{
                             m.setCategory(tmp.getString("category"));
                             m.setInstallNum(tmp.getInt("installNum"));
                             m.setWeight(tmp.getInt("weight"));
+                            m.setMinutes(tmp.getInt("minutes"));
                             m.setImage(null);
                             adapterDatas.add(m);
                             //Log.v("done",m.getAppName());
