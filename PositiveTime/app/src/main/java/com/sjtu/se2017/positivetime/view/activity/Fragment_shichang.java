@@ -84,6 +84,7 @@ public class Fragment_shichang extends Fragment{
         TextView app_name;
         TextView installNum;
         TextView category;
+        TextView minutes;
         MaterialRatingBar materialRatingBar;
         public AppAdapter() {}
 
@@ -114,6 +115,7 @@ public class Fragment_shichang extends Fragment{
             app_name = (TextView) convertView.findViewById(R.id.app_name);
             installNum = (TextView) convertView.findViewById(R.id.installNum);
             category = (TextView) convertView.findViewById(R.id.category);
+            minutes = (TextView) convertView.findViewById(R.id.minutes);
             materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.materialRatingBar);
             TextView rank = (TextView) convertView.findViewById(R.id.rank);
 
@@ -122,7 +124,8 @@ public class Fragment_shichang extends Fragment{
             installNum.setText("("+appSearchInfo.getInstallNum()+")");
             category.setText(appSearchInfo.getCategory());
             materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
-            rank.setText((101)+"");
+            minutes.setText(appSearchInfo.getMinutes()+"分钟");
+            rank.setText((position+1)+"");
 
 
             convertView.setOnClickListener(new View.OnClickListener() {

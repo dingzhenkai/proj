@@ -48,7 +48,7 @@ public class RankActivity extends AppCompatActivity {
     }
     public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] mTitles = new String[]{"使用时长", "安装量"};
+        private String[] mTitles = new String[]{"安装量", "使用时长"};
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);

@@ -59,5 +59,12 @@
             android:id="@+id/weight"
             android:layout_toEndOf="@id/materialRatingBar"
             android:layout_marginTop="42dp"/>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/materialRatingBar"
+            android:layout_marginTop="42dp"
+            android:layout_marginStart="325dp"
+            android:id="@+id/minutes" />
     </RelativeLayout>
 </LinearLayout>

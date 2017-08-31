@@ -12,6 +12,7 @@ public class AppSearchInfo {
     private String packageName;
     private int weight;
     private int installNum;
+    private int minutes;
     private String category;
 
     public Drawable getImage() {
@@ -62,4 +63,11 @@ public class AppSearchInfo {
         this.category = category;
     }
 
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
 }

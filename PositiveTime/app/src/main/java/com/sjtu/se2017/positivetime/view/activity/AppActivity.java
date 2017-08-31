@@ -123,6 +123,7 @@ public class AppActivity extends Activity{
         TextView app_name;
         TextView installNum;
         TextView category;
+        TextView minutes;
         MaterialRatingBar materialRatingBar;
         public AppAdapter() {}
 
@@ -153,12 +154,14 @@ public class AppActivity extends Activity{
             app_name = (TextView) convertView.findViewById(R.id.app_name);
             installNum = (TextView) convertView.findViewById(R.id.installNum);
             category = (TextView) convertView.findViewById(R.id.category);
+            minutes = (TextView) convertView.findViewById(R.id.minutes);
             materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.materialRatingBar);
 
             app_icon.setImageDrawable(appSearchInfo.getImage());
             app_name.setText(appSearchInfo.getAppName());
             installNum.setText("("+appSearchInfo.getInstallNum()+")");
             category.setText(appSearchInfo.getCategory());
+            minutes.setText(appSearchInfo.getMinutes()+"分钟");
             materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
 
             convertView.setOnClickListener(new View.OnClickListener() {
