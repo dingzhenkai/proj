@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                 br.close();
                                 String result = buffer.toString();
                                 if(result.equals("1")){
-                                    Upload();
+                                    //Upload();
                                     //success,add some code here to jump to somewhere else
                                     Looper.prepare();
                                     Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();    //显示toast信息

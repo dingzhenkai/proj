@@ -32,7 +32,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.sjtu.se2017.positivetime.R;
-import com.sjtu.se2017.positivetime.controller.Upload;
 import com.sjtu.se2017.positivetime.dao.ATDao;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.ContentAdapter;
@@ -193,7 +192,7 @@ public class MainActivity extends FragmentActivity {
         PButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Upload.class);
+                Intent intent = new Intent(MainActivity.this, WorkActivity.class);
                 startActivity(intent);
             }
         });
