@@ -21,6 +21,7 @@ import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.model.MenuItem;
 import com.sjtu.se2017.positivetime.model.Share.Print.Print;
+import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class MenuActivity extends Activity {
             menu_icon.setImageResource(R.drawable.setting);
             adapterDatas = new ArrayList<MenuItem>();
             adapterDatas.add(new MenuItem(R.drawable.setting,"设置权重", Color.parseColor("#212121"), SetWeightActivity.class));
-            adapterDatas.add(new MenuItem(R.drawable.floating_window,"悬浮窗", Color.parseColor("#212121"), FloatingWindow.class));
+            adapterDatas.add(new MenuItem(R.drawable.floating_window,"悬浮窗", Color.parseColor("#212121"), MenuActivity.class));
             adapterDatas.add(new MenuItem(R.drawable.plan,"计划", Color.parseColor("#212121"), PlanActivity.class));
         }
         listView = (ListView) findViewById(R.id.MenuList);
@@ -125,15 +126,18 @@ public class MenuActivity extends Activity {
             if(menuItem.getMenu_item_name().equals("悬浮窗")){
                 convertView = inflater.inflate(R.layout.menu_listitem_floatingwindow, null);
                 SwitchCompat mySwitch = (SwitchCompat) convertView.findViewById(R.id.CustomSwitchCompat);
+                mySwitch.setChecked(ATapplicaion.getInstance().getIfFloatingWindow());
                 mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView,
                                                  boolean isChecked) {
                         // TODO Auto-generated method stub
                         if (isChecked) {
+                            ATapplicaion.getInstance().setIfFloatingWindow(true);
                             startService(new Intent(MenuActivity.this, FloatWindowService.class));
                         } else {
                             MyWindowManager.getInstance().removeAllWindow(getApplicationContext());
+                            ATapplicaion.getInstance().setIfFloatingWindow(false);
                         }
                     }
                 });

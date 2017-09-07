@@ -2,10 +2,12 @@ package com.sjtu.se2017.positivetime.model.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.icu.util.Calendar;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.TextView;
+import android.util.Log;
 
 import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
 import com.sjtu.se2017.positivetime.service.util.Utils;
@@ -17,12 +19,12 @@ import java.util.ArrayList;
  */
 
 public class ATapplicaion extends Application {
+    private static ATapplicaion instance;/*
     static private String email;
     static private long PTime;
     static private long NTime;
     static private int PTotalWeight;
     static private int NTotalWeight;
-    private static ATapplicaion instance;
 
     public String getEmail() {
         return email;
@@ -75,7 +77,110 @@ public class ATapplicaion extends Application {
     public float getNWeight(){
         return NTime/(PTime+NTime);
     }
+    */
+    public String getEmail() {
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getString("email",null);
+    }
 
+    public void setEmail(String email) {
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putString("email",email);
+        editor.commit();
+    }
+
+    public int getPTotalWeight() {
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getInt("PTotalWeight",50);
+    }
+
+    public void setPTotalWeight(int PTotalWeight) {
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putInt("PTotalWeight",PTotalWeight);
+        editor.commit();
+    }
+
+    public int getNTotalWeight() {
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getInt("NTotalWeight",50);
+    }
+
+    public void setNTotalWeight(int NTotalWeight) {
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putInt("NTotalWeight",NTotalWeight);
+        editor.commit();
+    }
+
+    public void setPTime(long PTime){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putLong("PTime",PTime);
+        editor.commit();
+    }
+
+    public void setNTime(long NTime){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putLong("NTime",NTime);
+        editor.commit();
+    }
+
+    public long getPTime(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getLong("PTime",0);
+    }
+
+    public long getNTime(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getLong("NTime",0);
+    }
+
+    //该值用于每天第一次打开时AT清零
+    public int getDay(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getInt("day",0);
+    }
+
+    public void setDay(int day){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putInt("day",day);
+        editor.commit();
+    }
+
+    public long getAT(){
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_YEAR);
+        if(getDay()!=day){
+            setDay(day);
+            Log.v("dayday","dad");
+            setPTime(0);
+            setNTime(0);
+            return 0;
+        } else {
+            return (getPTime() * getPTotalWeight() - getNTime() * getNTotalWeight()) / 100;
+        }
+    }
+
+    public float getPWeight(){
+        if(getPTime()+getNTime()==0){
+            return (float)1/2;
+        }else {
+            float total = getPTime() * getPTotalWeight() + getNTime() * getNTotalWeight();
+            return (getPTime() * getPTotalWeight()) / total;
+        }
+    }
+
+    public float getNWeight(){
+        return 1-getPWeight();
+    }
+
+    public void setIfFloatingWindow(boolean IfFloatingWindow){
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putBoolean("IfFloatingWindow",IfFloatingWindow);
+        editor.commit();
+    }
+    public Boolean getIfFloatingWindow(){
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        return pref.getBoolean("IfFloatingWindow",true);
+    }
     static public ATapplicaion getInstance() {
         return instance;
     }

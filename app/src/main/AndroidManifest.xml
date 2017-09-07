@@ -106,6 +106,7 @@
         <service android:name=".service.FloatWindowService" />
         <service android:name=".model.Share.Print.FloatWindowsService" />
         <service android:name=".service.UpdateUIService" />
+        <service android:name=".service.WatchDogControlService" />
 
         <receiver android:name=".model.application.BootReceiver">
             <intent-filter>

@@ -65,7 +65,11 @@ public class MyWindowManager implements Constants {
             } else {
                 setOnTouchListener(windowManager, context, mSmallWindowView, BIG_WINDOW_TYPE);
             }
-            windowManager.addView(mSmallWindowView, windowParams);
+            try{
+                windowManager.addView(mSmallWindowView, windowParams);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         tvSum = (TextView) mSmallWindowView.findViewById(R.id.tvSum);
 
@@ -224,10 +228,12 @@ public class MyWindowManager implements Constants {
         wlanSendSum = tempWlanTx;*/
         //String tmp = String.valueOf(AT);
 
+
+
         ATapplicaion aTapplicaion = ATapplicaion.getInstance();
         long AT = aTapplicaion.getAT();
         AT = AT/1000;
-        AT = AT/100;
+        //AT = AT/100;
         long h = AT/3600;
         long m = (AT-h*3600)/60;
         long s = (AT-h*3600) % 60;

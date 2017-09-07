@@ -19,9 +19,7 @@ import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.model.application.Constants;
 import com.sjtu.se2017.positivetime.view.activity.MainActivity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -97,27 +95,28 @@ public class FloatWindowService extends Service implements Constants {
             PTime = aTapplicaion.getPTime();
             NTime = aTapplicaion.getNTime();
             PreList = aTapplicaion.getPreList();
-            Long total = PTime + NTime;
-            if (total == 0) {//当天第一次打开会将之前的使用时间数据直接拿来计算
+            if (PreList == null) {//当天第一次打开会将之前的使用时间数据直接拿来计算
                 this.style = StatisticsInfo.DAY;
                 StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(), this.style);
                 Tmplist = statisticsInfo.getShowList();
                 int size = Tmplist.size();
-                PTime = 0;
-                NTime = 0;
-                for (int i = 0; i < size; i++) {
-                    label = Tmplist.get(i).getLabel();
-                    usetime = Tmplist.get(i).getUsedTimebyDay();
-                    weight = appInfoDao.checkweight(label);
-                    if (weight > 50) {
-                        PTime += (weight - 50) * usetime;
-                    } else {
-                        NTime += (50 - weight) * usetime;
-                    }
-                }
-                aTapplicaion.setPTime(PTime);
-                aTapplicaion.setNTime(NTime);
                 aTapplicaion.setPreList(Tmplist);
+                //PTime = 0;
+                //NTime = 0;
+                if(PTime+NTime==0) {
+                    for (int i = 0; i < size; i++) {
+                        label = Tmplist.get(i).getLabel();
+                        usetime = Tmplist.get(i).getUsedTimebyDay();
+                        weight = appInfoDao.checkweight(label);
+                        if (weight > 50) {
+                            PTime += (weight - 50)/50 * usetime;
+                        } else {
+                            NTime += (50 - weight)/50 * usetime;
+                        }
+                    }
+                    aTapplicaion.setPTime(PTime);
+                    aTapplicaion.setNTime(NTime);
+                }
             } else {
                 this.style = StatisticsInfo.DAY;
                 StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(), this.style);
@@ -129,9 +128,9 @@ public class FloatWindowService extends Service implements Constants {
                     usetime = (Tmplist.get(i).getUsedTimebyDay() - getPreUsetimeBylabel(PreList, label));
                     weight = appInfoDao.checkweight(label);
                     if (weight > 50) {
-                        PTime += (weight - 50) * usetime;
+                        PTime += (weight - 50)/50 * usetime;
                     } else {
-                        NTime += (50 - weight) * usetime;
+                        NTime += (50 - weight)/50 * usetime;
                     }
 
                 }
@@ -139,24 +138,26 @@ public class FloatWindowService extends Service implements Constants {
                 aTapplicaion.setNTime(NTime);
                 aTapplicaion.setPreList(Tmplist);
 
-                int nTotalWeight = appInfoDao.checkweight(getResources().getString(R.string.NTotalWeight));
+                /*int nTotalWeight = appInfoDao.checkweight(getResources().getString(R.string.NTotalWeight));
                 aTapplicaion.setNTotalWeight(nTotalWeight);
-                aTapplicaion.setPTotalWeight(100 - nTotalWeight);
+                aTapplicaion.setPTotalWeight(100 - nTotalWeight);*/
             }
-            aTdao = new ATDao(getApplicationContext());
-            AT = aTapplicaion.getAT();
-            Date d = new Date();
+            //aTdao = new ATDao(getApplicationContext());
+            //AT = aTapplicaion.getAT();
+            //Date d = new Date();
             //System.out.println(d);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateNowStr = sdf.format(d);
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //String dateNowStr = sdf.format(d);
             //System.out.println(AT+"");
-            aTdao.insertOrUpdate(dateNowStr,AT);
+            //aTdao.insertOrUpdate(dateNowStr,AT);
 
 
 
                 //int offset = c.getColumnIndex("weight");
                 //num = c.getInt(offset)
 
+                // 当前没有悬浮窗显示，则创建悬浮窗。
+            if(ATapplicaion.getInstance().getIfFloatingWindow()) {
                 // 当前没有悬浮窗显示，则创建悬浮窗。
                 if (!MyWindowManager.getInstance().isWindowShowing()) {
                     handler.post(new Runnable() {
@@ -173,10 +174,10 @@ public class FloatWindowService extends Service implements Constants {
                         @Override
                         public void run() {
                             MyWindowManager.getInstance().updateViewData(getApplicationContext());
-                            //Upload.getInstance().doit();
                         }
                     });
                 }
+            }
 
             }
         }

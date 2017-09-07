@@ -65,7 +65,11 @@ public class Upload extends AppCompatActivity {
         String yesterday = yes.format(calendar.getTime());
         System.out.println(yesterday+"");
 
-        AT = atDao.checkAT(yesterday);
+        android.icu.util.Calendar cal = android.icu.util.Calendar.getInstance();
+        int day = cal.get(android.icu.util.Calendar.DAY_OF_YEAR) -1;
+        int hour = 23;
+
+        AT = atDao.checkAT(day,hour);
 
         this.style = StatisticsInfo.YESTERDAY;
         StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(),this.style);

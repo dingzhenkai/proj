@@ -33,7 +33,6 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -151,13 +150,16 @@ public class LoginActivity extends AppCompatActivity {
         AppInfoDao appInfoDao = new AppInfoDao(this);
         ATDao atDao = new ATDao(this);
 
-        Calendar calendar = Calendar.getInstance();
+        /*Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR, -1 * 24);
         SimpleDateFormat yes = new SimpleDateFormat("yyyy-MM-dd");
-        String yesterday = yes.format(calendar.getTime());
+        String yesterday = yes.format(calendar.getTime());*/
         //System.out.println(yesterday+"");
+        android.icu.util.Calendar cal = android.icu.util.Calendar.getInstance();
+        int day = cal.get(android.icu.util.Calendar.DAY_OF_YEAR) -1;
+        int hour = 23;
 
-        AT = atDao.checkAT(yesterday);
+        AT = atDao.checkAT(day,hour);
 
         StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(),StatisticsInfo.YESTERDAY);
         Tmplist = statisticsInfo.getShowList();
