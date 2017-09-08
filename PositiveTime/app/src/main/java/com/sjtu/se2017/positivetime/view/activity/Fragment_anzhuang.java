@@ -2,7 +2,6 @@ package com.sjtu.se2017.positivetime.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,23 +18,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.model.AppSearchInfo;
-import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +38,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
  * Created by Administrator on 2017/8/29.
  */
 
-public class Fragment_anzhuang extends Fragment{
+public class Fragment_anzhuang extends Fragment {
 
     List<AppSearchInfo> adapterDatas;
     ListView listView;
@@ -90,7 +83,7 @@ public class Fragment_anzhuang extends Fragment{
         MaterialRatingBar materialRatingBar;
         public AppAdapter() {}
 
-        public AppAdapter(List<AppSearchInfo> appSearchInfos,Context context) {
+        public AppAdapter(List<AppSearchInfo> appSearchInfos, Context context) {
             this.appSearchInfos = appSearchInfos;
             this.inflater=LayoutInflater.from(context);
         }

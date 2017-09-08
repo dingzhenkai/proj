@@ -1,20 +1,32 @@
-package com.sjtu.se2017.positivetime.model.share.share;
+package com.sjtu.se2017.positivetime.model.Share;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.util.ShareUtil;
+import com.sjtu.se2017.positivetime.R;
 
-public class ShareActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * Created by bonjour on 17-9-6.
+ */
+
+public class ShareActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ShareEntity testBean;
+    private Bitmap bitmap1;
+    private Bitmap bitmap2;
+    private Bitmap bitmap3;
+    private Bitmap bitmap4;
+    private Drawable drawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +85,11 @@ public class ShareActivity extends AppCompatActivity implements View.OnClickList
         int id = view.getId();
         switch (id) {
             case R.id.share_qq:
-                //Bitmap bitmap = ((ATapplicaion) getApplication()).getPic();
-                //String filePath = ShareUtil.saveBitmapToSDCard(this, bitmap);
-                //testBean.setImgUrl(filePath);
+                testBean = new ShareEntity("", "");
+                testBean.setShareBigImg(true);
+                Bitmap bitmap = ((ATapplicaion) getApplication()).getPic();
+                String filePath = ShareUtil.saveBitmapToSDCard(this, bitmap);
+                testBean.setImgUrl(filePath);
                 ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_QQ, testBean, ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_qzone:
@@ -98,6 +112,23 @@ public class ShareActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public Bitmap drawableToBitmap(Drawable drawable) {
+
+        int w = drawable.getIntrinsicWidth();
+        int h = drawable.getIntrinsicHeight();
+        System.out.println("Drawable转Bitmap");
+        Bitmap.Config config =
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                        : Bitmap.Config.RGB_565;
+        Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+        //注意，下面三行代码要用到，否则在View或者SurfaceView里的canvas.drawBitmap会看不到图
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, w, h);
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     /**
      * 分享大图，大图分享支持，微信，微信朋友圈，微博，QQ，其他渠道不支持
      *
@@ -112,12 +143,12 @@ public class ShareActivity extends AppCompatActivity implements View.OnClickList
         testBean.setImgUrl("/storage/sdcard0/Android/data/com.xyzlf.share/files/com.xyzlf.share_share_pic.png"); //本地地址
 
         /** 如果你要分享的图片是Bitmap，你可以如下使用 **/
-        Bitmap bitmap = ((ATapplicaion) getApplication()).getPic();
-        String filePath = ShareUtil.saveBitmapToSDCard(this, bitmap);
+
+        Bitmap tmp = ((ATapplicaion) getApplication()).getPic();
+        String filePath = ShareUtil.saveBitmapToSDCard(this, tmp);
         testBean.setImgUrl(filePath);
 
         int channel = ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND | ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE | ShareConstant.SHARE_CHANNEL_SINA_WEIBO | ShareConstant.SHARE_CHANNEL_QQ;
         ShareUtil.showShareDialog(this, channel, testBean, ShareConstant.REQUEST_CODE);
     }
-
 }

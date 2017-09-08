@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime.model.share.share.Print;
+package com.sjtu.se2017.positivetime.model.Share.Print;
 
 import android.content.Context;
 import android.os.Environment;

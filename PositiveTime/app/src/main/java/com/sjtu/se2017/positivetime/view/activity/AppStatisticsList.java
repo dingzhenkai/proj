@@ -73,8 +73,8 @@ public class AppStatisticsList extends AppCompatActivity {
         buttonyear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(style != StatisticsInfo.YEAR) {
-                    style = StatisticsInfo.YEAR;
+                if(style != StatisticsInfo.YESTERDAY) {
+                    style = StatisticsInfo.YESTERDAY;
                     onResume();
                 }
             }
@@ -128,7 +128,7 @@ public class AppStatisticsList extends AppCompatActivity {
             case StatisticsInfo.WEEK:
                 buttonweek.setTextColor(Color.GREEN);
                 break;
-            case StatisticsInfo.YEAR:
+            case StatisticsInfo.YESTERDAY:
                 buttonyear.setTextColor(Color.GREEN);
                 break;
         }

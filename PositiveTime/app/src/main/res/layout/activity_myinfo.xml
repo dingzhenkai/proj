@@ -67,16 +67,6 @@
                     android:layout_below="@+id/email"
                     android:layout_alignEnd="@+id/email" />
 
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/tab_checked"
-                    android:text="关注"
-                    android:layout_marginStart="11dp"
-                    android:layout_toEndOf="@+id/textView"
-                    android:layout_alignTop="@+id/textView"
-                    android:layout_alignBottom="@+id/textView" />
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -263,6 +253,29 @@
                     android:textColor="#000"/>
 
                 <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/list_item_indicator"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="1px"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="我关注的人"
+                    android:textColor="#000"/>
+
+                <ImageView
+                    android:id="@+id/follows"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/list_item_indicator"/>

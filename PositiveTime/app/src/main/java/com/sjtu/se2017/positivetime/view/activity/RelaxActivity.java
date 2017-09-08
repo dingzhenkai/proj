@@ -47,7 +47,7 @@ public class RelaxActivity extends Activity {
                     //button.setEnabled(false);
                     button.setVisibility(View.INVISIBLE);
                     button.setText("完成");
-                    countDownTimer = new CountDownTimer(swagPoints.getPoints() * 1000 * 60, 1000) {
+                    countDownTimer = new CountDownTimer(swagPoints.getPoints() * 1000*60, 1000) {
 
                         @Override
                         public void onTick(long millisUntilFinished) {

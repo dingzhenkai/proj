@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime.model.share.share;
+package com.sjtu.se2017.positivetime.model.Share;
 
 
 import com.xyzlf.share.library.interfaces.ShareConstant;

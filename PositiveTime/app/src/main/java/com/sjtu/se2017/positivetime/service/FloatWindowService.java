@@ -1,25 +1,22 @@
 package com.sjtu.se2017.positivetime.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.sjtu.se2017.positivetime.R;
+import com.sjtu.se2017.positivetime.controller.MyWindowManager;
+import com.sjtu.se2017.positivetime.dao.ATDao;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
 import com.sjtu.se2017.positivetime.model.Statistics.AppInformation;
 import com.sjtu.se2017.positivetime.model.Statistics.StatisticsInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 import com.sjtu.se2017.positivetime.model.application.Constants;
-import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.view.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -69,12 +66,14 @@ public class FloatWindowService extends Service implements Constants {
 
     class RefreshTask extends TimerTask {
         private int style;
-        private long totalTime;
+        private long totalTime,AT;
         private ArrayList<AppInformation> Tmplist, PreList;
         private String label;
         private String tmp;
         private int weight;
         private long usetime;
+        private ATDao aTdao;
+
         long PTime;
         long NTime;
 
@@ -87,8 +86,10 @@ public class FloatWindowService extends Service implements Constants {
 
         }
 
+
         @Override
         public void run() {
+
 
             ATapplicaion aTapplicaion = ATapplicaion.getInstance();
             PTime = aTapplicaion.getPTime();
@@ -141,10 +142,21 @@ public class FloatWindowService extends Service implements Constants {
                 aTapplicaion.setNTotalWeight(nTotalWeight);
                 aTapplicaion.setPTotalWeight(100 - nTotalWeight);*/
             }
+            //aTdao = new ATDao(getApplicationContext());
+            //AT = aTapplicaion.getAT();
+            //Date d = new Date();
+            //System.out.println(d);
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //String dateNowStr = sdf.format(d);
+            //System.out.println(AT+"");
+            //aTdao.insertOrUpdate(dateNowStr,AT);
+
+
 
                 //int offset = c.getColumnIndex("weight");
                 //num = c.getInt(offset)
 
+                // 当前没有悬浮窗显示，则创建悬浮窗。
             if(ATapplicaion.getInstance().getIfFloatingWindow()) {
                 // 当前没有悬浮窗显示，则创建悬浮窗。
                 if (!MyWindowManager.getInstance().isWindowShowing()) {
@@ -166,6 +178,7 @@ public class FloatWindowService extends Service implements Constants {
                     });
                 }
             }
+
             }
         }
 }

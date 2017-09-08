@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime.model.share.share.wxapi;
+package com.sjtu.se2017.positivetime.model.Share.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;

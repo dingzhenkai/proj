@@ -13,7 +13,7 @@
     <string name="string_setting_fix">请先开启悬浮窗再进行设置</string>
     <string name="NTotalWeight">NTotalWeight</string>
     <string name="ipAddress">http://139.196.88.202:8080</string>
-    <!--share-->
+<!--share-->
     <string name="show_share_dialog">显示分享界面</string>
     <string name="share_qq">调用QQ分享</string>
     <string name="share_weixin">调用微信分享</string>

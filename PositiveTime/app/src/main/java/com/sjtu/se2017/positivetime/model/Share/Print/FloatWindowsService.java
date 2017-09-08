@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime.model.share.share.Print;
+package com.sjtu.se2017.positivetime.model.Share.Print;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,7 +14,6 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -29,14 +28,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.sjtu.se2017.positivetime.model.Share.ShareActivity;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
-import com.sjtu.se2017.positivetime.model.share.share.ShareActivity;
 import com.sjtu.se2017.positivetime.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
@@ -45,7 +41,7 @@ import java.nio.ByteBuffer;
  * 启动悬浮窗界面
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ShareService extends Service {
+public class FloatWindowsService extends Service {
 
 
   private Handler handler = new Handler();
@@ -57,7 +53,7 @@ public class ShareService extends Service {
 
   public static Intent newIntent(Context context, Intent mResultData) {
 
-    Intent intent = new Intent(context, ShareService.class);
+    Intent intent = new Intent(context, FloatWindowsService.class);
 
     if (mResultData != null) {
       intent.putExtras(mResultData);
@@ -97,7 +93,7 @@ public class ShareService extends Service {
   }
 
   public static void setResultData(Intent mResultData) {
-    ShareService.mResultData = mResultData;
+    FloatWindowsService.mResultData = mResultData;
   }
 
   @Override
@@ -290,7 +286,7 @@ public class ShareService extends Service {
       bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height);
       image.close();
       File fileImage = null;
-      if (bitmap != null) {
+      /*if (bitmap != null) {
         try {
           fileImage = new File(FileUtil.getScreenShotsName(getApplicationContext()));
           if (!fileImage.exists()) {
@@ -313,16 +309,16 @@ public class ShareService extends Service {
           e.printStackTrace();
           fileImage = null;
         }
-      }
+      }*/
 
 
+      
 
 
-
-      if (fileImage != null) {
+      //if (fileImage != null) {
         return bitmap;
-      }
-      return null;
+      //}
+      //return null;
     }
 
     @Override
@@ -339,7 +335,7 @@ public class ShareService extends Service {
 
 
       mFloatView.setVisibility(View.VISIBLE);
-      Intent intent = new Intent(ShareService.this, ShareActivity.class);
+      Intent intent = new Intent(FloatWindowsService.this, ShareActivity.class);
       startActivity(intent);
 
     }

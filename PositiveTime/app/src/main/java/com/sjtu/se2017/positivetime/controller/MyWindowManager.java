@@ -37,6 +37,7 @@ public class MyWindowManager implements Constants {
     private long wlanSendSum = 0;
     private long exitTime = 0;
 
+
     private DecimalFormat showFloatFormat = new DecimalFormat("0.00");
 
     public static MyWindowManager getInstance() {
@@ -226,9 +227,13 @@ public class MyWindowManager implements Constants {
         wlanRecvSum = tempWlanRx;
         wlanSendSum = tempWlanTx;*/
         //String tmp = String.valueOf(AT);
+
+
+
         ATapplicaion aTapplicaion = ATapplicaion.getInstance();
         long AT = aTapplicaion.getAT();
         AT = AT/1000;
+        //AT = AT/100;
         long h = AT/3600;
         long m = (AT-h*3600)/60;
         long s = (AT-h*3600) % 60;

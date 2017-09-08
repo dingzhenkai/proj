@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -170,7 +169,7 @@ public class BarChartActivity extends DemoBase implements OnSeekBarChangeListene
 
         SetButtonColor();
 
-        StatisticsInfo statisticsInfo = new StatisticsInfo(this,style);
+        StatisticsInfo statisticsInfo = new StatisticsInfo(this,0);
         ShowList = statisticsInfo.getShowList();
         usehour = getLagerestTime() > 300;
 

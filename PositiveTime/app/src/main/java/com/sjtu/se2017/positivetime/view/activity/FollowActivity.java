@@ -1,11 +1,10 @@
 package com.sjtu.se2017.positivetime.view.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.sjtu.se2017.positivetime.R;
-import com.sjtu.se2017.positivetime.model.AppSearchInfo;
+import com.sjtu.se2017.positivetime.model.UserSearchInfo;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
 
 import net.sf.json.JSONArray;
@@ -37,57 +35,29 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-/**
- * Created by Administrator on 2017/7/7.
- */
+public class FollowActivity extends AppCompatActivity {
 
-public class AppActivity extends Activity{
     Context context;
-    MaterialSearchBar materialSearchBar;
-    List<AppSearchInfo> adapterDatas;
+    List<UserSearchInfo> adapterDatas;
     ListView listView;
-    private AppAdapter adapter;
+    private FollowActivity.AppAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app);
+        setContentView(R.layout.activity_user);
         context = this;
-        adapterDatas = new ArrayList<AppSearchInfo>();
-/*
-        AppSearchInfo m = new AppSearchInfo();
-        m.setAppName("app");
-        m.setPackageName("sdfsd");
-        m.setCategoryId(12);
-        m.setInstallNum(13);
-        m.setWeight(12); //旧版里weight是int新版里你应该改了
-        m.setImage(null);
-        adapterDatas.add(m);
-*/
-        listView = (ListView) findViewById(R.id.AppSearchInfoList);
-        adapter = new AppActivity.AppAdapter(adapterDatas,context);
+
+        adapterDatas = new ArrayList<UserSearchInfo>();
+
+
+        //findSimilarusers("222"+"@"+"qq.com");
+        findSimilarusers(ATapplicaion.getInstance().getEmail());
+
+        listView = (ListView) findViewById(R.id.UserSearchInfoList);
+        adapter = new FollowActivity.AppAdapter(adapterDatas,context);
         listView.setAdapter(adapter);
-
-        materialSearchBar = (MaterialSearchBar)findViewById(R.id.materialSearchBar);
-        materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
-            @Override
-            public void onButtonClicked(int buttonCode){
-                //Log.v("test",buttonCode+"");
-            }
-
-            @Override
-            public void onSearchConfirmed(CharSequence text) {
-                search(text.toString());
-                //startSearch(text.toString(), true, null, true);
-            }
-
-            @Override
-            public void onSearchStateChanged(boolean enabled) {
-            }
-        });
-        initAppList(ATapplicaion.getInstance().getEmail());
     }
 
     @Override
@@ -102,32 +72,22 @@ public class AppActivity extends Activity{
         super.onDestroy();
     }
 
-    public void search(String text){
-        //adapterDatas
-        DownloadTask t = new DownloadTask();
-        t.execute(text,"s");
-        //这里把“查询”那个按钮设为不能点击的状态，下面是我新创一个线程接收数据
+    public void findSimilarusers(String email){
+        FollowActivity.DownloadTasks t = new FollowActivity.DownloadTasks();
+        t.execute(email);
     }
 
-    public void initAppList(String email){
-        DownloadTask t = new DownloadTask();
-        t.execute(email,"r");
-        ((TextView) findViewById(R.id.hint)).setText("以下是根据您的手机使用情况为您推荐的app");
-    }//每次查询或者推荐应该把list清空掉再重新填装吧？
-
     private class AppAdapter extends BaseAdapter {
-        private List<AppSearchInfo> appSearchInfos;
+        private List<UserSearchInfo> userSearchInfos;
         private LayoutInflater inflater;
-        ImageView app_icon;
-        TextView app_name;
-        TextView installNum;
-        TextView category;
-        TextView minutes;
-        MaterialRatingBar materialRatingBar;
+        ImageView avatar;
+        TextView username;
+        TextView achievements;
+
         public AppAdapter() {}
 
-        public AppAdapter(List<AppSearchInfo> appSearchInfos,Context context) {
-            this.appSearchInfos = appSearchInfos;
+        public AppAdapter(List<UserSearchInfo> UserSearchInfos, Context context) {
+            this.userSearchInfos = userSearchInfos;
             this.inflater=LayoutInflater.from(context);
         }
         @Override
@@ -147,57 +107,34 @@ public class AppActivity extends Activity{
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final AppSearchInfo appSearchInfo = adapterDatas.get(position);
-            convertView = inflater.inflate(R.layout.appsearchinfo_listitem, null);
-            app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
-            app_name = (TextView) convertView.findViewById(R.id.app_name);
-            installNum = (TextView) convertView.findViewById(R.id.installNum);
-            category = (TextView) convertView.findViewById(R.id.category);
-            minutes = (TextView) convertView.findViewById(R.id.minutes);
-            materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.materialRatingBar);
+            final UserSearchInfo userSearchInfo = adapterDatas.get(position);
+            convertView = inflater.inflate(R.layout.usersearchinfo_listitem, null);
+            avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            username = (TextView) convertView.findViewById(R.id.username);
+            achievements = (TextView) convertView.findViewById(R.id.achievements);
 
-            app_icon.setImageDrawable(appSearchInfo.getImage());
-            app_name.setText(appSearchInfo.getAppName());
-            installNum.setText("("+appSearchInfo.getInstallNum()+")");
-            category.setText(appSearchInfo.getCategory());
-            minutes.setText(appSearchInfo.getMinutes()+"分钟");
-            materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
-
+            avatar.setImageDrawable(userSearchInfo.getAvatar());
+            username.setText(userSearchInfo.getUsername());
+            //achievements.setText(userSearchInfos.achievementsToString());
+            achievements.setText("achievements");
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.v("aaa","aaa");
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("market://details?id=" + appSearchInfo.getPackageName())); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
-                    if (intent.resolveActivity(getPackageManager()) != null) { //可以接收
-                        startActivity(intent);
-                    } else { //没有应用市场，我们通过浏览器跳转到Google Play
-                        intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + appSearchInfo.getPackageName()));
-                        if (intent.resolveActivity(getPackageManager()) != null) { //有浏览器
-                            startActivity(intent);
-                        } else { //天哪，这还是智能手机吗？
-                            Toast.makeText(AppActivity.this, "您没安装应用市场，连浏览器也没有", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                    Intent intent = new Intent(FollowActivity.this,UserDetailActivity.class);
+                    intent.putExtra("email",userSearchInfo.getEmail());
+                    startActivity(intent);
                 }
             });
             return convertView;
         }
     }
 
-    private class DownloadTask extends AsyncTask<String, Object, String> {
+    private class DownloadTasks extends AsyncTask<String, Object, String> {
 
         @Override
         protected String doInBackground(String... params) {
-
-            adapterDatas = new ArrayList<AppSearchInfo>();
             String returnStr = "";
-            String urlStr;
-            if(params[1].equals("s")) {
-                urlStr = getResources().getString(R.string.ipAddress) + "/appinfo/search";
-            }else{
-                urlStr = getResources().getString(R.string.ipAddress) + "/appinfo/recommand";
-            }
+            String urlStr = getResources().getString(R.string.ipAddress)+"/follow/all";
             HttpURLConnection urlConnection = null;
             URL url = null;
             try {
@@ -213,12 +150,7 @@ public class AppActivity extends Activity{
                 urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");//设置消息的类型
                 urlConnection.connect();// 连接，从上述至此的配置必须要在connect之前完成，实际上它只是建立了一个与服务器的TCP连接
                 JSONObject json = new JSONObject();//创建json对象
-
-                if(params[1].equals("s")) {
-                    json.put("appname", URLEncoder.encode(params[0], "UTF-8"));//使用URLEncoder.encode对特殊和不可见字符进行编码
-                }else{
-                    json.put("email",URLEncoder.encode(params[0],"UTF-8"));//URLEcoder.encode 会把@等符号encode后再decode后得不到原来的符号
-                }
+                json.put("email", URLEncoder.encode(params[0], "UTF-8"));//使用URLEncoder.encode对特殊和不可见字符进行编码
                 String jsonstr = json.toString();//把JSON对象按JSON的编码格式转换为字符串
                 //------------字符流写入数据------------
                 OutputStream out = urlConnection.getOutputStream();//输出流，用来发送请求，http请求实际上直到这个函数里面才正式发送出去
@@ -244,20 +176,17 @@ public class AppActivity extends Activity{
                     if(size != 0) {
                         for (int k = 0; k < size; k++) {
                             JSONObject tmp = JSONObject.fromObject(array.get(k));
-                            AppSearchInfo m = new AppSearchInfo();
-                            m.setAppName(tmp.getString("appName"));
-                            m.setPackageName(tmp.getString("packageName"));
-                            m.setCategory(tmp.getString("category"));
-                            m.setInstallNum(tmp.getInt("installNum"));
-                            m.setWeight(tmp.getInt("weight"));
-                            m.setMinutes(tmp.getInt("minutes"));
-                            m.setImage(null);
+                            UserSearchInfo m = new UserSearchInfo();
+                            m.setAvatar(null);
+                            m.setEmail(tmp.getString("email"));
+                            m.setUsername(tmp.getString("username"));
+                            m.setAchievements(null);
                             adapterDatas.add(m);
-                            //Log.v("done",m.getAppName());
+                            Log.v("done", m.getUsername());
                         }
                         Log.v("done", "end");
                         returnStr = "success";
-                    } else {
+                    } else{
                         returnStr = "no result";
                     }
                 } else {
@@ -272,21 +201,18 @@ public class AppActivity extends Activity{
             return returnStr;
         }
 
-
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s.equals("success")) {
                 Log.v("search", adapterDatas.size() + "");
                 for (int i = 0; i < adapterDatas.size(); i++) {
-                    Log.v("search", adapterDatas.get(i).getAppName());
+                    Log.v("search", adapterDatas.get(i).getEmail());
                 }
-                adapter.notifyDataSetChanged();
-                ((TextView) findViewById(R.id.hint)).setText("以下是查询结果");
+                adapter.notifyDataSetInvalidated();
             } else {
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 }

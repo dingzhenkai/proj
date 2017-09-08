@@ -9,16 +9,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.SystemClock;
-import android.util.Log;
 
-import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
-import com.sjtu.se2017.positivetime.view.activity.LockActivity;
 import com.sjtu.se2017.positivetime.dao.AppInfoDao;
+import com.sjtu.se2017.positivetime.view.activity.LockActivity;
 
 import java.util.List;
 import java.util.SortedMap;

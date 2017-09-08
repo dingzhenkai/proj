@@ -16,6 +16,7 @@ public class StatisticsInfo {
     final public static int WEEK = 1;
     final public static int MONTH = 2;
     final public static int YEAR = 3;
+    final public static int YESTERDAY= 4;
 
     private ArrayList<AppInformation> ShowList;
     private ArrayList<AppInformation> AppInfoList;
@@ -95,7 +96,10 @@ public class StatisticsInfo {
             Calendar calendar = Calendar.getInstance();
             long now = calendar.getTimeInMillis();
             long begintime = getBeginTime();
-            if(style == DAY)
+            long endtime = getEndTime();
+            if(style == YESTERDAY)
+                this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, begintime, endtime);
+            else if(style == DAY)
                 this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, begintime, now);
             else if(style == WEEK)
                 this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY,begintime, now);
@@ -109,10 +113,42 @@ public class StatisticsInfo {
         }
     }
 
+    private long getEndTime() {
+        Calendar calendar = Calendar.getInstance();
+        long endtime;
+
+            //剩下的输入均显示当天的数据
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+            int second = calendar.get(Calendar.SECOND);
+
+            calendar.add(Calendar.SECOND, -1 * second);
+            calendar.add(Calendar.MINUTE, -1 * minute);
+            calendar.add(Calendar.HOUR, -1 * hour);
+
+            endtime = calendar.getTimeInMillis();
+
+
+        return endtime;
+    }
+
     private long getBeginTime() {
         Calendar calendar = Calendar.getInstance();
         long begintime;
-        if(style == WEEK) {
+        if(style == YESTERDAY) {
+            //int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            int hour = 24+calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+            int second = calendar.get(Calendar.SECOND);
+
+            calendar.add(Calendar.SECOND, -1 * second);
+            calendar.add(Calendar.MINUTE, -1 * minute);
+            calendar.add(Calendar.HOUR, -1 * hour);
+
+            begintime = calendar.getTimeInMillis();
+        }
+
+        else if(style == WEEK) {
             //int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
             calendar.add(Calendar.DATE,-7);
             begintime = calendar.getTimeInMillis();

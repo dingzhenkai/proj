@@ -1,4 +1,4 @@
-package com.sjtu.se2017.positivetime.model.share.share.Print;
+package com.sjtu.se2017.positivetime.model.Share.Print;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.sjtu.se2017.positivetime.R;
 
-public class PrintActivity extends FragmentActivity {
+public class Print extends FragmentActivity {
 
     private Button share;
 
@@ -52,8 +52,8 @@ public class PrintActivity extends FragmentActivity {
             case REQUEST_MEDIA_PROJECTION:
 
                 if (resultCode == RESULT_OK && data != null) {
-                    ShareService.setResultData(data);
-                    startService(new Intent(getApplicationContext(), ShareService.class));
+                    FloatWindowsService.setResultData(data);
+                    startService(new Intent(getApplicationContext(), FloatWindowsService.class));
                 }
                 break;
         }

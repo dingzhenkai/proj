@@ -1,11 +1,6 @@
 package com.sjtu.se2017.positivetime.model;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 /**
  * Created by Administrator on 2017/6/27.

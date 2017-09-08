@@ -16,11 +16,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.sjtu.se2017.positivetime.R;
 import com.sjtu.se2017.positivetime.controller.MyWindowManager;
 import com.sjtu.se2017.positivetime.model.MenuItem;
+import com.sjtu.se2017.positivetime.model.Share.Print.Print;
 import com.sjtu.se2017.positivetime.model.application.ATapplicaion;
-import com.sjtu.se2017.positivetime.model.share.share.Print.PrintActivity;
 import com.sjtu.se2017.positivetime.service.FloatWindowService;
 
 import java.util.ArrayList;
@@ -54,11 +55,12 @@ public class MenuActivity extends Activity {
             adapterDatas = new ArrayList<MenuItem>();
             adapterDatas.add(new MenuItem(R.drawable.chart_circle,"查看数据", Color.parseColor("#212121"), AppStatisticsList.class));
             adapterDatas.add(new MenuItem(R.drawable.chart,"AT折线图", Color.parseColor("#212121"), LineChartActivity.class));
-            adapterDatas.add(new MenuItem(R.drawable.chart,"分享", Color.parseColor("#212121"), PrintActivity.class));
+            adapterDatas.add(new MenuItem(R.drawable.chart,"分享", Color.parseColor("#212121"), Print.class));
         }else if(MenuName.equals("account")){
             menu_icon.setImageResource(R.drawable.accounts);
             adapterDatas = new ArrayList<MenuItem>();
             adapterDatas.add(new MenuItem(R.drawable.accounts,"登录/注册", Color.parseColor("#212121"), LoginActivity.class));
+            adapterDatas.add(new MenuItem(R.drawable.accounts,"个人中心", Color.parseColor("#212121"), MyinfoActivity.class));
         }else if(MenuName.equals("social")){
             menu_icon.setImageResource(R.drawable.socials);
             adapterDatas = new ArrayList<MenuItem>();

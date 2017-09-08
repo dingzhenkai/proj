@@ -2,19 +2,13 @@ package com.sjtu.se2017.positivetime.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.jn.chart.data.Entry;
-import com.sjtu.se2017.positivetime.dao.AppInfoOpenHelper;
-import com.sjtu.se2017.positivetime.model.AppInfo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ATDao {
     private ATOpenHelper openHelper;

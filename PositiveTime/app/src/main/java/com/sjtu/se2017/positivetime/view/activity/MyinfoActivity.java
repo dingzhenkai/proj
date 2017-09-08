@@ -8,7 +8,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,15 +29,19 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.sjtu.se2017.positivetime.R.id.toolbar;
-import java.util.concurrent.TimeUnit;
-public class UserDetailActivity extends BaseActivity {
 
+/**
+ * Created by bonjour on 17-9-5.
+ */
+
+public class MyinfoActivity extends BaseActivity {
     @BindView(R.id.head)
     CircleImageView mHead;
     @BindView(R.id.main_fl_title)
@@ -49,8 +52,8 @@ public class UserDetailActivity extends BaseActivity {
     Toolbar mToolbar;
     @BindView(R.id.main_abl_app_bar)
     AppBarLayout mMainAblAppBar;
-    private Button star;
-    private ImageView featureapp,bubble;
+    //private Button star;
+    private ImageView follows,bubble;
     private TextView totalAT,averageATbyday,averageUTimebyday;
     private String viewemail,myownemail;
     double total,averageAT = 0,averageUtime = 0;
@@ -58,7 +61,7 @@ public class UserDetailActivity extends BaseActivity {
 
     @Override
     protected int bindLayout() {
-        return R.layout.activity_userdetail;
+        return R.layout.activity_myinfo;
     }
 
     @Override
@@ -77,29 +80,29 @@ public class UserDetailActivity extends BaseActivity {
 
         ATapplicaion aTapplicaion = ATapplicaion.getInstance();
 
-        viewemail = getIntent().getStringExtra("email");//email是从相似用户列表传输过来的 用户点击了哪个就传输哪个
+        //viewemail = getIntent().getStringExtra("email");//email是从相似用户列表传输过来的 用户点击了哪个就传输哪个
         myownemail = aTapplicaion.getEmail(); //myownemail represent who is the user
 
-        DownloadTask t = new DownloadTask();
-        t.execute(viewemail);
-        DownloadTask3 t3 = new DownloadTask3();
-        t3.execute(myownemail,viewemail);
+        MyinfoActivity.DownloadTask t = new MyinfoActivity.DownloadTask();
+        t.execute(myownemail);
+        //MyinfoActivity.DownloadTask3 t3 = new MyinfoActivity.DownloadTask3();
+        //t3.execute(myownemail,viewemail);
         try{
-        TimeUnit.MILLISECONDS.sleep(300);
+            TimeUnit.MILLISECONDS.sleep(300);
         }catch(InterruptedException e){
             System.out.print(e.getStackTrace());
         }
         averageATbyday = (TextView) findViewById(R.id.averageATbyday);
         averageUTimebyday = (TextView) findViewById(R.id.averageUTimebyday);
 
-        ((TextView)findViewById(R.id.email)).setText(viewemail);
+        ((TextView)findViewById(R.id.email)).setText(myownemail);
         averageATbyday.setText(""+averageAT);
         averageUTimebyday.setText(""+averageUtime);
 
-        star = (Button) findViewById(R.id.button);
-                                        //check if myownemail follows viewemail
+        //star = (Button) findViewById(R.id.button);
+        //check if myownemail follows viewemail
 
-        if (isfollow){
+        /*if (isfollow){
             star.setText("已关注");
         }
         else{
@@ -107,25 +110,32 @@ public class UserDetailActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View v) {
-                    DownloadTask2 t2 = new DownloadTask2();
+                    MyinfoActivity.DownloadTask2 t2 = new MyinfoActivity.DownloadTask2();
                     t2.execute(myownemail,viewemail);
                     star.setText("已关注");
-                /*
-                myownemail follows viewmail
-                 */
+
 
                 }
 
             });
-        }
+        }*/
 
 
         bubble = (ImageView) findViewById(R.id.bubble);
         bubble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserDetailActivity.this,BubbleActivity.class);
-                intent.putExtra("email",viewemail);
+                Intent intent = new Intent(MyinfoActivity.this,BubbleActivity.class);
+                intent.putExtra("email",myownemail);
+                startActivity(intent);
+            }
+        });
+        follows = (ImageView) findViewById(R.id.follows);
+        follows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyinfoActivity.this,BubbleActivity.class);
+                intent.putExtra("email",myownemail);
                 startActivity(intent);
             }
         });
