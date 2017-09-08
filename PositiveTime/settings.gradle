@@ -1,1 +1,0 @@
-include ':app', ':library-swagpoints', ':library-bubbleseekbar', ':library-materialsearchbar', ':library-MaterialRatingBar', ':library-JNChart', ':library-share'
