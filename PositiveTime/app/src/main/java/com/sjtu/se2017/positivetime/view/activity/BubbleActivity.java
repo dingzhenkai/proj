@@ -10,11 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.sjtu.se2017.positivetime.R;
-import com.sjtu.se2017.positivetime.model.AppSearchInfo;
 import com.sjtu.se2017.positivetime.model.Appsta;
 
 import net.sf.json.JSONArray;
@@ -123,6 +121,24 @@ public class BubbleActivity extends AppCompatActivity {
 
             dataList.add(map);
         }
+
+        /*for(int i=0; i<size; i++) {
+            try {
+            PackageManager pm = getPackageManager();
+            map = new HashMap<String,Object>();
+            packageName = ShowList.get(i).getAppName();
+            ApplicationInfo applicationInfo = pm.getApplicationInfo(packageName, 0);
+            label = (String)pm.getApplicationLabel(applicationInfo);
+            map.put("label",label);
+
+            map.put("info","运行时间: " + ShowList.get(i).getTime());
+            dataList.add(map);
+
+            } catch (PackageManager.NameNotFoundException  e) {
+                e.printStackTrace();
+            }
+
+        }*/
 
         return dataList;
     }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -73,8 +72,8 @@ public class AppStatisticsList extends AppCompatActivity {
         buttonyear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(style != StatisticsInfo.YESTERDAY) {
-                    style = StatisticsInfo.YESTERDAY;
+                if(style != StatisticsInfo.YEAR) {
+                    style = StatisticsInfo.YEAR;
                     onResume();
                 }
             }
@@ -128,7 +127,7 @@ public class AppStatisticsList extends AppCompatActivity {
             case StatisticsInfo.WEEK:
                 buttonweek.setTextColor(Color.GREEN);
                 break;
-            case StatisticsInfo.YESTERDAY:
+            case StatisticsInfo.YEAR:
                 buttonyear.setTextColor(Color.GREEN);
                 break;
         }
