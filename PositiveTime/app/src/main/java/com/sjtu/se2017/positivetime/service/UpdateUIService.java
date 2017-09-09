@@ -122,7 +122,7 @@ public class UpdateUIService extends Service implements Constants {
         int day = cal.get(android.icu.util.Calendar.DAY_OF_YEAR) -1;
         int hour = 23;
 
-        AT = atDao.checkAT(day,hour);
+        AT = atDao.checkAT(day,hour)/60000;
 
         StatisticsInfo statisticsInfo = new StatisticsInfo(getApplicationContext(),StatisticsInfo.YESTERDAY);
         Tmplist = statisticsInfo.getShowList();
@@ -180,6 +180,7 @@ public class UpdateUIService extends Service implements Constants {
             if (min == 0) {
                 ATDao atDao = new ATDao(UpdateUIService.this);
                 atDao.insertOrUpdate(day,hour,ATapplicaion.getInstance().getAT()/1000);
+                Upload();
             }
             if(hour == 23){
                 Upload();

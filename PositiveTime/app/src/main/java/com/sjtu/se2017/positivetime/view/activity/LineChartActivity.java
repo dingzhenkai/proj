@@ -34,16 +34,19 @@ public class LineChartActivity extends Activity {
         }
 
         //设置y轴的数据
-        ArrayList<Entry> yValue = new ArrayList<>();
-        yValue.add(new Entry(13, 1));
-        yValue.add(new Entry(6, 2));
-        yValue.add(new Entry(3, 3));
-        yValue.add(new Entry(7, 4));
-        yValue.add(new Entry(2, 5));
-        yValue.add(new Entry(5, 6));
-        yValue.add(new Entry(12, 7));
+        //ArrayList<Entry> yValue = new ArrayList<>();
+
         ATDao atDao = new ATDao(this);
-        //ArrayList<Entry> yValue = atDao.checkATofToday(Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
+        ArrayList<Entry> yValue = atDao.checkATofToday(Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
+        if(yValue.size()==0){
+            yValue.add(new Entry(0, 1));
+            yValue.add(new Entry(0, 2));
+            yValue.add(new Entry(0, 3));
+            yValue.add(new Entry(0, 4));
+            yValue.add(new Entry(0, 5));
+            yValue.add(new Entry(0, 6));
+            yValue.add(new Entry(0, 7));
+        }
         //设置折线的名称
         LineChartManager.setLineName("AT");
         //创建一条折线的图表

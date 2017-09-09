@@ -79,10 +79,15 @@ public class FloatWindowService extends Service implements Constants {
 
         public long getPreUsetimeBylabel(ArrayList<AppInformation> Prelist, String nowlabel) {
             int size = Prelist.size();
+            long time = 0;
+            //System.out.println("size" + size );
             for (int i = 0; i < size; i++) {
-                if (Prelist.get(i).getLabel() == nowlabel) return Prelist.get(i).getUsedTimebyDay();
+                if (Prelist.get(i).getLabel() == nowlabel) {
+                    time = Prelist.get(i).getUsedTimebyDay();
+                }
+
             }
-            return 0;
+            return time;
 
         }
 
@@ -109,9 +114,9 @@ public class FloatWindowService extends Service implements Constants {
                         usetime = Tmplist.get(i).getUsedTimebyDay();
                         weight = appInfoDao.checkweight(label);
                         if (weight > 50) {
-                            PTime += (weight - 50)/50 * usetime;
+                            PTime += (weight - 50)/50.0 * usetime;
                         } else {
-                            NTime += (50 - weight)/50 * usetime;
+                            NTime += (50 - weight)/50.0 * usetime;
                         }
                     }
                     aTapplicaion.setPTime(PTime);
@@ -128,13 +133,16 @@ public class FloatWindowService extends Service implements Constants {
                     usetime = (Tmplist.get(i).getUsedTimebyDay() - getPreUsetimeBylabel(PreList, label));
                     weight = appInfoDao.checkweight(label);
                     if (weight > 50) {
-                        PTime += (weight - 50)/50 * usetime;
+                        PTime += (weight - 50)/50.0 * usetime;
                     } else {
-                        NTime += (50 - weight)/50 * usetime;
+                        NTime += (50 - weight)/50.0 * usetime;
                     }
+                    System.out.println("label" + label );
+                    System.out.println("time" + getPreUsetimeBylabel(PreList, label) );
 
                 }
                 aTapplicaion.setPTime(PTime);
+                //System.out.println(PTime);
                 aTapplicaion.setNTime(NTime);
                 aTapplicaion.setPreList(Tmplist);
 
