@@ -39,9 +39,7 @@ import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-/**
- * Created by Administrator on 2017/7/7.
- */
+
 
 public class AppActivity extends Activity{
     Context context;
@@ -49,6 +47,7 @@ public class AppActivity extends Activity{
     List<AppSearchInfo> adapterDatas;
     ListView listView;
     private AppAdapter adapter;
+    List<String> CATEGORY_DETAIL = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +55,20 @@ public class AppActivity extends Activity{
         setContentView(R.layout.activity_app);
         context = this;
         adapterDatas = new ArrayList<AppSearchInfo>();
-/*
-        AppSearchInfo m = new AppSearchInfo();
-        m.setAppName("app");
-        m.setPackageName("sdfsd");
-        m.setCategoryId(12);
-        m.setInstallNum(13);
-        m.setWeight(12); //旧版里weight是int新版里你应该改了
-        m.setImage(null);
-        adapterDatas.add(m);
-*/
+        CATEGORY_DETAIL.add("其他类");
+        CATEGORY_DETAIL.add("游戏类");
+        CATEGORY_DETAIL.add("交通类");
+        CATEGORY_DETAIL.add("购物类");
+        CATEGORY_DETAIL.add("学习类");
+        CATEGORY_DETAIL.add("生活类");
+        CATEGORY_DETAIL.add("阅读/视频类");
+        CATEGORY_DETAIL.add("工具类");
+        CATEGORY_DETAIL.add("社交类");
+        CATEGORY_DETAIL.add("运动类");
+        CATEGORY_DETAIL.add("金融类");
+
+
+
         listView = (ListView) findViewById(R.id.AppSearchInfoList);
         adapter = new AppActivity.AppAdapter(adapterDatas,context);
         listView.setAdapter(adapter);
@@ -124,6 +127,7 @@ public class AppActivity extends Activity{
         TextView category;
         TextView minutes;
         MaterialRatingBar materialRatingBar;
+
         public AppAdapter() {}
 
         public AppAdapter(List<AppSearchInfo> appSearchInfos,Context context) {
@@ -159,7 +163,7 @@ public class AppActivity extends Activity{
             app_icon.setImageDrawable(appSearchInfo.getImage());
             app_name.setText(appSearchInfo.getAppName());
             installNum.setText("("+appSearchInfo.getInstallNum()+")");
-            category.setText(appSearchInfo.getCategory());
+            category.setText(CATEGORY_DETAIL.get(Integer.parseInt(appSearchInfo.getCategory())));
             minutes.setText(appSearchInfo.getMinutes()+"分钟");
             materialRatingBar.setRating((float)appSearchInfo.getWeight()/20);
 
