@@ -102,7 +102,7 @@ public class AppinfoDAO {
         return true;
     }
 
-    public boolean insertRecord(Record r) throws SQLException {
+    public boolean insertRecord(Record r,Long at) throws SQLException {
         connect();
         boolean rowInserted = false;
         java.sql.Date d = new Date(r.getDay().getTime());
@@ -128,7 +128,23 @@ public class AppinfoDAO {
             statement.close();
         }
 
-
+        String sql3 = "update at_record set at = ? where email = ? and day = ?";
+        PreparedStatement statement3 = jdbcConnection.prepareStatement(sql3);
+        statement3.setLong(1,at);
+        statement3.setString(2,r.getPackageName());
+        statement3.setDate(3,d);
+        boolean flag = statement3.executeUpdate() > 0;
+        statement3.close();
+        if(!flag){
+            System.out.println("insert at_record");
+            String sql4="insert into at_record(email,day,at) values(?,?,?)";
+            PreparedStatement statement4 = jdbcConnection.prepareStatement(sql4);
+            statement4.setString(1,r.getEmail());
+            statement4.setDate(2,d);
+            statement4.setLong(3,at);
+            statement4.executeUpdate();
+            statement4.close();
+        }
 
         disconnect();
         return rowInserted;
@@ -277,8 +293,7 @@ public class AppinfoDAO {
         String sql = "select * from rank_install order by installnum DESC";
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
-        int i =0;
-        while(resultSet.next() && i < 50){
+        while(resultSet.next()){
             //把resultset里的转换成json传回客户端
             String pack = resultSet.getString("packagename");
             String app = resultSet.getString("appname");
@@ -289,7 +304,6 @@ public class AppinfoDAO {
             int min =resultSet.getInt("minutes");
             Appinfo tmp = new Appinfo(pack,app,cate,weight,image,install,min);
             list.add(tmp);
-            i++;
             //  tmp.print();
         }
 
@@ -330,14 +344,13 @@ public class AppinfoDAO {
         System.out.println(sql);
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
-        int i = 0;
-        while(resultSet.next() && i < 50){
+
+        while(resultSet.next()){
             String tmp = resultSet.getString("packagename");
             packagenameList.add(tmp);
-            i++;
         }
 
-        i =0;
+        int i =0;
         while(i < packagenameList.size()){//遍历packagenameList
             sql = "SELECT  * FROM appinfo WHERE packagename = '"+ packagenameList.get(i) + "'" ; //条件语句有问题
             statement = jdbcConnection.prepareStatement(sql);
@@ -352,7 +365,7 @@ public class AppinfoDAO {
                 Appinfo tmp = new Appinfo(pack,app,cate,weight,"null",install,min);
                 list.add(tmp);
             }
-            i = i + 1;
+            i = i + 3;
 
             r.close();
         }
