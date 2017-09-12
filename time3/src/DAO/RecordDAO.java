@@ -43,6 +43,7 @@ public class RecordDAO {
     }
 
     public boolean insertRecord(Record r) throws SQLException {
+        connect();
         boolean rowInserted = false;
         Date d = new Date(r.getDay().getTime());
         String sql2  = "update record set duration = ?,frequency = ? where packagename = ? and email = ? and day = ?";
@@ -55,7 +56,7 @@ public class RecordDAO {
         boolean rowUpdated = statement2.executeUpdate() > 0 ;
         if(!rowUpdated){
         String sql = "INSERT INTO record(email,packagename,day,frequency,duration) VALUES (?,?,?,?,?)";
-        connect();
+
         java.sql.Date day = new java.sql.Date(r.getDay().getTime());
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         statement.setString(1,r.getEmail());

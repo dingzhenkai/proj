@@ -48,108 +48,71 @@ public class AppinfoDAO {
         }
     }
     public boolean insertOrUpdateWeight(Weight w) throws SQLException {//每次插入/更新weight，要检查appinfo里是否有这个appinfo
-        boolean flag = false;
-        String sql = "SELECT * FROM appinfo WHERE packagename = ?";
         connect();
-        String packagename = w.getPackagename();
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        statement.setString(1, packagename);
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            flag = true;
-        }
-        if(!flag){
-            System.out.println("insert appinfo");
-            String sql1 = "INSERT INTO appinfo (packagename,appname,category,weight,installnum,minutes,image) VALUES (?, ?, ?, ? ,?, ?, ?)";
-            PreparedStatement statement1 = jdbcConnection.prepareStatement(sql1);
-            statement1.setString(1, w.getPackagename());
-            statement1.setString(2, w.getAppname());
-            statement1.setInt(3, 0);
-            statement1.setDouble(4,w.getWeight());
-            statement1.setInt(5, 1);
-            statement1.setInt(6, w.minutes);
-            statement1.setString(7, "null");
-            statement1.executeUpdate();
-            statement1.close();
-        }
+        System.out.println("insert appinfo");
+        String sql1 = "INSERT INTO appinfo (packagename,appname,category,weight,installnum,minutes,image) VALUES (?, ?, ?, ? ,?, ?, ?) ON DUPLICATE KEY UPDATE installnum = installnum + 1";
+        PreparedStatement statement1 = jdbcConnection.prepareStatement(sql1);
+        statement1.setString(1, w.getPackagename());
+        statement1.setString(2, w.getAppname());
+        statement1.setInt(3, 0);
+        statement1.setDouble(4,w.getWeight());
+        statement1.setInt(5, 1);
+        statement1.setInt(6, w.minutes);
+        statement1.setString(7, "null");
+        statement1.executeUpdate();
+        statement1.close();
 
         //接下来是insert or update weight
-        String sql2  = "update weight set weight = ? where packagename = ? and email = ?";
+        String sql2  = "INSERT INTO weight(email,packagename,weight) VALUES (?,?,?) ON DUPLICATE KEY UPDATE weight =?";
         PreparedStatement statement2 = jdbcConnection.prepareStatement(sql2);
-        statement2.setInt(1,w.getWeight());
+        statement2.setInt(3,w.getWeight());
         statement2.setString(2,w.getPackagename());
-        statement2.setString(3,w.getEmail());
+        statement2.setString(1,w.getEmail());
+        statement2.setInt(4,w.getWeight());
+
+        System.out.println(statement2);
         boolean rowUpdated = statement2.executeUpdate() > 0 ;
 
-        if(!rowUpdated){
-            System.out.println("insert weight");
-            String sql3 = "insert into weight(email,packagename,weight) values(?,?,?)";
-            PreparedStatement statement3 = jdbcConnection.prepareStatement(sql3);
-            statement3.setString(1,w.getEmail());
-            statement3.setString(2,w.getPackagename());
-            statement3.setInt(3,w.getWeight());
-            statement3.executeUpdate();
 
-            statement3.close();
-        }
-
-        resultSet.close();
-        statement.close();
+        System.out.println("insert weight success");
 
         statement2.close();
-
-
         return true;
     }
 
-    public boolean insertRecord(Record r,Long at) throws SQLException {
+    public boolean insertRecord(Record r) throws SQLException {
         connect();
         boolean rowInserted = false;
         java.sql.Date d = new Date(r.getDay().getTime());
-        String sql2  = "update record set duration = ?,frequency = ? where packagename = ? and email = ? and day = ?";
+        String sql2  = "INSERT INTO record(email,packagename,day,duration,frequency) values(?,?,?,?,?) ON DUPLICATE KEY UPDATE duration = ?,frequency = ?";
         PreparedStatement statement2 = jdbcConnection.prepareStatement(sql2);
-        statement2.setInt(1,r.getDuration());
-        statement2.setInt(2,r.getDuration());
-        statement2.setString(3,r.getPackageName());
-        statement2.setString(4,r.getEmail());
-        statement2.setDate(5,d);
+        statement2.setString(1,r.getEmail());
+        statement2.setString(2,r.getPackageName());
+        statement2.setInt(4,r.getDuration());
+        statement2.setInt(5,r.getFrequency());
+        statement2.setDate(3,d);
+        statement2.setInt(6,r.getDuration());
+        statement2.setInt(7,r.getFrequency());
         boolean rowUpdated = statement2.executeUpdate() > 0 ;
-        if(!rowUpdated){
-            System.out.println("insert record");
-            String sql = "INSERT INTO record(email,packagename,day,frequency,duration) VALUES (?,?,?,?,?)";
-            java.sql.Date day = new java.sql.Date(r.getDay().getTime());
-            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-            statement.setString(1,r.getEmail());
-            statement.setString(2, r.getPackageName());
-            statement.setDate(3,day);
-            statement.setInt(4, r.getFrequency());
-            statement.setInt(5,r.getDuration());
-            rowInserted = statement.executeUpdate() > 0;
-            statement.close();
-        }
-
-        String sql3 = "update at_record set at = ? where email = ? and day = ?";
-        PreparedStatement statement3 = jdbcConnection.prepareStatement(sql3);
-        statement3.setLong(1,at);
-        statement3.setString(2,r.getPackageName());
-        statement3.setDate(3,d);
-        boolean flag = statement3.executeUpdate() > 0;
-        statement3.close();
-        if(!flag){
-            System.out.println("insert at_record");
-            String sql4="insert into at_record(email,day,at) values(?,?,?)";
-            PreparedStatement statement4 = jdbcConnection.prepareStatement(sql4);
-            statement4.setString(1,r.getEmail());
-            statement4.setDate(2,d);
-            statement4.setLong(3,at);
-            statement4.executeUpdate();
-            statement4.close();
-        }
-
+        System.out.println("insert/update record success");
         disconnect();
-        return rowInserted;
+        return rowUpdated;
     }
 
+    public boolean insertAT(String email,java.util.Date d,float at) throws SQLException{
+        connect();
+        java.sql.Date date = new Date(d.getTime());
+        String sql = "insert into at_record(email,day,at) values(?,?,?) ON DUPLICATE KEY UPDATE at =?";
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        statement.setString(1,email);
+        statement.setDate(2,date);
+        statement.setFloat(3,at);
+        statement.setFloat(4,at);
+        boolean rowUpdated = statement.executeUpdate() > 0 ;
+        System.out.println("insert/update at_record success");
+        disconnect();
+        return rowUpdated;
+    }
     public List<Appinfo> listAllAppinfo() throws SQLException {
         List<Appinfo> listAppinfo = new ArrayList<Appinfo>();
 
@@ -275,7 +238,6 @@ public class AppinfoDAO {
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
         while(resultSet.next()){
-
             String pack = resultSet.getString("packagename");
             String app = resultSet.getString("appname");
             int min =resultSet.getInt("minutes");
@@ -293,7 +255,8 @@ public class AppinfoDAO {
         String sql = "select * from rank_install order by installnum DESC";
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
-        while(resultSet.next()){
+        int i =0;
+        while(resultSet.next() && i < 50){
             //把resultset里的转换成json传回客户端
             String pack = resultSet.getString("packagename");
             String app = resultSet.getString("appname");
@@ -304,6 +267,7 @@ public class AppinfoDAO {
             int min =resultSet.getInt("minutes");
             Appinfo tmp = new Appinfo(pack,app,cate,weight,image,install,min);
             list.add(tmp);
+            i++;
             //  tmp.print();
         }
 
@@ -344,13 +308,14 @@ public class AppinfoDAO {
         System.out.println(sql);
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
-
-        while(resultSet.next()){
+        int i = 0;
+        while(resultSet.next() && i < 50){
             String tmp = resultSet.getString("packagename");
             packagenameList.add(tmp);
+            i++;
         }
 
-        int i =0;
+        i =0;
         while(i < packagenameList.size()){//遍历packagenameList
             sql = "SELECT  * FROM appinfo WHERE packagename = '"+ packagenameList.get(i) + "'" ; //条件语句有问题
             statement = jdbcConnection.prepareStatement(sql);
@@ -365,7 +330,7 @@ public class AppinfoDAO {
                 Appinfo tmp = new Appinfo(pack,app,cate,weight,"null",install,min);
                 list.add(tmp);
             }
-            i = i + 3;
+            i = i + 1;
 
             r.close();
         }

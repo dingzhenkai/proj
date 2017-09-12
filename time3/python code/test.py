@@ -19,38 +19,41 @@ for i in range(l):
 
 def update_rank():
     apps.sort(key = lambda x:x[3],reverse=True)
-    for i in range(50):
+    i= 0
+    while(i < 50):
         tmp = apps[i]
         packagename = tmp[0]
         appname = tmp[1]
-        weight = tmp[2]
-        installnum = tmp[3]
-        category = tmp[4]
-        minutes = tmp[5]
-        image = tmp[6]
-        sql = "insert into rank_install(packagename,appname,weight,installnum,category,image,minutes) values('%s','%s',%i,%i,%i,'%s',%i)" % (packagename,appname,weight,installnum,category,image,minutes)
-        try:
-            cursor.execute(sql)
-            db.commit()
-        except:
-            print(sql)
-            db.rollback()
+        if(appname[0] != '?'):
+            weight = tmp[2]
+            installnum = tmp[3]
+            category = tmp[4]
+            minutes = tmp[5]
+            image = tmp[6]
+            sql = "insert into rank_install(packagename,appname,weight,installnum,category,image,minutes) values('%s','%s',%i,%i,%i,'%s',%i)" % (packagename,appname,weight,installnum,category,image,minutes)
+            try:
+                cursor.execute(sql)
+                db.commit()
+            except:
+                print(sql)
+                db.rollback()
     apps.sort(key = lambda x:x[5],reverse=True)
     for i in range(50):
         tmp = apps[i]
         packagename = tmp[0]
         appname = tmp[1]
-        weight = tmp[2]
-        installnum = tmp[3]
-        category = tmp[4]
-        minutes = tmp[5]
-        image = tmp[6]
-        sql = "insert into rank_minutes(packagename,appname,weight,installnum,category,image,minutes) values('%s','%s',%i,%i,%i,'%s',%i)" % (packagename,appname,weight,installnum,category,image,minutes)
-        try:
-            cursor.execute(sql)
-            db.commit()
-        except:
-            print(sql)
-            db.rollback()
+        if(appname[0] != '?'):
+            weight = tmp[2]
+            installnum = tmp[3]
+            category = tmp[4]
+            minutes = tmp[5]
+            image = tmp[6]
+            sql = "insert into rank_minutes(packagename,appname,weight,installnum,category,image,minutes) values('%s','%s',%i,%i,%i,'%s',%i)" % (packagename,appname,weight,installnum,category,image,minutes)
+            try:
+                cursor.execute(sql)
+                db.commit()
+            except:
+                print(sql)
+                db.rollback()
 
 update_rank()

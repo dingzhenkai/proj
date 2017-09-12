@@ -68,6 +68,35 @@ def insert_appinfo():
             db.commit()
         except:
             db.rollback()
+def insert_rank_install():
+    for i in range(500):
+        packagename = apps[i]
+        appname = name_dic[packagename]
+        category = int(category_dic[packagename])
+        weight = random.randint(0,100)
+        installnum = random.randint(10,1000)
+        image = ""
+        sql = "insert into rank_install(packagename,appname,weight,installnum,category,image,minutes) values('%s','%s',%i,%i,%i,'%s',%i)" % (packagename,appname,weight,installnum,category,image,random.randint(10,50))
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+
+def insert_rank_minutes():
+    for i in range(500):
+        packagename = apps[i]
+        appname = name_dic[packagename]
+        category = int(category_dic[packagename])
+        weight = random.randint(0,100)
+        installnum = random.randint(10,1000)
+        image = ""
+        sql = "insert into rank_minutes(packagename,appname,weight,installnum,category,image,minutes) values('%s','%s',%i,%i,%i,'%s',%i)" % (packagename,appname,weight,installnum,category,image,random.randint(10,50))
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
 
 def insert_weight():
     user_start = 0
@@ -105,11 +134,12 @@ def insert_record():
                 db.rollback()
         email_start += 1
 
-
+insert_rank_install()
+insert_rank_minutes()
 #insert_appinfo()
 
 #insert_weight()
 
-insert_record()
+#insert_record()
 
 db.close()

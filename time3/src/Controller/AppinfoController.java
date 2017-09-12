@@ -66,6 +66,9 @@ public class AppinfoController extends HttpServlet {
                 case "/userInfo":
                     userInfo(request,response);
                     break;
+                case "/test":
+                    test(request,response);
+                    break;
 
             }
         } catch (SQLException ex) {
@@ -75,7 +78,18 @@ public class AppinfoController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getPathInfo();
+        System.out.println(action);
+        try {
+            switch (action) {
+                case "/test":
+                    test(request,response);
+                    break;
 
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
+        }
     }
 
     private void userApp(HttpServletRequest request, HttpServletResponse response)//为气泡图准备，Android端接收appname和平均使用时长
@@ -147,6 +161,16 @@ public class AppinfoController extends HttpServlet {
 
     }
 
+    private void test(HttpServletRequest request, HttpServletResponse response)//插weight,record,appinfo
+            throws SQLException, IOException{
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+                dateFormat.format(date); //2016/11/16 12:08:43
+                System.out.println(date);
+                Record r = new Record("123@qq.com","uiuc",date,123,123);
+                appinfoDAO.insertRecord(r);
+                System.out.println("insert success");
+            }
     private void insert(HttpServletRequest request, HttpServletResponse response)//插weight,record,appinfo
             throws SQLException, IOException{
                 Gson gson = new Gson();
@@ -161,11 +185,10 @@ public class AppinfoController extends HttpServlet {
                 }
                 br.close();
                 String input = s.toString();
-                System.out.println(input);
                 String[] re = input.split("at_yesterday:");
                 List<UploadInfo> list = gson.fromJson(re[0],new TypeToken<ArrayList<UploadInfo>>(){}.getType());
-                long at = Long.parseLong(re[1]);
-                System.out.println(at);
+                float at = Integer.parseInt(re[1]);
+
                 for(int i=0;i < list.size();i++){
                     UploadInfo tmp = list.get(i);
                     System.out.println(tmp.packageName);
@@ -176,12 +199,18 @@ public class AppinfoController extends HttpServlet {
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                    System.out.println("parse ok");
                     Record r = new Record(tmp.email,tmp.packageName,d,tmp.frequency,tmp.duration);
                     Weight w = new Weight(tmp.email,tmp.packageName,tmp.appname,tmp.weight,tmp.duration);
+                    System.out.println("new ok");
                     appinfoDAO.insertOrUpdateWeight(w);
-                    appinfoDAO.insertRecord(r,at);
+                    appinfoDAO.insertRecord(r);
+                    appinfoDAO.insertAT(tmp.email,d,at);
+                    System.out.println(at);
+                    System.out.println("insert ok");
 
                 }
+                System.out.println("insert record");
 
     }
 
